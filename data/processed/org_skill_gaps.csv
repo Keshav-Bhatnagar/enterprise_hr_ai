@@ -1,0 +1,45 @@
+Skill,MissingCount,Severity
+Excel,469,HIGH
+Jira,296,HIGH
+Leadership,274,HIGH
+Workday,207,HIGH
+Budgeting,200,HIGH
+Client Management,188,HIGH
+Team Management,187,HIGH
+Salesforce,181,HIGH
+Strategy,172,HIGH
+Tableau,166,HIGH
+Lead Generation,116,HIGH
+Process Optimization,110,HIGH
+Linkedin Sales Navigator,108,HIGH
+Cold Calling,107,HIGH
+Medical Knowledge,105,HIGH
+Sample Analysis,105,HIGH
+Quality Control,104,HIGH
+Sap,103,HIGH
+Operations Management,102,HIGH
+Equipment Calibration,102,HIGH
+Communication,99,MEDIUM
+Research Methodology,98,MEDIUM
+Outreach,98,MEDIUM
+Python,96,MEDIUM
+Autocad,94,MEDIUM
+Veeva Crm,93,MEDIUM
+Negotiation,92,MEDIUM
+B2B Sales,90,MEDIUM
+Lims,88,MEDIUM
+Project Management,87,MEDIUM
+Lab Safety,86,MEDIUM
+Data Analysis,85,MEDIUM
+Compliance,85,MEDIUM
+Statistics,84,MEDIUM
+R&D Strategy,83,MEDIUM
+R,78,MEDIUM
+Machine Learning,73,MEDIUM
+Sql,61,MEDIUM
+Linkedin Recruiter,25,LOW
+Onboarding,24,LOW
+Recruitment,21,LOW
+Employee Relations,19,LOW
+Conflict Resolution,17,LOW
+Greenhouse,16,LOW

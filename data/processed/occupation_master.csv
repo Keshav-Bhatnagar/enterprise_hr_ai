@@ -1,0 +1,12 @@
+RoleID,JobRole,Department
+R001,Sales Executive,Sales
+R002,Sales Representative,Sales
+R003,Manager,Sales
+R004,Research Scientist,Research & Development
+R005,Laboratory Technician,Research & Development
+R006,Manufacturing Director,Research & Development
+R007,Healthcare Representative,Research & Development
+R008,Manager,Research & Development
+R009,Research Director,Research & Development
+R010,Human Resources,Human Resources
+R011,Manager,Human Resources

@@ -1,0 +1,501 @@
+EmployeeID,JobRole,current_skills,MissingSkills,Recommendation
+1,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+2,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+3,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+4,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+5,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+6,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+7,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+8,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+9,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+10,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+11,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+12,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+13,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+14,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+15,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+16,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+17,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+18,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+19,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+20,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+21,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+22,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+23,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+24,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+25,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+26,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+27,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+28,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+29,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+30,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+31,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+32,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+33,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+34,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+35,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+36,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+37,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+38,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+39,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+40,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+41,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+42,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+43,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+44,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+45,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+46,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+47,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+48,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+49,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+50,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+51,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+52,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+53,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+54,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+55,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+56,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+57,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+58,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+59,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+60,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+61,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+62,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+63,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+64,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+65,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+66,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+67,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+68,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+69,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+70,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+71,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+72,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+73,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+74,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+75,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+76,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+77,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+78,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+79,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+80,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+81,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+82,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+83,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+84,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+85,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+86,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+87,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+88,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+89,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+90,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+91,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+92,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+93,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+94,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+95,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+96,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+97,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+98,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+99,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+100,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+101,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+102,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+103,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+104,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+105,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+106,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+107,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+108,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+109,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+110,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+111,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+112,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+113,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+114,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+115,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+116,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+117,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+118,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+119,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+120,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+121,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+122,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+123,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+124,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+125,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+126,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+127,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+128,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+129,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+130,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+131,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+132,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+133,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+134,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+135,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+136,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+137,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+138,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+139,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+140,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+141,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+142,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+143,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+144,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+145,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+146,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+147,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+148,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+149,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+150,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+151,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+152,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+153,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+154,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+155,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+156,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+157,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+158,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+159,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+160,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+161,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+162,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+163,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+164,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+165,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+166,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+167,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+168,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+169,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+170,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+171,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+172,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+173,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+174,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+175,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+176,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+177,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+178,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+179,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+180,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+181,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+182,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+183,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+184,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+185,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+186,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+187,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+188,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+189,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+190,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+191,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+192,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+193,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+194,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+195,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+196,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+197,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+198,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+199,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+200,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+201,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+202,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+203,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+204,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+205,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+206,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+207,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+208,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+209,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+210,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+211,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+212,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+213,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+214,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+215,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+216,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+217,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+218,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+219,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+220,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+221,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+222,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+223,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+224,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+225,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+226,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+227,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+228,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+229,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+230,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+231,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+232,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+233,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+234,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+235,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+236,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+237,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+238,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+239,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+240,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+241,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+242,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+243,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+244,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+245,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+246,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+247,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+248,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+249,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+250,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+251,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+252,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+253,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+254,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+255,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+256,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+257,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+258,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+259,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+260,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+261,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+262,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+263,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+264,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+265,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+266,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+267,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+268,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+269,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+270,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+271,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+272,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+273,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+274,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+275,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+276,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+277,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+278,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+279,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+280,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+281,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+282,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+283,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+284,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+285,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+286,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+287,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+288,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+289,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+290,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+291,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+292,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+293,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+294,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+295,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+296,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+297,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+298,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+299,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+300,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+301,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+302,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+303,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+304,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+305,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+306,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+307,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+308,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+309,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+310,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+311,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+312,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+313,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+314,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+315,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+316,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+317,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+318,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+319,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+320,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+321,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+322,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+323,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+324,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+325,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+326,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+327,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+328,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+329,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+330,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+331,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+332,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+333,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+334,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+335,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+336,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+337,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+338,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+339,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+340,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+341,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+342,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+343,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+344,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+345,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+346,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+347,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+348,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+349,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+350,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+351,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+352,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+353,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+354,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+355,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+356,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+357,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+358,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+359,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+360,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+361,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+362,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+363,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+364,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+365,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+366,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+367,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+368,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+369,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+370,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+371,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+372,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+373,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+374,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+375,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+376,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+377,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+378,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+379,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+380,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+381,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+382,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+383,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+384,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+385,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+386,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+387,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+388,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+389,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+390,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+391,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+392,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+393,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+394,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+395,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+396,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+397,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+398,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+399,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+400,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+401,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+402,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+403,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+404,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+405,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+406,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+407,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+408,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+409,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+410,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+411,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+412,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+413,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+414,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+415,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+416,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+417,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+418,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+419,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+420,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+421,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+422,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+423,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+424,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+425,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+426,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+427,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+428,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+429,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+430,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+431,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+432,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+433,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+434,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+435,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+436,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+437,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+438,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+439,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+440,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+441,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+442,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+443,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+444,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+445,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+446,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+447,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+448,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+449,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+450,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+451,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+452,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+453,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+454,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+455,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+456,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+457,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+458,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+459,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+460,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+461,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+462,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+463,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+464,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+465,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+466,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+467,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+468,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+469,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+470,HR Executive,"Adobe Acrobat, AdSense Tracker, Atlassian JIRA, Blackbaud The Raiser's Edge","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+471,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+472,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+473,Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+474,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+475,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+476,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+477,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+478,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+479,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+480,Helpdesk,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence
+481,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+482,Support Engineer,"Apache Hadoop, Apache JMeter, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+483,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+484,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+485,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+486,Sales Executive,"Adobe Creative Cloud software, Adobe Illustrator, Adobe InDesign, Adobe Photoshop","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+487,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+488,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+489,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+490,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+491,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+492,SEO Analyst,"Adaptive Planning, Budget monitoring systems, Budgeting, forecasting, and planning software, Business Objects Data Integrator","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+493,Tester,"Apache Hive, Apache Pig, Atlassian JIRA, Autodesk AutoCAD","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+494,HR Manager,"Adobe Acrobat, Adobe PageMaker, ADP Enterprise HR, ADP Workforce Now","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+495,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+496,Developer,"3M Post-it App, A programming language APL, ABC Compiler, ABC: the AspectBench Compiler for AspectJ","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+497,Auditor,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+498,Accountant,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+499,Account Manager,"1099 ProsSoftware, Abacus Tax, Accountants Templates JAZZ-It!, Accounting compliance software","Active Listening, Reading Comprehension, Writing",Recommended Course: Strategic Communication
+500,Content Lead,General Office Tools,No skill gap identified,Recommended Course: Leadership and Influence

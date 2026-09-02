@@ -1,0 +1,14 @@
+{
+    "model_name": "Attrition Prediction Model",
+    "version": "v2.0",
+    "algorithm": "XGBoost",
+    "training_date": "2026-09-01",
+    "training_data": "employee_performance_pro.csv + Employee_Performance_Dataset.csv + Cleaned_HR_Data_Analysis.csv",
+    "n_training_samples": 400,
+    "roc_auc": 1.0,
+    "f1_score": 1.0,
+    "recall": 1.0,
+    "metrics": {
+        "total_predictions_logged": 0
+    }
+}

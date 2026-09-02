@@ -1,0 +1,501 @@
+EmployeeID,Department,Role,Age,Gender,YearsAtCompany,Attrition_Prob,Risk,Engagement,Skill_Gap,Recommendation,MonthlySalary,WorkLifeBalance,PerformanceRating,ProjectsHandled,TrainingHours
+1,Finance,Auditor,57,Other,9,0.0057835053,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,93531,1.9,4,13,16
+2,Sales,Sales Executive,26,Female,11,0.99488777,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,53706,5.03,1,15,44
+3,Support,Helpdesk,59,Other,15,0.0013761537,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,105756,4.83,4,7,62
+4,HR,HR Executive,43,Female,10,0.0021764112,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,176377,4.6,4,15,8
+5,Sales,Account Manager,52,Male,6,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,154782,3.73,4,10,57
+6,Support,Helpdesk,33,Other,7,0.0034769466,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,58647,2.37,3,6,5
+7,IT,Engineer,55,Male,7,0.009787933,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,70273,6.47,1,8,66
+8,HR,HR Executive,51,Female,9,0.0061098156,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,178909,-0.27,3,3,78
+9,HR,HR Executive,32,Male,15,0.006011936,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,51014,0.17,3,6,10
+10,Finance,Accountant,54,Female,14,0.9861456,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,63726,2.63,2,1,25
+11,HR,HR Executive,52,Other,10,0.0014841103,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,64215,7.43,3,6,21
+12,Support,Helpdesk,55,Male,14,0.0013761537,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,76960,6.87,5,11,56
+13,Finance,Accountant,47,Male,5,0.0012149573,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,151391,5.07,4,12,7
+14,HR,HR Manager,50,Female,13,0.0016158528,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,170862,8.43,4,8,60
+15,IT,Developer,26,Male,7,0.0011202007,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,161974,8.3,3,15,76
+16,Marketing,SEO Analyst,43,Female,5,0.0010003062,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,164012,6.63,3,10,10
+17,Support,Support Engineer,41,Other,11,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,70403,5.67,3,6,42
+18,IT,Tester,39,Female,15,0.0016682587,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,173689,3.97,3,3,76
+19,Support,Helpdesk,47,Male,15,0.013268892,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,122403,5.37,1,4,20
+20,Support,Support Engineer,23,Other,10,0.0012590878,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,65010,4.77,3,11,12
+21,Support,Support Engineer,54,Female,2,0.0013204343,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,75646,4.83,3,4,50
+22,Sales,Sales Executive,60,Other,14,0.0028653785,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,130906,1.73,4,8,23
+23,IT,Tester,42,Male,6,0.0011551562,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,176048,3.37,3,3,34
+24,IT,Tester,57,Female,3,0.9981816,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,68060,-1.2,2,12,15
+25,Marketing,Content Lead,59,Other,5,0.0036876919,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,62282,2.17,4,15,63
+26,Marketing,SEO Analyst,28,Other,2,0.004303926,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,89567,2.03,3,15,65
+27,Sales,Sales Executive,33,Other,11,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,82449,0.63,4,9,36
+28,Marketing,Content Lead,52,Female,4,0.008895735,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,41883,4.17,2,1,28
+29,Finance,Accountant,46,Male,15,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,74577,0.77,3,6,73
+30,Support,Support Engineer,23,Male,12,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,104549,-2.6,4,6,80
+31,IT,Developer,60,Other,4,0.005802188,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,74638,1.53,4,7,12
+32,Marketing,Content Lead,50,Male,5,0.0013204343,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,103189,5.4,3,4,44
+33,IT,Tester,43,Male,12,0.010947969,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,41254,4.37,1,13,33
+34,IT,Engineer,33,Male,8,0.002115014,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,152027,4.87,3,11,7
+35,Marketing,SEO Analyst,27,Male,4,0.0013657549,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,109614,5.8,4,5,56
+36,Finance,Auditor,32,Male,7,0.0037780562,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,38475,1.0,3,7,79
+37,Marketing,Content Lead,43,Male,6,0.0036669371,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,72671,0.93,3,5,80
+38,Finance,Accountant,58,Male,15,0.006568,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,34306,2.07,4,8,61
+39,Finance,Auditor,22,Other,14,0.003938687,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,73324,0.8,3,10,36
+40,Finance,Auditor,39,Male,13,0.0013304682,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,163576,5.93,3,10,76
+41,Sales,Account Manager,22,Male,9,0.0011165767,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,49953,7.2,3,10,78
+42,Marketing,Content Lead,41,Female,6,0.0010871683,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,108906,7.23,3,7,56
+43,Marketing,Content Lead,23,Male,15,0.0011330557,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,78457,4.6,5,6,62
+44,IT,Engineer,55,Female,14,0.003909541,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,37533,0.6,4,4,61
+45,Finance,Accountant,33,Female,7,0.004434262,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,171225,0.57,4,8,53
+46,IT,Developer,21,Male,9,0.99764204,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,101051,0.7,1,7,49
+47,Sales,Account Manager,33,Other,7,0.003431777,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,50654,-2.6,4,1,26
+48,Sales,Sales Executive,22,Other,7,0.004197061,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,71622,0.27,4,12,20
+49,Support,Helpdesk,23,Male,4,0.0011202007,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,132390,4.53,4,14,45
+50,IT,Tester,54,Female,2,0.0057269847,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,179351,-1.83,3,14,18
+51,Sales,Sales Executive,57,Female,10,0.005868456,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,50691,2.43,4,10,21
+52,Support,Support Engineer,52,Other,14,0.0054433136,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,163863,-1.23,4,3,50
+53,Marketing,SEO Analyst,36,Male,4,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,134280,9.1,5,14,35
+54,Finance,Auditor,52,Female,14,0.014405742,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,38519,6.47,2,12,64
+55,Finance,Accountant,35,Female,4,0.004780973,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,153394,1.2,3,12,5
+56,IT,Developer,48,Male,7,0.009012172,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,42964,7.63,2,5,22
+57,IT,Developer,30,Other,6,0.008314359,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,52745,4.47,1,7,41
+58,Support,Helpdesk,34,Other,13,0.0011330557,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,37431,7.87,3,2,60
+59,Marketing,SEO Analyst,22,Male,3,0.0036735998,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,124008,-0.43,4,6,51
+60,HR,HR Executive,48,Male,8,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,128442,6.23,4,10,36
+61,HR,HR Manager,57,Other,10,0.99832076,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,137226,2.63,2,15,58
+62,IT,Tester,48,Female,5,0.0014029893,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,150377,3.23,4,8,19
+63,HR,HR Manager,27,Female,13,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,161874,8.43,5,11,53
+64,Support,Helpdesk,32,Female,6,0.0013676188,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,39558,3.03,3,15,50
+65,Sales,Account Manager,60,Male,12,0.0032046684,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,49620,3.53,3,5,76
+66,Marketing,Content Lead,34,Female,4,0.0024463476,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,86861,4.0,3,1,25
+67,Sales,Sales Executive,22,Female,2,0.0011202007,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,155851,4.8,4,12,44
+68,Sales,Sales Executive,21,Female,14,0.9976763,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,72637,-0.7,2,7,70
+69,Sales,Account Manager,26,Female,13,0.0013864394,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,151643,9.63,4,5,35
+70,Finance,Accountant,37,Female,10,0.99802077,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,155727,-0.2,2,3,46
+71,HR,HR Executive,55,Female,7,0.0011245089,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,71487,6.2,5,7,39
+72,Marketing,Content Lead,23,Female,14,0.0012590878,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,169631,8.5,4,7,23
+73,IT,Developer,29,Male,4,0.0036669371,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,56935,-2.03,4,6,50
+74,Sales,Sales Executive,32,Female,2,0.0016007312,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,68664,4.3,3,14,79
+75,IT,Developer,31,Other,11,0.0023247944,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,129732,3.87,4,11,58
+76,HR,HR Manager,21,Female,11,0.009861675,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,36008,6.8,2,5,55
+77,Sales,Sales Executive,25,Other,12,0.0013304682,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,163071,5.83,4,8,60
+78,Sales,Sales Executive,26,Other,3,0.0026323723,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,44713,1.3,3,2,48
+79,Marketing,Content Lead,46,Male,4,0.0009872791,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,73718,7.33,4,9,34
+80,HR,HR Manager,47,Other,11,0.9779455,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,142815,3.63,2,15,22
+81,Support,Helpdesk,43,Male,11,0.0014731151,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,82938,3.57,4,7,16
+82,IT,Engineer,22,Female,5,0.0068927053,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,32356,6.33,2,12,74
+83,IT,Developer,28,Other,5,0.004434262,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,150136,1.47,4,2,71
+84,Finance,Auditor,51,Female,4,0.0015448733,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,103550,3.57,3,9,53
+85,Sales,Sales Executive,31,Other,5,0.9978568,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,145121,1.73,2,13,34
+86,Sales,Sales Executive,54,Male,8,0.0013204343,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,152976,5.23,3,9,45
+87,Support,Support Engineer,44,Male,5,0.00076654187,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,43063,7.5,3,13,46
+88,Marketing,Content Lead,30,Male,12,0.0028546725,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,33987,3.13,4,9,57
+89,Marketing,SEO Analyst,44,Female,11,0.0058460794,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,145588,1.13,3,7,31
+90,Finance,Auditor,32,Other,2,0.0047189426,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,43235,0.4,3,6,23
+91,IT,Tester,60,Other,4,0.0036876919,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,56904,2.63,3,15,37
+92,Finance,Accountant,26,Female,2,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,62833,7.5,5,5,63
+93,Sales,Account Manager,22,Other,4,0.00092750957,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,133108,6.47,3,11,47
+94,Support,Helpdesk,35,Male,5,0.0016029151,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,65954,2.93,3,3,41
+95,Support,Support Engineer,58,Female,7,0.0012149573,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,99805,4.97,4,15,6
+96,Marketing,Content Lead,43,Female,14,0.0012590878,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,156104,9.6,3,12,20
+97,HR,HR Manager,34,Female,3,0.003909637,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,115105,2.2,3,15,19
+98,Marketing,Content Lead,52,Female,10,0.0037945693,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,77462,2.6,3,14,65
+99,HR,HR Executive,58,Female,12,0.0016129161,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,136059,6.8,4,12,69
+100,Sales,Account Manager,29,Male,6,0.001030702,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,152981,5.7,3,15,9
+101,HR,HR Manager,43,Other,11,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,107081,-1.03,3,15,80
+102,HR,HR Executive,30,Female,14,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,172259,-1.27,5,2,62
+103,Sales,Account Manager,51,Female,11,0.0052834763,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,50979,-0.37,4,13,52
+104,Support,Support Engineer,27,Female,9,0.0012407782,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,98130,4.27,4,10,19
+105,Marketing,SEO Analyst,59,Other,7,0.004808002,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,117953,2.03,3,15,8
+106,Finance,Accountant,31,Female,7,0.99716216,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,149459,1.4,2,3,66
+107,IT,Developer,33,Other,13,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,68241,5.8,5,6,41
+108,HR,HR Executive,51,Female,7,0.0011245089,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,47360,4.57,4,4,69
+109,Support,Support Engineer,49,Other,7,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,126122,5.67,4,13,67
+110,IT,Developer,33,Other,13,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,77857,6.43,4,9,61
+111,Support,Helpdesk,53,Male,4,0.0036876919,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,50520,0.57,3,3,50
+112,IT,Engineer,49,Male,15,0.9982779,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,113247,1.7,1,4,30
+113,IT,Developer,39,Male,11,0.002188312,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,74074,1.6,3,7,45
+114,Support,Helpdesk,59,Male,2,0.002708722,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,152599,3.77,4,7,64
+115,Sales,Account Manager,33,Male,3,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,156093,9.83,3,6,37
+116,Support,Helpdesk,22,Other,15,0.0012590878,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,153900,6.3,3,2,8
+117,Marketing,SEO Analyst,43,Other,13,0.9963911,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,168316,4.03,2,14,74
+118,HR,HR Executive,52,Female,12,0.99808645,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,31840,-0.8,2,4,59
+119,Finance,Auditor,31,Female,3,0.0010154296,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,44728,7.63,3,4,33
+120,Sales,Sales Executive,59,Other,15,0.0072941585,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,144337,-0.67,3,2,6
+121,IT,Developer,45,Male,12,0.9976763,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,78575,-1.47,2,10,60
+122,Support,Support Engineer,59,Male,11,0.001335584,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,121058,5.2,3,4,35
+123,Finance,Auditor,49,Female,7,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,151344,3.93,4,15,51
+124,IT,Engineer,44,Female,3,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,67225,6.5,3,4,42
+125,Finance,Accountant,22,Female,10,0.0017853668,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,172135,7.83,4,6,21
+126,IT,Developer,60,Male,8,0.0011245089,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,91931,6.23,3,6,49
+127,Sales,Sales Executive,25,Female,14,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,89066,8.37,3,7,73
+128,HR,HR Executive,47,Other,5,0.0037516316,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,72561,2.43,3,14,66
+129,Support,Support Engineer,56,Female,8,0.0040967157,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,68809,1.37,4,13,12
+130,IT,Tester,35,Female,7,0.00092750957,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,93279,7.27,5,13,35
+131,Support,Helpdesk,27,Female,10,0.0012590878,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,55650,7.53,3,14,18
+132,HR,HR Executive,59,Other,7,0.0010346663,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,74552,6.97,5,11,8
+133,Finance,Auditor,55,Other,6,0.0017655005,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,145869,4.77,5,3,29
+134,HR,HR Manager,45,Male,11,0.0014784265,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,148129,5.03,3,14,8
+135,Marketing,Content Lead,38,Female,14,0.0011330557,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,44652,5.2,3,12,50
+136,Marketing,SEO Analyst,39,Male,2,0.004303926,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,178756,2.6,5,13,76
+137,Finance,Auditor,56,Female,9,0.004616717,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,110538,3.1,3,4,38
+138,IT,Engineer,40,Female,12,0.0013256876,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,39286,3.43,4,11,52
+139,IT,Developer,30,Male,4,0.00076654187,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,55595,7.03,4,6,36
+140,Sales,Account Manager,56,Other,3,0.0043282704,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,168010,0.77,5,14,65
+141,IT,Tester,50,Other,10,0.9960937,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,71526,4.03,2,3,10
+142,Sales,Account Manager,23,Male,7,0.00092750957,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,152981,8.07,4,14,56
+143,Support,Helpdesk,51,Other,6,0.0016120065,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,60483,2.97,3,8,38
+144,Sales,Account Manager,53,Other,4,0.00093107735,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,37564,8.0,3,2,41
+145,Support,Support Engineer,52,Male,4,0.0013204343,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,103473,7.8,3,5,80
+146,HR,HR Manager,43,Male,14,0.001148004,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,98618,8.63,3,8,42
+147,Sales,Account Manager,28,Other,10,0.0018537121,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,69768,4.47,4,4,13
+148,Sales,Account Manager,32,Other,11,0.002188312,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,124262,2.3,4,1,76
+149,Support,Support Engineer,48,Female,11,0.0036682088,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,31181,3.43,3,10,15
+150,Marketing,Content Lead,48,Male,10,0.0061743236,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,139956,3.0,3,10,10
+151,HR,HR Executive,34,Other,6,0.0031296068,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,53489,0.9,3,3,51
+152,Sales,Account Manager,34,Other,5,0.0009872791,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,123313,4.1,4,5,25
+153,IT,Tester,52,Other,4,0.0010211923,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,34410,8.07,4,3,26
+154,Marketing,SEO Analyst,54,Male,9,0.0057835053,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,35504,0.67,4,9,8
+155,HR,HR Executive,41,Other,8,0.0036669371,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,47809,-0.73,4,2,71
+156,IT,Developer,33,Male,2,0.004303926,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,152793,1.67,3,11,51
+157,HR,HR Executive,51,Male,8,0.0049546766,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,144222,2.73,4,15,75
+158,Marketing,Content Lead,55,Female,7,0.0011991382,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,122095,7.0,4,13,32
+159,Support,Support Engineer,60,Other,13,0.0015682277,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,176852,4.9,5,2,62
+160,Sales,Sales Executive,51,Male,15,0.0013761537,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,138076,7.1,3,7,47
+161,Support,Helpdesk,53,Male,2,0.0052237795,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,166057,0.57,3,2,77
+162,Finance,Accountant,35,Female,4,0.003909637,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,81547,1.1,4,3,30
+163,HR,HR Executive,47,Female,8,0.0012495916,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,78148,7.33,5,4,22
+164,HR,HR Manager,25,Female,5,0.0034769466,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,57534,1.7,3,15,14
+165,IT,Tester,60,Other,15,0.99578804,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,77413,4.6,2,6,50
+166,IT,Tester,31,Female,2,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,143831,6.6,3,13,72
+167,HR,HR Manager,28,Female,3,0.0009872791,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,126163,7.13,3,11,15
+168,HR,HR Executive,34,Other,5,0.0031962928,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,151729,3.0,3,14,46
+169,Support,Support Engineer,33,Other,10,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,44773,7.63,3,5,57
+170,Sales,Account Manager,60,Female,5,0.9980058,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,115425,-2.17,1,5,78
+171,Marketing,SEO Analyst,60,Other,13,0.0052834763,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,52297,2.03,5,12,72
+172,HR,HR Manager,22,Female,12,0.0013304682,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,166881,8.63,3,13,77
+173,Support,Support Engineer,39,Female,13,0.009861675,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,38986,6.23,1,12,53
+174,Marketing,Content Lead,43,Other,13,0.00602423,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,172355,2.77,4,13,43
+175,Marketing,SEO Analyst,51,Other,2,0.0052237795,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,43852,-0.13,4,11,73
+176,Support,Helpdesk,24,Male,9,0.0062591597,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,134669,0.4,3,11,45
+177,Support,Helpdesk,59,Male,2,0.011475962,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,126177,5.5,1,10,78
+178,Sales,Account Manager,49,Male,15,0.0013761537,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,47221,6.93,4,3,56
+179,Marketing,SEO Analyst,34,Other,9,0.99648917,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,88315,2.77,2,12,24
+180,Support,Helpdesk,49,Male,14,0.99808645,HIGH,,"Communication, Analytical Thinking, Problem Solving",Immediate 1:1 retention conversation + salary review,139006,1.07,2,3,79
+181,Support,Helpdesk,30,Other,4,0.0009001542,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,124984,6.6,3,5,75
+182,Support,Support Engineer,51,Other,11,0.001335584,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,48033,8.07,3,7,70
+183,Sales,Account Manager,28,Female,8,0.0010172796,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,176131,3.73,3,1,27
+184,Finance,Auditor,58,Other,11,0.011606274,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,83089,4.87,2,3,45
+185,Sales,Sales Executive,33,Female,3,0.003909637,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,65067,2.3,4,7,25
+186,IT,Developer,29,Other,11,0.005412732,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,35093,0.43,4,5,35
+187,Support,Support Engineer,33,Female,4,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,161083,4.3,3,12,58
+188,Support,Support Engineer,26,Male,14,0.0023247944,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,142521,4.57,4,15,79
+189,Finance,Accountant,55,Other,4,0.9978042,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,98836,1.0,2,7,26
+190,Finance,Auditor,23,Other,9,0.0023961198,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,36596,2.33,5,8,7
+191,HR,HR Executive,25,Male,3,0.0012448048,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,79311,4.87,4,1,7
+192,IT,Engineer,51,Other,6,0.005802188,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,177547,-0.47,3,13,11
+193,Support,Support Engineer,51,Male,6,0.004808002,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,139711,-2.47,5,6,17
+194,Finance,Auditor,23,Female,14,0.0040285634,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,133661,3.17,4,13,36
+195,Support,Helpdesk,55,Other,8,0.0030094907,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,119959,4.13,3,6,6
+196,HR,HR Manager,29,Male,13,0.006011936,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,41236,-0.23,4,6,26
+197,HR,HR Executive,36,Male,5,0.00085184065,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,60667,7.37,4,7,12
+198,Finance,Accountant,57,Male,11,0.001335584,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,85219,5.17,4,12,73
+199,IT,Tester,22,Male,8,0.0080854995,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,113299,6.23,2,11,69
+200,IT,Engineer,35,Other,4,0.99779177,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,73218,1.87,2,2,15
+201,Finance,Accountant,51,Other,10,0.003363598,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,166935,1.77,5,2,13
+202,Finance,Accountant,21,Female,10,0.0027292767,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,149268,4.33,5,2,42
+203,Marketing,SEO Analyst,24,Female,2,0.0030038476,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,167109,3.1,3,15,21
+204,HR,HR Executive,23,Female,5,0.00095395744,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,44615,4.67,5,1,67
+205,Marketing,Content Lead,40,Female,6,0.0039610714,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,174938,-0.93,3,3,7
+206,Sales,Sales Executive,55,Male,9,0.0017172521,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,141609,4.73,4,7,14
+207,Support,Helpdesk,48,Male,2,0.9980058,HIGH,,"Communication, Analytical Thinking, Problem Solving",Immediate 1:1 retention conversation + salary review,143395,-0.2,2,15,61
+208,Support,Support Engineer,48,Male,6,0.0052237795,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,91560,-1.07,4,6,54
+209,Sales,Account Manager,42,Female,2,0.0012081026,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,178594,9.03,3,10,8
+210,Sales,Sales Executive,49,Other,12,0.0015291849,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,136861,4.3,3,11,34
+211,Finance,Auditor,48,Female,7,0.009787933,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,70640,4.73,2,13,64
+212,Sales,Account Manager,60,Male,15,0.006045883,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,86918,-1.17,5,10,14
+213,Sales,Sales Executive,27,Female,7,0.0010462846,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,87099,4.2,3,3,30
+214,Sales,Account Manager,52,Other,8,0.00093107735,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,33037,5.4,3,7,46
+215,HR,HR Manager,38,Female,8,0.0040280814,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,143214,-1.87,5,11,30
+216,Marketing,SEO Analyst,30,Female,3,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,168202,4.27,5,1,80
+217,IT,Engineer,25,Other,15,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,151301,-1.2,4,12,46
+218,IT,Developer,35,Male,3,0.00092582277,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,32158,5.0,4,6,48
+219,Finance,Auditor,42,Other,2,0.0011923726,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,122405,4.13,3,12,21
+220,Support,Support Engineer,39,Female,2,0.0010154296,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,33150,6.07,4,14,28
+221,Sales,Sales Executive,55,Other,13,0.9982621,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,70445,3.17,2,14,33
+222,Marketing,Content Lead,24,Female,6,0.0040280814,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,173731,0.23,4,4,23
+223,HR,HR Executive,26,Female,9,0.0011165767,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,35989,5.8,3,6,72
+224,Sales,Account Manager,26,Other,14,0.004981991,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,87882,2.6,3,2,21
+225,Sales,Sales Executive,44,Other,9,0.99793065,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,125274,1.07,1,4,77
+226,Finance,Auditor,32,Female,6,0.00078984007,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,69596,4.23,3,1,51
+227,Support,Helpdesk,21,Male,4,0.0036735998,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,150477,2.17,3,7,37
+228,Support,Support Engineer,39,Other,2,0.004011288,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,147300,2.8,3,12,62
+229,HR,HR Manager,28,Male,6,0.00092750957,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,137113,7.2,3,5,69
+230,Finance,Auditor,54,Other,9,0.0013161635,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,43249,5.87,4,2,62
+231,Finance,Accountant,27,Female,11,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,35448,-1.33,4,4,41
+232,HR,HR Manager,56,Other,12,0.0023116583,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,122891,3.03,4,6,45
+233,IT,Developer,24,Female,6,0.0034769466,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,42837,2.37,4,10,14
+234,Finance,Accountant,29,Female,13,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,74702,5.17,3,3,54
+235,HR,HR Executive,38,Female,14,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,112040,2.1,3,9,54
+236,Finance,Accountant,35,Female,11,0.0013304682,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,170493,5.6,3,15,57
+237,Sales,Account Manager,42,Male,2,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,44817,4.03,3,14,60
+238,Support,Support Engineer,56,Female,2,0.0013204343,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,39070,5.27,3,12,54
+239,Finance,Auditor,32,Female,3,0.0020997778,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,107827,2.17,3,2,35
+240,IT,Developer,44,Female,5,0.007848689,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,170873,4.37,2,3,72
+241,Support,Helpdesk,55,Other,10,0.0015682277,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,162151,5.87,3,15,69
+242,Marketing,Content Lead,42,Female,12,0.0013304682,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,170095,9.27,5,11,42
+243,Support,Support Engineer,50,Female,13,0.0013761537,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,155425,6.23,3,8,44
+244,Support,Helpdesk,56,Other,2,0.0014481788,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,75142,5.0,3,1,14
+245,Sales,Sales Executive,25,Other,8,0.99744594,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,156837,1.17,2,9,9
+246,Finance,Accountant,26,Female,6,0.0034769466,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,32981,-2.17,3,14,16
+247,IT,Engineer,39,Male,13,0.0052633183,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,171542,0.0,3,10,45
+248,IT,Engineer,23,Female,12,0.9645239,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,164893,3.63,2,3,44
+249,HR,HR Executive,49,Other,13,0.0015291849,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,123450,4.5,3,11,25
+250,IT,Developer,24,Male,6,0.0010172796,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,99973,9.0,5,5,21
+251,Finance,Accountant,22,Other,11,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,71184,1.37,3,1,41
+252,Support,Helpdesk,56,Male,4,0.0052237795,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,169664,-0.6,4,14,70
+253,Marketing,SEO Analyst,50,Female,6,0.0014672783,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,102015,6.57,3,2,19
+254,IT,Engineer,42,Female,11,0.010947969,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,83883,4.63,2,2,24
+255,Sales,Sales Executive,44,Male,11,0.006011936,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,59968,0.93,4,1,9
+256,HR,HR Manager,56,Male,15,0.006045883,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,146542,1.2,4,9,12
+257,Finance,Accountant,54,Other,6,0.9980058,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,91897,-2.63,1,14,75
+258,HR,HR Executive,58,Female,9,0.0048755077,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,178781,1.77,4,2,11
+259,Finance,Auditor,26,Female,5,0.0011202007,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,109535,5.83,3,6,55
+260,HR,HR Manager,37,Female,4,0.0024463476,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,165808,3.7,4,5,17
+261,Marketing,SEO Analyst,32,Male,3,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,84858,5.27,3,14,70
+262,IT,Tester,60,Female,2,0.9980058,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,77093,0.7,2,15,61
+263,IT,Engineer,55,Female,7,0.99470276,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,131743,4.3,2,9,79
+264,Finance,Auditor,55,Male,11,0.0052834763,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,134434,2.57,3,13,54
+265,HR,HR Executive,24,Male,9,0.0057614506,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,136945,1.9,4,8,25
+266,Marketing,Content Lead,43,Female,7,0.0010871683,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,135916,6.77,3,6,58
+267,Support,Support Engineer,57,Male,12,0.0025789752,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,93082,2.6,3,13,42
+268,Marketing,Content Lead,29,Male,2,0.0011923726,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,65014,8.13,3,5,33
+269,HR,HR Executive,30,Other,4,0.00946564,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,112960,6.13,2,9,67
+270,HR,HR Executive,52,Other,8,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,132414,3.83,3,6,64
+271,Finance,Accountant,35,Other,5,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,143004,8.3,3,11,50
+272,Marketing,Content Lead,56,Male,6,0.0105302185,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,54712,3.33,1,2,13
+273,Sales,Account Manager,30,Male,7,0.0022267872,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,153348,3.63,5,13,74
+274,IT,Tester,55,Male,10,0.0015682277,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,174508,5.33,3,1,49
+275,HR,HR Manager,26,Female,6,0.0026886782,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,144116,3.47,4,2,64
+276,IT,Engineer,56,Male,6,0.009518902,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,159885,6.73,1,7,65
+277,Sales,Account Manager,27,Female,15,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,169508,6.1,4,1,48
+278,Sales,Sales Executive,38,Male,2,0.99757844,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,177664,1.7,2,12,70
+279,Sales,Account Manager,21,Male,10,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,47481,5.0,3,2,69
+280,Finance,Auditor,46,Other,3,0.0010288277,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,30120,3.9,4,15,9
+281,Sales,Account Manager,50,Other,7,0.0018927087,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,142858,3.0,4,15,76
+282,Finance,Accountant,31,Female,15,0.0016682587,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,105734,3.97,3,9,64
+283,HR,HR Manager,51,Other,13,0.99837023,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,162145,-0.27,2,2,58
+284,Support,Helpdesk,24,Other,13,0.9972607,HIGH,,"Communication, Analytical Thinking, Problem Solving",Immediate 1:1 retention conversation + salary review,46636,3.07,2,10,56
+285,Support,Helpdesk,32,Male,15,0.004981991,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,170728,2.43,3,10,8
+286,Sales,Sales Executive,27,Female,11,0.002188312,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,133923,2.4,4,7,60
+287,IT,Developer,57,Other,4,0.0025497577,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,79891,1.97,5,11,44
+288,Marketing,SEO Analyst,21,Female,13,0.005412732,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,58705,-1.07,3,15,55
+289,Marketing,Content Lead,22,Male,10,0.0011330557,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,119161,5.43,4,8,48
+290,Sales,Sales Executive,38,Female,3,0.0014537243,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,122362,4.77,3,14,33
+291,IT,Developer,57,Other,8,0.0017887778,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,122097,4.97,3,12,16
+292,Sales,Sales Executive,53,Other,9,0.0019376904,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,99804,4.3,3,9,57
+293,HR,HR Manager,21,Female,8,0.004197061,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,68709,-0.1,4,9,14
+294,HR,HR Manager,29,Female,8,0.0034769466,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,73431,0.5,5,1,15
+295,Support,Helpdesk,45,Male,2,0.0022307509,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,152937,4.6,5,13,79
+296,Support,Support Engineer,24,Male,8,0.0031296068,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,50829,2.5,3,9,52
+297,Support,Helpdesk,22,Female,14,0.0011330557,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,91538,5.63,3,4,52
+298,Sales,Account Manager,53,Other,10,0.0014841103,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,72612,5.67,4,4,28
+299,HR,HR Manager,26,Male,10,0.0012590878,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,113808,7.77,3,2,26
+300,Finance,Accountant,30,Female,8,0.0031296068,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,78248,-0.47,4,6,51
+301,Marketing,Content Lead,22,Male,6,0.00078984007,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,36366,6.0,4,14,37
+302,Finance,Auditor,34,Other,4,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,124118,4.0,3,4,67
+303,Sales,Account Manager,42,Other,4,0.003565542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,173076,-2.0,4,12,51
+304,Sales,Sales Executive,30,Male,6,0.00078984007,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,60148,7.67,3,9,50
+305,IT,Developer,48,Female,3,0.0014672783,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,179876,6.6,3,10,8
+306,IT,Engineer,50,Female,12,0.0013761537,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,71648,5.8,3,2,49
+307,Finance,Auditor,50,Female,15,0.0054433136,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,129341,0.83,4,15,71
+308,HR,HR Manager,32,Male,8,0.001030702,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,154022,5.47,3,2,14
+309,IT,Developer,49,Male,10,0.0022859515,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,38841,3.17,3,10,53
+310,HR,HR Manager,28,Other,15,0.004981991,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,54740,0.87,4,12,13
+311,HR,HR Executive,59,Female,14,0.011606274,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,53573,8.77,2,9,43
+312,Support,Helpdesk,37,Male,14,0.0014784265,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,176277,7.87,4,6,10
+313,Support,Support Engineer,27,Other,12,0.99618715,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,107565,4.23,2,4,33
+314,HR,HR Manager,47,Other,3,0.9980058,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,46944,1.3,2,9,45
+315,Sales,Sales Executive,35,Male,15,0.0054838317,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,45633,0.77,3,7,43
+316,Finance,Accountant,35,Male,14,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,167197,7.33,3,5,45
+317,Sales,Account Manager,55,Male,7,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,112507,5.73,5,5,75
+318,Sales,Account Manager,33,Female,2,0.0047189426,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,90509,0.47,3,9,16
+319,HR,HR Executive,45,Female,12,0.99802077,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,150675,-1.0,1,14,76
+320,Marketing,SEO Analyst,46,Female,10,0.0027194836,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,71300,3.37,3,1,64
+321,Marketing,SEO Analyst,60,Male,9,0.0013161635,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,77783,8.17,3,8,39
+322,IT,Tester,58,Other,10,0.005193737,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,109972,3.03,4,5,32
+323,Marketing,Content Lead,37,Male,5,0.0028993008,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,148267,3.2,4,7,10
+324,IT,Tester,56,Other,7,0.0043282704,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,131748,-2.07,3,8,61
+325,IT,Engineer,51,Male,12,0.0013761537,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,145326,4.8,3,9,75
+326,Marketing,Content Lead,32,Male,3,0.003909637,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,145172,2.03,5,8,28
+327,Sales,Sales Executive,25,Other,13,0.0023247944,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,140663,4.6,3,6,62
+328,Finance,Accountant,25,Male,4,0.99741226,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,122261,-1.63,1,14,28
+329,HR,HR Manager,31,Female,12,0.0024314367,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,35923,2.0,4,7,25
+330,IT,Developer,47,Female,14,0.006045883,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,121204,-0.8,4,13,22
+331,Sales,Account Manager,56,Other,5,0.0011245089,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,48764,6.27,3,9,53
+332,Sales,Sales Executive,43,Female,5,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,111995,6.83,4,1,64
+333,HR,HR Manager,23,Female,7,0.0010172796,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,146939,4.63,3,11,26
+334,Sales,Account Manager,38,Male,3,0.0047189426,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,131509,0.47,5,12,28
+335,Support,Support Engineer,36,Other,9,0.99787784,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,49565,-1.93,2,12,10
+336,HR,HR Executive,35,Female,10,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,85186,1.4,3,5,79
+337,Marketing,SEO Analyst,37,Female,11,0.0018797519,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,170101,3.27,3,11,56
+338,Marketing,SEO Analyst,42,Female,6,0.0039610714,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,166547,0.03,3,7,7
+339,Marketing,Content Lead,46,Male,4,0.0009872791,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,136830,8.0,3,4,30
+340,Marketing,Content Lead,36,Other,13,0.0012590878,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,89473,3.67,3,3,5
+341,Finance,Auditor,28,Female,2,0.0047189426,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,80131,1.23,3,2,29
+342,IT,Tester,36,Female,8,0.0037780562,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,60436,-0.23,4,15,57
+343,HR,HR Executive,42,Female,4,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,167857,5.57,3,4,48
+344,Finance,Auditor,33,Female,4,0.0039610714,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,153228,1.83,4,8,14
+345,Finance,Accountant,47,Male,4,0.0017655005,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,109066,5.43,3,5,30
+346,HR,HR Manager,55,Male,9,0.0061098156,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,136921,1.23,3,1,67
+347,HR,HR Executive,32,Male,4,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,99855,5.53,4,3,40
+348,IT,Developer,36,Male,15,0.9976763,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,40969,-0.3,2,15,53
+349,Sales,Sales Executive,21,Other,10,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,88812,5.43,5,3,40
+350,Marketing,Content Lead,33,Female,13,0.0013864394,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,96146,6.17,3,6,38
+351,HR,HR Manager,33,Male,10,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,76013,7.3,3,4,51
+352,Support,Helpdesk,53,Male,7,0.9978928,HIGH,,"Communication, Analytical Thinking, Problem Solving",Immediate 1:1 retention conversation + salary review,86146,2.63,2,7,5
+353,IT,Tester,36,Female,5,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,133790,5.27,4,10,74
+354,Support,Helpdesk,47,Female,5,0.0011991382,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,82116,4.1,4,3,21
+355,Sales,Account Manager,36,Female,5,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,174515,7.8,4,2,55
+356,IT,Tester,51,Female,11,0.005868456,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,32394,0.9,3,6,9
+357,HR,HR Executive,28,Other,10,0.0013304682,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,167537,6.67,3,12,43
+358,IT,Engineer,55,Male,14,0.0028228585,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,172995,4.9,3,2,55
+359,HR,HR Executive,32,Male,12,0.0012590878,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,92794,5.53,3,5,17
+360,HR,HR Manager,48,Other,3,0.0052237795,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,137935,0.17,3,8,66
+361,Marketing,SEO Analyst,44,Female,7,0.0010532321,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,115462,3.53,4,13,78
+362,Support,Helpdesk,27,Other,8,0.0075554564,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,87597,6.67,2,1,30
+363,Support,Helpdesk,58,Female,5,0.002530253,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,55055,4.3,4,13,26
+364,IT,Tester,43,Male,13,0.010947969,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,137797,7.2,2,10,17
+365,Sales,Sales Executive,43,Female,12,0.006011936,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,53127,1.0,3,15,7
+366,Support,Helpdesk,34,Male,8,0.004434262,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,140036,1.93,3,5,80
+367,Finance,Accountant,40,Other,14,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,124811,6.0,3,9,75
+368,IT,Developer,39,Other,5,0.9952042,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,155312,4.33,2,12,10
+369,Sales,Account Manager,49,Male,3,0.005802188,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,105484,-1.4,3,4,10
+370,HR,HR Executive,25,Female,2,0.0011923726,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,104217,8.0,5,11,24
+371,Finance,Accountant,46,Male,4,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,167454,6.17,3,10,67
+372,IT,Developer,33,Other,9,0.99764204,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,68529,2.0,2,10,69
+373,Finance,Auditor,31,Female,15,0.0023247944,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,53142,4.23,3,5,48
+374,Finance,Accountant,58,Male,9,0.0030684946,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,40979,2.23,3,15,46
+375,Marketing,SEO Analyst,46,Female,9,0.002610454,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,161498,4.9,4,11,65
+376,IT,Engineer,21,Female,14,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,147713,1.4,3,13,43
+377,Sales,Sales Executive,22,Other,2,0.004434262,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,93080,1.5,3,10,66
+378,Sales,Sales Executive,56,Male,14,0.9982779,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,129210,0.87,1,8,31
+379,Support,Support Engineer,51,Other,13,0.015984498,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,37689,6.5,2,4,19
+380,Marketing,SEO Analyst,30,Female,14,0.0022171512,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,173685,2.17,3,6,37
+381,IT,Tester,46,Female,11,0.010947969,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,68482,9.4,2,1,24
+382,Support,Support Engineer,37,Male,7,0.0018147781,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,51630,3.13,3,2,6
+383,IT,Engineer,31,Male,2,0.0024463476,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,41134,3.8,4,2,19
+384,Sales,Sales Executive,22,Male,4,0.0031296068,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,46137,0.03,3,11,50
+385,HR,HR Manager,54,Female,9,0.0014625333,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,38595,7.43,3,14,8
+386,Sales,Sales Executive,52,Male,14,0.0063869013,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,175777,0.97,3,6,80
+387,Sales,Account Manager,32,Other,7,0.0010172796,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,102650,9.07,5,13,30
+388,Marketing,Content Lead,51,Female,13,0.0015291849,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,107276,7.4,5,15,6
+389,Support,Support Engineer,22,Other,7,0.00092750957,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,131037,4.7,4,10,35
+390,Sales,Account Manager,21,Female,5,0.011391785,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,131917,3.33,2,15,70
+391,Marketing,Content Lead,60,Other,12,0.0052834763,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,133093,1.27,4,13,50
+392,IT,Tester,48,Female,2,0.002708722,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,72367,5.0,4,10,60
+393,Support,Helpdesk,25,Male,10,0.002188312,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,32438,1.57,3,7,48
+394,Finance,Accountant,49,Male,2,0.0013204343,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,59217,5.53,3,13,63
+395,Sales,Account Manager,59,Other,12,0.007479289,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,175726,0.33,4,13,70
+396,Marketing,SEO Analyst,41,Female,12,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,32496,4.5,3,12,44
+397,IT,Engineer,27,Female,9,0.0023961198,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,30860,2.17,3,6,16
+398,Sales,Sales Executive,48,Female,7,0.004451259,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,84698,2.53,4,10,57
+399,Sales,Sales Executive,39,Male,3,0.00092582277,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,41440,7.63,3,6,55
+400,Finance,Accountant,41,Other,6,0.0011288164,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,69711,4.93,3,9,41
+401,IT,Developer,60,Other,12,0.99802834,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,112591,-0.4,1,2,57
+402,Marketing,SEO Analyst,41,Male,4,0.99707615,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,63692,-1.1,2,15,60
+403,Sales,Account Manager,47,Female,11,0.0054433136,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,34950,1.83,3,13,73
+404,IT,Developer,55,Male,12,0.0027138612,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,162717,3.0,5,6,68
+405,IT,Tester,49,Male,14,0.0029522802,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,104563,2.0,3,5,20
+406,Sales,Sales Executive,29,Male,2,0.99757844,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,83355,1.63,2,7,80
+407,IT,Tester,43,Female,11,0.0015205598,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,98962,6.1,4,7,16
+408,Support,Support Engineer,37,Male,4,0.0012380459,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,53289,3.77,5,2,17
+409,HR,HR Manager,29,Male,8,0.0031296068,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,67267,2.07,3,6,45
+410,Marketing,Content Lead,23,Male,10,0.009861675,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,64955,7.57,2,3,35
+411,Marketing,SEO Analyst,47,Other,2,0.004451259,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,32693,0.6,4,3,52
+412,Support,Support Engineer,48,Other,15,0.013268892,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,168715,6.53,2,11,9
+413,Finance,Auditor,60,Other,5,0.9975921,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,69898,-2.23,2,6,41
+414,Finance,Auditor,44,Female,13,0.0016682587,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,76888,5.27,4,15,72
+415,IT,Engineer,23,Female,5,0.010685362,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,77513,4.13,1,11,17
+416,Finance,Auditor,31,Female,4,0.003565542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,144517,-2.83,4,13,73
+417,Finance,Auditor,56,Male,9,0.0015454296,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,125280,6.03,3,15,62
+418,Sales,Account Manager,42,Other,2,0.004780973,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,127848,0.63,3,10,7
+419,Marketing,Content Lead,42,Female,3,0.0010288277,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,41729,7.43,3,8,9
+420,Sales,Account Manager,60,Female,5,0.0043282704,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,115766,1.97,4,13,76
+421,Finance,Auditor,45,Male,8,0.0024273228,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,123401,2.77,4,5,44
+422,Marketing,Content Lead,60,Female,6,0.0013204343,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,155850,7.83,3,13,72
+423,Sales,Account Manager,33,Female,4,0.003565542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,127997,1.7,4,1,55
+424,Marketing,Content Lead,27,Male,9,0.0013111221,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,156714,5.77,4,10,64
+425,Marketing,SEO Analyst,58,Other,15,0.0015291849,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,149436,4.1,3,12,6
+426,Sales,Account Manager,30,Male,3,0.0019000102,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,36058,3.8,3,13,76
+427,Finance,Accountant,46,Other,3,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,159792,8.4,3,8,50
+428,Sales,Account Manager,47,Female,5,0.0047456236,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,74415,0.5,3,3,29
+429,Finance,Auditor,33,Other,8,0.00095395744,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,43491,7.93,4,8,79
+430,Sales,Sales Executive,29,Male,15,0.004020895,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,46600,3.03,5,4,53
+431,IT,Developer,40,Female,10,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,57166,8.53,3,15,72
+432,Support,Support Engineer,40,Male,3,0.0009872791,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,159746,9.43,4,13,19
+433,Sales,Sales Executive,53,Female,4,0.9978042,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,175837,1.6,2,8,31
+434,Support,Support Engineer,52,Female,8,0.0236631,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,80388,2.37,1,2,11
+435,Support,Support Engineer,52,Other,9,0.0033147864,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,171878,1.77,4,7,26
+436,Marketing,SEO Analyst,59,Male,4,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,85221,4.1,4,8,61
+437,HR,HR Executive,48,Other,5,0.00093107735,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,59266,5.8,3,15,60
+438,Marketing,SEO Analyst,37,Other,2,0.0012081026,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,169877,8.6,3,2,5
+439,Marketing,SEO Analyst,55,Female,9,0.0057835053,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,78917,1.07,3,8,17
+440,Sales,Sales Executive,54,Male,3,0.0057269847,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,135185,2.47,3,3,24
+441,Sales,Sales Executive,25,Female,14,0.0013256876,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,110287,3.27,3,11,43
+442,Support,Helpdesk,27,Other,11,0.0023247944,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,50125,4.43,4,10,45
+443,HR,HR Manager,25,Female,9,0.0011165767,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,110690,5.77,5,11,43
+444,IT,Tester,49,Other,4,0.00093107735,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,47150,6.0,3,15,66
+445,Sales,Account Manager,34,Female,12,0.0018537121,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,121514,5.27,4,9,22
+446,Support,Helpdesk,30,Female,14,0.0056949826,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,179581,3.03,4,15,47
+447,Sales,Sales Executive,29,Female,9,0.005187082,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,161650,-0.7,3,7,70
+448,IT,Tester,58,Male,5,0.0043282704,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,94497,-1.43,4,15,42
+449,Finance,Accountant,57,Female,3,0.00093107735,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,42163,8.83,3,9,48
+450,IT,Developer,60,Male,5,0.99679476,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,46869,2.9,2,12,71
+451,Support,Helpdesk,45,Female,9,0.0042900466,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,77555,-0.17,4,12,38
+452,Support,Support Engineer,34,Male,2,0.0040207785,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,33685,0.57,3,7,20
+453,IT,Engineer,53,Male,3,0.0013204343,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,152409,5.23,4,4,57
+454,IT,Engineer,43,Other,4,0.0009872791,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,110233,6.03,4,10,30
+455,IT,Developer,43,Female,4,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,111332,6.07,3,8,75
+456,Marketing,Content Lead,46,Male,3,0.004303926,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,141468,0.87,3,3,73
+457,Support,Helpdesk,48,Male,7,0.004043528,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,88349,1.1,3,5,27
+458,HR,HR Executive,47,Female,11,0.0013761537,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,119643,6.63,4,5,54
+459,Sales,Account Manager,32,Other,3,0.00946564,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,161632,5.97,1,14,79
+460,Marketing,SEO Analyst,34,Male,2,0.0021837896,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,53266,2.73,4,3,19
+461,Finance,Accountant,60,Other,15,0.99811137,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,67827,0.57,2,11,38
+462,Support,Support Engineer,27,Female,4,0.0010172796,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,116235,4.93,3,3,22
+463,Finance,Accountant,58,Female,13,0.0014841103,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,35093,6.17,4,1,20
+464,Sales,Account Manager,60,Female,14,0.0014841103,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,155870,5.63,3,3,24
+465,Support,Helpdesk,32,Other,2,0.0047189426,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,140627,0.2,4,12,23
+466,IT,Developer,28,Female,2,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,93057,6.5,4,3,52
+467,Finance,Auditor,25,Female,11,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,107898,6.07,3,12,74
+468,HR,HR Executive,59,Male,9,0.99829596,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,169457,0.2,2,13,51
+469,Finance,Auditor,40,Female,5,0.003565542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,173633,1.9,3,6,37
+470,HR,HR Executive,60,Male,14,0.9982256,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,92312,-0.63,1,1,20
+471,HR,HR Manager,22,Female,8,0.0010462846,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,35152,7.8,3,5,30
+472,Finance,Accountant,37,Male,5,0.99779177,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,162437,0.6,2,10,20
+473,IT,Engineer,44,Other,13,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,129971,-0.43,4,7,43
+474,Finance,Auditor,54,Male,9,0.998589,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,175948,-0.83,2,13,39
+475,Sales,Account Manager,35,Male,4,0.0011923726,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,162702,5.27,3,2,25
+476,HR,HR Manager,24,Male,5,0.0012059538,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,76735,3.43,4,14,9
+477,Sales,Sales Executive,49,Other,14,0.0015291849,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,64651,5.93,4,12,22
+478,Marketing,Content Lead,55,Other,15,0.0013761537,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,94382,9.1,4,5,67
+479,IT,Tester,56,Other,5,0.00160981,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,140237,5.63,3,3,61
+480,Support,Helpdesk,51,Other,14,0.0015291849,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,77476,7.2,4,3,14
+481,IT,Developer,21,Female,2,0.0011202007,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,36213,4.83,3,8,79
+482,Support,Support Engineer,43,Other,8,0.0033308088,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,60868,2.4,3,9,26
+483,IT,Tester,52,Other,6,0.9976586,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,42425,-0.97,2,8,52
+484,Sales,Sales Executive,31,Other,4,0.0009001542,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,171672,6.27,3,2,35
+485,Sales,Sales Executive,47,Female,7,0.0036876919,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,64927,0.1,5,4,73
+486,Sales,Sales Executive,59,Female,7,0.0020238583,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,51461,2.87,3,13,79
+487,IT,Developer,33,Male,11,0.0013683907,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,31689,7.17,4,9,45
+488,Finance,Auditor,39,Other,15,0.004484977,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,151142,1.87,4,5,71
+489,Finance,Accountant,47,Male,15,0.0022510793,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,44069,4.43,3,5,24
+490,HR,HR Manager,57,Other,7,0.0022433952,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,178046,3.67,4,6,70
+491,Sales,Account Manager,51,Female,4,0.0013204343,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,109973,6.8,3,8,51
+492,Marketing,SEO Analyst,34,Male,3,0.0010871683,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,56917,5.97,3,9,66
+493,IT,Tester,59,Other,10,0.001335584,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,89449,7.2,5,6,57
+494,HR,HR Manager,53,Female,6,0.004808002,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,152708,1.57,3,12,16
+495,IT,Developer,38,Male,4,0.0010154296,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,56333,4.33,4,6,25
+496,IT,Developer,25,Other,12,0.0011330557,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,127673,6.93,3,8,53
+497,Finance,Auditor,47,Other,6,0.0010933377,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,107623,7.3,3,1,37
+498,Finance,Accountant,44,Male,4,0.99714535,HIGH,,"Reading Comprehension, Active Listening, Writing",Immediate 1:1 retention conversation + salary review,90850,3.07,2,1,64
+499,Sales,Account Manager,52,Other,7,0.0029703758,LOW,,"Reading Comprehension, Active Listening, Writing",Recommended Course: Advanced Skills Workshop,138568,4.5,3,9,28
+500,Marketing,Content Lead,40,Male,8,0.00078984007,LOW,,"Communication, Analytical Thinking, Problem Solving",Recommended Course: Advanced Skills Workshop,77261,4.1,4,5,42
