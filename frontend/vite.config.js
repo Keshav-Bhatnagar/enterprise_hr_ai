@@ -9,6 +9,14 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:8000',
         changeOrigin: true,
+      },
+      '/token': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/hcm': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
       }
     }
   }

@@ -50,6 +50,44 @@ def approve_leave(request_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"status": "success", "message": f"Leave Request #{request_id} approved."}
 
+@router.post("/leave/{request_id}/reject")
+def reject_leave(request_id: int, db: Session = Depends(get_db)):
+    leave_req = db.query(LeaveRequest).filter(LeaveRequest.id == request_id).first()
+    if not leave_req:
+        raise HTTPException(status_code=404, detail="Leave request not found")
+    leave_req.status = "Rejected"
+    
+    n = Notification(message=f"❌ Leave Request #{request_id} for Employee {leave_req.employee_id} was rejected.", type="alert", timestamp="Just now")
+    db.add(n)
+    
+    db.commit()
+    return {"status": "success", "message": f"Leave Request #{request_id} rejected."}
+
+@router.post("/leave/apply")
+def apply_leave(data: dict, db: Session = Depends(get_db)):
+    from datetime import date
+    employee_id = data.get("employee_id", 3757101776)
+    leave_type = data.get("leave_type", "Privilege Leave")
+    days = data.get("days", 3)
+    today_str = str(date.today())
+    
+    leave_req = LeaveRequest(
+        employee_id=employee_id,
+        leave_type=leave_type,
+        start_date=today_str,
+        end_date=today_str,
+        days=days,
+        status="Pending"
+    )
+    db.add(leave_req)
+    
+    n = Notification(message=f"📝 Employee #{employee_id} submitted a new {leave_type} request for {days} days.", type="info", timestamp="Just now")
+    db.add(n)
+    
+    db.commit()
+    db.refresh(leave_req)
+    return {"status": "success", "message": "Leave application submitted successfully.", "id": leave_req.id}
+
 @router.get("/demographics")
 def get_demographics(db: Session = Depends(get_db)):
     employees = db.query(EmployeeIntelligence).all()
@@ -91,16 +129,17 @@ def explain_attrition(employee_id: int):
     import pandas as pd
     import numpy as np
     
-    explainer_path = 'models/v1/attrition_explainer.joblib'
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    explainer_path = os.path.join(BASE_DIR, 'models', 'v1', 'attrition_explainer.joblib')
     if not os.path.exists(explainer_path):
         raise HTTPException(status_code=503, detail="SHAP explainer not found. Run ML pipeline first.")
         
     try:
         explainer = joblib.load(explainer_path)
-        feature_names = joblib.load('models/v1/feature_names.joblib')
+        feature_names = joblib.load(os.path.join(BASE_DIR, 'models', 'v1', 'feature_names.joblib'))
         
-        attr = pd.read_csv('data/processed/employee_attrition_processed.csv')
-        features_df = pd.read_csv('data/processed/features/attrition_features.csv')
+        attr = pd.read_csv(os.path.join(BASE_DIR, 'data', 'processed', 'employee_attrition_processed.csv'))
+        features_df = pd.read_csv(os.path.join(BASE_DIR, 'data', 'processed', 'features', 'attrition_features.csv'))
         
         idx = attr[attr['EmployeeID'] == employee_id].index
         if len(idx) == 0:
