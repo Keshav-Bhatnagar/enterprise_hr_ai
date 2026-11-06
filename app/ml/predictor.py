@@ -4,8 +4,12 @@ import numpy as np
 import json
 import os
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 class AttritionPredictor:
     def __init__(self, model_dir='models/v1'):
+        if not os.path.isabs(model_dir):
+            model_dir = os.path.join(BASE_DIR, model_dir)
         self.model = joblib.load(f'{model_dir}/attrition_pipeline.joblib')
         self.feature_names = joblib.load(f'{model_dir}/feature_names.joblib')
 

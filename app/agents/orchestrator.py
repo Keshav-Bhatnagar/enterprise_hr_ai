@@ -11,7 +11,10 @@ import json
 import logging
 
 from langchain_core.messages import BaseMessage, HumanMessage, ToolMessage, AIMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+try:
+    from langchain_google_genai import ChatGoogleGenerativeAI
+except ImportError:
+    ChatGoogleGenerativeAI = None
 from langgraph.graph import StateGraph, END
 import operator
 
@@ -19,8 +22,11 @@ from app.agents.tools import TOOL_REGISTRY, call_tool
 
 logger = logging.getLogger(__name__)
 
-from dotenv import load_dotenv
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 class AgentState(TypedDict):
@@ -28,6 +34,8 @@ class AgentState(TypedDict):
     user_role: str
 
 def init_llm():
+    if ChatGoogleGenerativeAI is None:
+        raise ImportError("langchain_google_genai is not installed in the environment.")
     if not GEMINI_API_KEY or GEMINI_API_KEY == "your_gemini_api_key_here":
         raise ValueError("GEMINI_API_KEY is not configured properly.")
     

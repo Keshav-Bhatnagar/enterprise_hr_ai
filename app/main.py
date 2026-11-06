@@ -29,13 +29,16 @@ app.add_middleware(
 def startup_event():
     logger.info("Application starting up...")
 
-from app.api import dashboard, attrition, agent, auth, hcm
+from app.api import dashboard, attrition, agent, auth, hcm, ingestion, compliance, retention
 
 app.include_router(auth.router)
 app.include_router(attrition.router)
 app.include_router(dashboard.router)
 app.include_router(agent.router)
 app.include_router(hcm.router)
+app.include_router(ingestion.router)
+app.include_router(compliance.router)
+app.include_router(retention.router)
 
 @app.get("/")
 def read_root():

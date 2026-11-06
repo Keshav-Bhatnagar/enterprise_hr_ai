@@ -627,13 +627,18 @@ def get_team_health(department: str) -> Dict[str, Any]:
 # ═══════════════════════════════════════════════════════════════════
 # POLICY TOOL (RAG-ready)
 # ═══════════════════════════════════════════════════════════════════
-from langchain_community.vectorstores import FAISS
-from langchain_community.document_loaders import TextLoader
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 @lru_cache(maxsize=1)
 def _get_vector_store():
+    try:
+        from langchain_community.vectorstores import FAISS
+        from langchain_community.document_loaders import TextLoader
+        from langchain_google_genai import GoogleGenerativeAIEmbeddings
+        from langchain_text_splitters import RecursiveCharacterTextSplitter
+    except ImportError:
+        logger.warning("langchain_community or langchain_google_genai not installed. Vector store unavailable.")
+        return None
+
     # Only initialize if the key exists to avoid crashing the whole module on import
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:

@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, BigInteger, String, Float, Boolean, DateTime
+from sqlalchemy import Column, Integer, BigInteger, String, Float, Boolean, DateTime, Text
 from app.db.database import Base
+from datetime import datetime
 
 class EmployeeIntelligence(Base):
     __tablename__ = "employee_intelligence"
@@ -119,3 +120,36 @@ class SuccessionPlan(Base):
     readiness_score = Column(Float)
     estimated_time_to_ready_months = Column(Integer)
     key_skill_gap = Column(String, nullable=True)
+
+class WebhookEventLog(Base):
+    __tablename__ = "webhook_event_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    event_id = Column(String, unique=True, index=True)
+    provider = Column(String, index=True)              # darwinbox, workday, bamboohr, generic
+    event_type = Column(String, index=True)            # COMPENSATION_CHANGE, OVERTIME_UPDATE, PERFORMANCE_REVIEW, ROLE_CHANGE
+    employee_id = Column(BigInteger, index=True)
+    payload = Column(Text)                             # Raw JSON payload
+    status = Column(String, index=True)                # PROCESSED, FAILED, DUPLICATE
+    old_risk = Column(String, nullable=True)
+    new_risk = Column(String, nullable=True)
+    old_probability = Column(Float, nullable=True)
+    new_probability = Column(Float, nullable=True)
+    alert_triggered = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    error_message = Column(Text, nullable=True)
+
+class DataAccessAuditLog(Base):
+    """Immutable audit trail of employee PII and risk score access required under DPDP Act 2023."""
+    __tablename__ = "data_access_audit_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    accessor_user = Column(String, index=True)         # Username / system ID
+    accessor_role = Column(String, index=True)         # HR_ADMIN, MANAGER, AUDITOR
+    target_employee_id = Column(BigInteger, index=True)
+    access_type = Column(String)                       # READ_PROFILE, EXPORT_REPORT, PREDICT_RISK
+    fields_exposed = Column(String)                    # MASKED, UNMASKED, ANONYMIZED
+    ip_address = Column(String, nullable=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+

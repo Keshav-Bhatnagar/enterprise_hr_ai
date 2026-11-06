@@ -3,8 +3,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Use Postgres if provided by Docker Compose, otherwise default to local SQLite
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./hr_database.db")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DEFAULT_DB_PATH = os.path.join(BASE_DIR, "enterprise_hr.db").replace("\\", "/")
+
+# Use Postgres if provided by Docker Compose, otherwise default to project SQLite
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DEFAULT_DB_PATH}")
 
 # Postgres doesn't need check_same_thread
 if SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
