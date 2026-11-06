@@ -306,36 +306,43 @@ export function AppShell({
                 </button>
 
                 {themeMenuOpen && (
-                  <div
-                    className="absolute right-0 mt-2 w-52 rounded-enterprise bg-card border border-border-strong p-1.5 shadow-2xl z-50 text-xs font-mono space-y-1"
-                    style={{ backgroundColor: 'var(--bg-card)' }}
-                  >
-                    {[
-                      { id: 'executive-light', name: 'Executive Light', icon: Sun },
-                      { id: 'slate-dark', name: 'Slate Dark', icon: Moon },
-                      { id: 'obsidian-gold', name: 'Obsidian Gold', icon: Sparkles }
-                    ].map((th) => {
-                      const Icon = th.icon;
-                      return (
-                        <button
-                          key={th.id}
-                          type="button"
-                          onClick={() => {
-                            onSelectTheme && onSelectTheme(th.id);
-                            setThemeMenuOpen(false);
-                          }}
-                          className={`w-full flex items-center gap-2 p-2 rounded-md text-left transition ${
-                            theme === th.id
-                              ? 'bg-accent text-accent-fg font-semibold'
-                              : 'text-text-secondary hover:bg-muted hover:text-text-primary'
-                          }`}
-                        >
-                          <Icon className="size-3.5" />
-                          <span>{th.name}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setThemeMenuOpen(false)}
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute right-0 mt-2 w-52 rounded-enterprise border p-1.5 shadow-2xl z-50 text-xs font-mono space-y-1 enterprise-popover"
+                      style={{ backgroundColor: 'var(--bg-card)' }}
+                    >
+                      {[
+                        { id: 'executive-light', name: 'Executive Light', icon: Sun },
+                        { id: 'slate-dark', name: 'Slate Dark', icon: Moon },
+                        { id: 'obsidian-gold', name: 'Obsidian Gold', icon: Sparkles }
+                      ].map((th) => {
+                        const Icon = th.icon;
+                        return (
+                          <button
+                            key={th.id}
+                            type="button"
+                            onClick={() => {
+                              onSelectTheme && onSelectTheme(th.id);
+                              setThemeMenuOpen(false);
+                            }}
+                            className={`w-full flex items-center gap-2 p-2 rounded-md text-left transition ${
+                              theme === th.id
+                                ? 'bg-accent text-accent-fg font-semibold'
+                                : 'text-text-secondary hover:bg-muted hover:text-text-primary'
+                            }`}
+                          >
+                            <Icon className="size-3.5" />
+                            <span>{th.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </>
                 )}
               </div>
 
@@ -356,46 +363,53 @@ export function AppShell({
                 </button>
 
                 {userMenuOpen && (
-                  <div
-                    className="absolute right-0 mt-2 w-72 rounded-enterprise bg-card border border-border-strong p-2 shadow-2xl z-50 text-xs font-mono space-y-1.5 animate-in fade-in zoom-in-95 duration-100"
-                    style={{ backgroundColor: 'var(--bg-card)' }}
-                  >
-                    <div className="px-2 py-1 text-[10px] uppercase font-bold text-text-muted border-b border-border-subtle pb-1">
-                      Demo Personas (Instant Switch)
-                    </div>
-                    {DEMO_PERSONAS.map((p) => {
-                      const isSelected = p.role.toUpperCase() === normalizedRole;
-                      return (
-                        <button
-                          key={p.id}
-                          type="button"
-                          onClick={() => {
-                            onSwitchPersona && onSwitchPersona(p);
-                            navigate(p.defaultRoute);
-                            setUserMenuOpen(false);
-                          }}
-                          className={`w-full flex items-center justify-between p-2 rounded-md text-left transition ${
-                            isSelected
-                              ? 'bg-accent text-accent-fg font-semibold shadow-subtle'
-                              : 'text-text-secondary hover:bg-muted hover:text-text-primary'
-                          }`}
-                        >
-                          <div className="truncate pr-2">
-                            <div className="font-semibold text-xs flex items-center gap-1.5">
-                              <span>{p.badge}</span>
-                              <span className="truncate">{p.name}</span>
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setUserMenuOpen(false)}
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute right-0 mt-2 w-72 rounded-enterprise border p-2 shadow-2xl z-50 text-xs font-mono space-y-1.5 enterprise-popover"
+                      style={{ backgroundColor: 'var(--bg-card)' }}
+                    >
+                      <div className="px-2 py-1 text-[10px] uppercase font-bold text-text-muted border-b border-border-subtle pb-1">
+                        Demo Personas (Instant Switch)
+                      </div>
+                      {DEMO_PERSONAS.map((p) => {
+                        const isSelected = p.role.toUpperCase() === normalizedRole;
+                        return (
+                          <button
+                            key={p.id}
+                            type="button"
+                            onClick={() => {
+                              onSwitchPersona && onSwitchPersona(p);
+                              navigate(p.defaultRoute);
+                              setUserMenuOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between p-2 rounded-md text-left transition ${
+                              isSelected
+                                ? 'bg-accent text-accent-fg font-semibold shadow-subtle'
+                                : 'text-text-secondary hover:bg-muted hover:text-text-primary'
+                            }`}
+                          >
+                            <div className="truncate pr-2">
+                              <div className="font-semibold text-xs flex items-center gap-1.5">
+                                <span>{p.badge}</span>
+                                <span className="truncate">{p.name}</span>
+                              </div>
+                              <div className="text-[10px] opacity-75 truncate mt-0.5">{p.title}</div>
                             </div>
-                            <div className="text-[10px] opacity-75 truncate mt-0.5">{p.title}</div>
-                          </div>
-                          {isSelected && (
-                            <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded bg-accent-fg/20 text-accent-fg uppercase tracking-wider shrink-0">
-                              ACTIVE
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
+                            {isSelected && (
+                              <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded border border-current text-accent-fg uppercase tracking-wider shrink-0 bg-black/20 dark:bg-black/40">
+                                ACTIVE
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </>
                 )}
               </div>
             </div>

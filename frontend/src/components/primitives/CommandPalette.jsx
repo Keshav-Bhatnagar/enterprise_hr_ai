@@ -147,7 +147,7 @@ export function CommandPalette({
         role="dialog"
         aria-modal="true"
         aria-label="Command Palette"
-        className="relative z-10 w-full max-w-xl bg-card border border-border-strong rounded-enterprise shadow-2xl overflow-hidden flex flex-col font-mono text-xs"
+        className="relative z-10 w-full max-w-xl bg-card border border-border-strong rounded-enterprise shadow-2xl overflow-hidden flex flex-col font-mono text-xs enterprise-popover"
         style={{ backgroundColor: 'var(--bg-card)' }}
       >
         {/* Search Input */}

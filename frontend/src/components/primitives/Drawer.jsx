@@ -57,6 +57,7 @@ export function Drawer({
             animate="open"
             exit="closed"
             className={`relative z-10 w-full ${width} bg-surface text-text-primary shadow-drawer border-l border-border-subtle flex flex-col h-full`}
+            style={{ backgroundColor: 'var(--bg-surface)' }}
           >
             {/* Header */}
             <div className="p-5 border-b border-border-subtle flex items-start justify-between gap-4">
