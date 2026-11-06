@@ -1,59 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import AppShell from './components/AppShell';
-import EmployeeWorkstation from './components/workspaces/EmployeeWorkstation';
-import ManagerCockpit from './components/workspaces/ManagerCockpit';
-import AuditorChamber from './components/workspaces/AuditorChamber';
-import AdminCommandCenter from './components/workspaces/AdminCommandCenter';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { ToastProvider } from './components/primitives/Toast';
+import AppShell from './components/layout/AppShell';
+import RequireRole from './components/auth/RequireRole';
+import { DEMO_PERSONAS } from './config/nav.config';
+import { Button, RiskBadge } from './components/primitives';
+import { ArrowUpRight, DollarSign, Clock, ShieldAlert } from 'lucide-react';
 
-// DEMO PERSONAS FOR INSTANT 1-CLICK AUTHENTICATION (ZERO LOGIN WALL)
-const DEMO_PERSONAS = [
-  {
-    id: 'admin',
-    username: 'admin',
-    password: 'admin123',
-    name: 'Priya Sharma',
-    role: 'HR_ADMIN',
-    title: 'Chief Human Resources Officer (CHRO)',
-    avatar: 'PS',
-    badge: '👑 HR Admin (Tier 1)',
-    desc: 'Unrestricted enterprise oversight: 3D Talent Prism, Attrition War Room, ATS Hiring, and Payroll Engine.'
-  },
-  {
-    id: 'manager',
-    username: 'manager',
-    password: 'admin123',
-    name: 'Kavita Desai',
-    role: 'MANAGER',
-    title: 'Director of Engineering & Platform',
-    avatar: 'KD',
-    badge: '👔 Engineering Manager (Tier 2)',
-    desc: 'Department operations: Team 3D Talent Prism, 1-click Leave Approvals, and Team Retention Simulator.'
-  },
-  {
-    id: 'employee',
-    username: 'employee',
-    password: 'employee123',
-    name: 'Vikramaditya Rao',
-    role: 'EMPLOYEE',
-    title: 'Principal AI Systems Scientist',
-    avatar: 'VR',
-    badge: '👤 Employee Portal (Tier 4)',
-    desc: 'Personal workstation: Leave ledger & requests, itemized monthly pay slip, and confidential pulse.'
-  },
-  {
-    id: 'auditor',
-    username: 'auditor',
-    password: 'admin123',
-    name: 'Adv. Rajiv Nair',
-    role: 'AUDITOR',
-    title: 'DPDP Data Protection Officer (DPO)',
-    avatar: 'RN',
-    badge: '🔒 DPDP Compliance Officer (Tier 3)',
-    desc: 'Statutory oversight: DPDP Act 2023 §8(1) audit ledger, EEOC 80% algorithmic bias review, and data retention.'
-  }
-];
+// Page components
+import AttritionWarRoomPage from './pages/admin/AttritionWarRoomPage';
+import AtsHiringPage from './pages/admin/AtsHiringPage';
+import HcmSuccessionPage from './pages/admin/HcmSuccessionPage';
+import PayrollPage from './pages/admin/PayrollPage';
 
-// INITIAL WORKFORCE ROSTER FOR SPATIAL 3D PRISM
+import TeamCalibrationPage from './pages/manager/TeamCalibrationPage';
+import LeaveApprovalsPage from './pages/manager/LeaveApprovalsPage';
+import RetentionSimulatorPage from './pages/manager/RetentionSimulatorPage';
+
+import EmployeeWorkstationPage from './pages/employee/EmployeeWorkstationPage';
+import EmployeeCompensationPage from './pages/employee/EmployeeCompensationPage';
+import EmployeeWellbeingPage from './pages/employee/EmployeeWellbeingPage';
+
+import AuditLedgerPage from './pages/auditor/AuditLedgerPage';
+import AlgorithmicBiasPage from './pages/auditor/AlgorithmicBiasPage';
+import DataRetentionPage from './pages/auditor/DataRetentionPage';
+
+// INITIAL WORKFORCE ROSTER FOR SPATIAL 3D PRISM & TABLES
 const INITIAL_EMPLOYEES = [
   {
     global_id: 1977757544,
@@ -137,8 +109,15 @@ const INITIAL_EMPLOYEES = [
   }
 ];
 
-export default function App() {
-  // ZERO LOGIN GATE: Always authenticated by default as Priya Sharma (CHRO)
+function AppContent() {
+  const [employees, setEmployees] = useState(INITIAL_EMPLOYEES);
+
+  // Theme state: defaults to 'executive-light'
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('enterprise_theme') || 'executive-light';
+  });
+
+  // Current persona state: defaults to Priya Sharma (CHRO)
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const u = localStorage.getItem('nemo_user');
@@ -148,104 +127,269 @@ export default function App() {
     }
   });
 
-  // Theme engine: Slate Dark (default) | Executive Light | Obsidian Gold
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('enterprise_theme') || 'slate';
-  });
+  // Detail Drawer state
+  const [drawerEmployee, setDrawerEmployee] = useState(null);
 
-  const [employees, setEmployees] = useState(INITIAL_EMPLOYEES);
+  const navigate = useNavigate();
 
-  // Sync theme with HTML document attribute & localStorage
+  // Sync theme with document attribute & local storage
   useEffect(() => {
     localStorage.setItem('enterprise_theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
-    if (theme === 'light') {
+    if (theme === 'executive-light') {
       document.documentElement.classList.remove('dark');
     } else {
       document.documentElement.classList.add('dark');
     }
   }, [theme]);
 
-  // Instant 1-click persona switcher (No login, no password, no barriers)
+  // Persona switch handler
   const handleSwitchPersona = (persona) => {
-    const userObj = {
-      name: persona.name,
-      role: persona.role.toUpperCase(),
-      title: persona.title,
-      avatar: persona.avatar,
-      username: persona.username
-    };
-    setCurrentUser(userObj);
-    localStorage.setItem('nemo_user', JSON.stringify(userObj));
-    localStorage.setItem('nemo_token', `demo_token_${persona.id}`);
+    setCurrentUser(persona);
+    localStorage.setItem('nemo_user', JSON.stringify(persona));
   };
 
-  // Resolve normalized role
   const userRole = (currentUser.role || 'HR_ADMIN').toUpperCase().replace('ROLE_', '');
 
-  // Determine role-specific breadcrumbs
-  const getBreadcrumbs = () => {
-    if (userRole === 'EMPLOYEE') return ['My Workstation', 'Personal Self-Service'];
-    if (userRole === 'MANAGER') return ['Team Operations', 'Engineering & Platform'];
-    if (userRole === 'AUDITOR') return ['Governance Chamber', 'DPDP Act 2023'];
-    return ['Executive Command', 'Strategic Overview'];
+  // Default redirect route per role
+  const getDefaultRoute = () => {
+    if (userRole === 'MANAGER') return '/manager/calibration';
+    if (userRole === 'EMPLOYEE') return '/employee/workstation';
+    if (userRole === 'AUDITOR') return '/auditor/logs';
+    return '/admin/attrition/risk';
   };
 
+  // Build detail drawer props if an employee is selected
+  const detailDrawerProps = drawerEmployee
+    ? {
+        isOpen: Boolean(drawerEmployee),
+        onClose: () => setDrawerEmployee(null),
+        title: drawerEmployee.name,
+        subtitle: `${drawerEmployee.job_role} • ${drawerEmployee.department} (${drawerEmployee.pseudo_id})`,
+        content: (
+          <div className="space-y-5 text-xs font-mono">
+            {/* Risk Banner */}
+            <div className="p-3.5 rounded-enterprise bg-muted border border-border-subtle flex items-center justify-between">
+              <div>
+                <div className="text-[10px] text-text-muted uppercase">Calculated Flight Risk</div>
+                <div className="text-xl font-bold text-text-primary mt-0.5">
+                  {(drawerEmployee.attrition_probability * 100).toFixed(1)}%
+                </div>
+              </div>
+              <RiskBadge
+                status={drawerEmployee.attrition_probability >= 0.75 ? 'HIGH' : 'LOW'}
+                size="md"
+              />
+            </div>
+
+            {/* 3D Coordinate Scores */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 rounded-enterprise bg-muted border border-border-subtle">
+                <div className="text-[10px] text-text-muted uppercase">Performance (X)</div>
+                <div className="text-base font-bold text-text-primary mt-1">
+                  {drawerEmployee.perf || 4.2} / 5.0
+                </div>
+              </div>
+              <div className="p-3 rounded-enterprise bg-muted border border-border-subtle">
+                <div className="text-[10px] text-text-muted uppercase">Potential (Y)</div>
+                <div className="text-base font-bold text-text-primary mt-1">
+                  {drawerEmployee.pot || 4.5} / 5.0
+                </div>
+              </div>
+            </div>
+
+            {/* Compensation & Overtime */}
+            <div className="p-3.5 rounded-enterprise bg-muted border border-border-subtle space-y-2">
+              <div className="flex justify-between">
+                <span className="text-text-muted">Compensation Band:</span>
+                <span className="text-text-primary font-semibold">{drawerEmployee.salary_band}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-text-muted">Monthly Overtime:</span>
+                <span className="text-status-danger font-semibold">{drawerEmployee.overtime_hours} hrs/mo</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-text-muted">Estimated Departure Loss:</span>
+                <span className="text-status-danger font-bold">
+                  ₹{(((drawerEmployee.monthly_salary * 18) / 100000)).toFixed(1)} Lakhs
+                </span>
+              </div>
+            </div>
+
+            {/* Primary Driver */}
+            <div className="p-3 rounded-enterprise bg-muted border border-border-subtle">
+              <span className="text-text-muted text-[10.5px] uppercase">Identified Attrition Driver:</span>
+              <p className="mt-1 text-text-primary font-sans italic text-xs leading-relaxed">
+                "{drawerEmployee.reason}"
+              </p>
+            </div>
+          </div>
+        ),
+        footer: (
+          <div className="flex items-center gap-2 w-full">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={() => setDrawerEmployee(null)}
+            >
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              className="flex-1"
+              rightIcon={ArrowUpRight}
+              onClick={() => {
+                setDrawerEmployee(null);
+                navigate('/manager/retention');
+              }}
+            >
+              Simulate Retention
+            </Button>
+          </div>
+        )
+      }
+    : null;
+
   return (
-    <div data-theme={theme} className="min-h-screen">
-      <AppShell
-        currentUser={currentUser}
-        role={userRole}
-        breadcrumbs={getBreadcrumbs()}
-        onSwitchPersona={handleSwitchPersona}
-        demoPersonas={DEMO_PERSONAS}
-        theme={theme}
-        onSelectTheme={setTheme}
-      >
-        {/* ROLE-ISOLATED WORKSPACES: USER SEES ONLY WHAT BELONGS TO THEIR ROLE */}
-        {userRole === 'EMPLOYEE' && (
-          <EmployeeWorkstation
-            currentUser={currentUser}
-            theme={theme}
-            onApplyLeave={(req) => {
-              console.log("New leave requested by employee:", req);
-            }}
-          />
-        )}
+    <AppShell
+      currentUser={currentUser}
+      currentRole={userRole}
+      theme={theme}
+      onSelectTheme={setTheme}
+      onSwitchPersona={handleSwitchPersona}
+      detailDrawerProps={detailDrawerProps}
+    >
+      <Routes>
+        {/* Root redirect to role default */}
+        <Route path="/" element={<Navigate to={getDefaultRoute()} replace />} />
 
-        {userRole === 'MANAGER' && (
-          <ManagerCockpit
-            employees={employees}
-            theme={theme}
-            onApproveLeave={(id) => {
-              console.log("Manager approved leave ID:", id);
-            }}
-            onRejectLeave={(id) => {
-              console.log("Manager rejected leave ID:", id);
-            }}
-          />
-        )}
+        {/* --- ADMIN ROUTES --- */}
+        <Route
+          path="/admin/attrition/risk"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+              <AttritionWarRoomPage employees={employees} onSelectEmployee={setDrawerEmployee} />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/admin/ats/candidates"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+              <AtsHiringPage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/admin/hcm/succession"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+              <HcmSuccessionPage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/admin/payroll"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+              <PayrollPage />
+            </RequireRole>
+          }
+        />
 
-        {userRole === 'AUDITOR' && (
-          <AuditorChamber theme={theme} />
-        )}
+        {/* --- MANAGER ROUTES --- */}
+        <Route
+          path="/manager/calibration"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
+              <TeamCalibrationPage employees={employees} onSelectEmployee={setDrawerEmployee} />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/manager/approvals"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
+              <LeaveApprovalsPage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/manager/retention"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
+              <RetentionSimulatorPage employees={employees} />
+            </RequireRole>
+          }
+        />
 
-        {(userRole === 'HR_ADMIN' || userRole === 'ADMIN') && (
-          <AdminCommandCenter
-            employees={employees}
-            theme={theme}
-            onHireCandidate={(id) => {
-              console.log("Admin hired candidate ID:", id);
-            }}
-            onRejectCandidate={(id) => {
-              console.log("Admin rejected candidate ID:", id);
-            }}
-            onRunPayroll={() => {
-              console.log("Admin triggered payroll disbursal batch");
-            }}
-          />
-        )}
-      </AppShell>
-    </div>
+        {/* --- EMPLOYEE ROUTES --- */}
+        <Route
+          path="/employee/workstation"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
+              <EmployeeWorkstationPage currentUser={currentUser} />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/employee/compensation"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
+              <EmployeeCompensationPage currentUser={currentUser} />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/employee/wellbeing"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
+              <EmployeeWellbeingPage currentUser={currentUser} />
+            </RequireRole>
+          }
+        />
+
+        {/* --- AUDITOR ROUTES --- */}
+        <Route
+          path="/auditor/logs"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
+              <AuditLedgerPage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/auditor/bias"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
+              <AlgorithmicBiasPage />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/auditor/retention"
+          element={
+            <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
+              <DataRetentionPage />
+            </RequireRole>
+          }
+        />
+
+        {/* Catch-all redirect */}
+        <Route path="*" element={<Navigate to={getDefaultRoute()} replace />} />
+      </Routes>
+    </AppShell>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
+    </BrowserRouter>
   );
 }
