@@ -364,3 +364,4 @@ export default function Org3DConstellation({ theme, onSelectDepartment }) {
     </div>
   );
 }
+
