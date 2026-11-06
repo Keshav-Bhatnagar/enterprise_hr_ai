@@ -116,3 +116,4 @@ Statutory reference: Rule 26D of Indian Income-tax Rules, 1962.
 
   downloadFile(`Payslip_Oct2026_${employee.pseudo_id || 'EMP_8A34'}.txt`, payslip, 'text/plain');
 }
+

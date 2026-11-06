@@ -229,6 +229,7 @@ export default function App() {
 
           <RoleThrowableDeck
             personas={DEMO_PERSONAS}
+            onSelectPersona={(persona) => handleLogin(persona)}
             onSelectRole={(persona) => handleLogin(persona)}
           />
         </main>

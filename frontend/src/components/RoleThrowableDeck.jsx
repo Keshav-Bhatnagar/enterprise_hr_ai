@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ShieldCheck, ChevronRight, Key, ArrowRight, Lock, CheckCircle2 } from 'lucide-react';
 
-export default function RoleThrowableDeck({ personas, onSelectPersona, activePersonaId }) {
+export default function RoleThrowableDeck({ personas, onSelectPersona, onSelectRole, activePersonaId }) {
   const [deckList, setDeckList] = useState(personas);
   const deckRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const startXRef = useRef(0);
   const startYRef = useRef(0);
   const topCardRef = useRef(null);
+
+  const handleSelect = onSelectPersona || onSelectRole;
 
   useEffect(() => {
     // If external active persona changes, rotate it to the top
@@ -170,7 +172,10 @@ export default function RoleThrowableDeck({ personas, onSelectPersona, activePer
               <div className="pt-4 border-t border-[rgba(237,231,220,0.13)]">
                 <button
                   type="button"
-                  onClick={() => onSelectPersona(persona)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (handleSelect) handleSelect(persona);
+                  }}
                   className="w-full py-2.5 rounded-full bg-[#EDE7DC] text-[#0A0C0E] hover:text-[#E8913C] hover:bg-transparent border border-[#EDE7DC] hover:border-[#E8913C] font-mono text-[11px] font-bold tracking-[0.14em] uppercase transition flex items-center justify-center gap-2"
                 >
                   <span>Sign In As {persona.name.split(' ')[0]}</span>
