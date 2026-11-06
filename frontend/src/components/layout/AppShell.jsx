@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
   X,
@@ -150,15 +151,22 @@ export function AppShell({
                       key={item.id}
                       to={item.path}
                       title={sidebarCollapsed ? item.label : undefined}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-enterprise text-xs font-medium transition min-h-[40px] ${
+                      className={`relative flex items-center gap-3 px-3 py-2 rounded-enterprise text-xs font-medium transition min-h-[40px] select-none ${
                         isActive
-                          ? 'bg-accent text-accent-fg font-semibold shadow-subtle'
+                          ? 'text-accent-fg font-semibold'
                           : 'text-sidebar-muted hover:text-sidebar-text hover:bg-sidebar-hover'
                       }`}
                     >
-                      <Icon className="size-4 shrink-0" />
+                      {isActive && (
+                        <motion.div
+                          layoutId="sidebarActivePill"
+                          className="absolute inset-0 rounded-enterprise bg-accent shadow-subtle z-0"
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        />
+                      )}
+                      <Icon className="size-4 shrink-0 relative z-10" />
                       {!sidebarCollapsed && (
-                        <div className="flex-1 flex items-center justify-between truncate">
+                        <div className="flex-1 flex items-center justify-between truncate relative z-10">
                           <span className="truncate">{item.label}</span>
                           {item.badge && (
                             <span

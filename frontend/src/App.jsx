@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { MotionConfig, motion, AnimatePresence } from 'framer-motion';
 import { ToastProvider } from './components/primitives/Toast';
 import AppShell from './components/layout/AppShell';
 import RequireRole from './components/auth/RequireRole';
 import { DEMO_PERSONAS } from './config/nav.config';
 import { Button, RiskBadge } from './components/primitives';
 import { ArrowUpRight, DollarSign, Clock, ShieldAlert } from 'lucide-react';
+import { pageVariants } from './utils/motion';
 
 // Page components
 import AttritionWarRoomPage from './pages/admin/AttritionWarRoomPage';
@@ -109,6 +111,20 @@ const INITIAL_EMPLOYEES = [
   }
 ];
 
+function AnimatedRouteWrapper({ children }) {
+  return (
+    <motion.div
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="w-full"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 function AppContent() {
   const [employees, setEmployees] = useState(INITIAL_EMPLOYEES);
 
@@ -131,6 +147,7 @@ function AppContent() {
   const [drawerEmployee, setDrawerEmployee] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Sync theme with document attribute & local storage
   useEffect(() => {
@@ -261,125 +278,153 @@ function AppContent() {
       onSwitchPersona={handleSwitchPersona}
       detailDrawerProps={detailDrawerProps}
     >
-      <Routes>
-        {/* Root redirect to role default */}
-        <Route path="/" element={<Navigate to={getDefaultRoute()} replace />} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Root redirect to role default */}
+          <Route path="/" element={<Navigate to={getDefaultRoute()} replace />} />
 
-        {/* --- ADMIN ROUTES --- */}
-        <Route
-          path="/admin/attrition/risk"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
-              <AttritionWarRoomPage employees={employees} onSelectEmployee={setDrawerEmployee} />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/ats/candidates"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
-              <AtsHiringPage />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/hcm/succession"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
-              <HcmSuccessionPage />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/payroll"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
-              <PayrollPage />
-            </RequireRole>
-          }
-        />
+          {/* --- ADMIN ROUTES --- */}
+          <Route
+            path="/admin/attrition/risk"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <AttritionWarRoomPage employees={employees} onSelectEmployee={setDrawerEmployee} />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/admin/ats/candidates"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <AtsHiringPage />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/admin/hcm/succession"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <HcmSuccessionPage />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/admin/payroll"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['HR_ADMIN', 'ADMIN']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <PayrollPage />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
 
-        {/* --- MANAGER ROUTES --- */}
-        <Route
-          path="/manager/calibration"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
-              <TeamCalibrationPage employees={employees} onSelectEmployee={setDrawerEmployee} />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/manager/approvals"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
-              <LeaveApprovalsPage />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/manager/retention"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
-              <RetentionSimulatorPage employees={employees} />
-            </RequireRole>
-          }
-        />
+          {/* --- MANAGER ROUTES --- */}
+          <Route
+            path="/manager/calibration"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <TeamCalibrationPage employees={employees} onSelectEmployee={setDrawerEmployee} />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/manager/approvals"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <LeaveApprovalsPage />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/manager/retention"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['MANAGER']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <RetentionSimulatorPage employees={employees} />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
 
-        {/* --- EMPLOYEE ROUTES --- */}
-        <Route
-          path="/employee/workstation"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
-              <EmployeeWorkstationPage currentUser={currentUser} />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/employee/compensation"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
-              <EmployeeCompensationPage currentUser={currentUser} />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/employee/wellbeing"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
-              <EmployeeWellbeingPage currentUser={currentUser} />
-            </RequireRole>
-          }
-        />
+          {/* --- EMPLOYEE ROUTES --- */}
+          <Route
+            path="/employee/workstation"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <EmployeeWorkstationPage currentUser={currentUser} />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/employee/compensation"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <EmployeeCompensationPage currentUser={currentUser} />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/employee/wellbeing"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['EMPLOYEE']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <EmployeeWellbeingPage currentUser={currentUser} />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
 
-        {/* --- AUDITOR ROUTES --- */}
-        <Route
-          path="/auditor/logs"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
-              <AuditLedgerPage />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/auditor/bias"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
-              <AlgorithmicBiasPage />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/auditor/retention"
-          element={
-            <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
-              <DataRetentionPage />
-            </RequireRole>
-          }
-        />
+          {/* --- AUDITOR ROUTES --- */}
+          <Route
+            path="/auditor/logs"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <AuditLedgerPage />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/auditor/bias"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <AlgorithmicBiasPage />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/auditor/retention"
+            element={
+              <RequireRole userRole={userRole} allowedRoles={['AUDITOR']} defaultRoute={getDefaultRoute()}>
+                <AnimatedRouteWrapper>
+                  <DataRetentionPage />
+                </AnimatedRouteWrapper>
+              </RequireRole>
+            }
+          />
 
-        {/* Catch-all redirect */}
-        <Route path="*" element={<Navigate to={getDefaultRoute()} replace />} />
-      </Routes>
+          {/* Catch-all redirect */}
+          <Route path="*" element={<Navigate to={getDefaultRoute()} replace />} />
+        </Routes>
+      </AnimatePresence>
     </AppShell>
   );
 }
@@ -387,9 +432,11 @@ function AppContent() {
 export default function App() {
   return (
     <BrowserRouter>
-      <ToastProvider>
-        <AppContent />
-      </ToastProvider>
+      <MotionConfig reducedMotion="user">
+        <ToastProvider>
+          <AppContent />
+        </ToastProvider>
+      </MotionConfig>
     </BrowserRouter>
   );
 }

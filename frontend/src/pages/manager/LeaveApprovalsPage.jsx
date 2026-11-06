@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, CheckCircle2, UserCheck, UserX, Clock, RotateCcw } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, Button, RiskBadge, EmptyState } from '../../components/primitives';
 import { useToast } from '../../components/primitives/Toast';
+import { rowCollapseVariants } from '../../utils/motion';
 
 export function LeaveApprovalsPage({ initialLeaves }) {
   const [pendingLeaves, setPendingLeaves] = useState(
@@ -104,7 +106,7 @@ export function LeaveApprovalsPage({ initialLeaves }) {
         )}
       </div>
 
-      {/* Requests List */}
+      {/* Requests List with Motion Row Collapse */}
       {pendingLeaves.length === 0 ? (
         <EmptyState
           icon={CheckCircle2}
@@ -113,51 +115,62 @@ export function LeaveApprovalsPage({ initialLeaves }) {
         />
       ) : (
         <div className="space-y-4">
-          {pendingLeaves.map((leave) => (
-            <Card key={leave.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span className="text-base font-semibold text-text-primary">{leave.name}</span>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-muted border border-border-subtle text-text-secondary">
-                    {leave.role}
-                  </span>
-                  <span className="text-[10.5px] font-mono text-text-muted">({leave.pseudo_id})</span>
-                </div>
+          <AnimatePresence initial={false}>
+            {pendingLeaves.map((leave) => (
+              <motion.div
+                key={leave.id}
+                variants={rowCollapseVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                layout
+              >
+                <Card className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="text-base font-semibold text-text-primary">{leave.name}</span>
+                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-muted border border-border-subtle text-text-secondary">
+                        {leave.role}
+                      </span>
+                      <span className="text-[10.5px] font-mono text-text-muted">({leave.pseudo_id})</span>
+                    </div>
 
-                <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-text-secondary">
-                  <span className="text-accent font-semibold">{leave.type}</span>
-                  <span>•</span>
-                  <span>{leave.dates} ({leave.days} working {leave.days === 1 ? 'day' : 'days'})</span>
-                  <span>•</span>
-                  <span className="text-text-muted">Applied {leave.appliedDate}</span>
-                </div>
+                    <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-text-secondary">
+                      <span className="text-accent font-semibold">{leave.type}</span>
+                      <span>•</span>
+                      <span>{leave.dates} ({leave.days} working {leave.days === 1 ? 'day' : 'days'})</span>
+                      <span>•</span>
+                      <span className="text-text-muted">Applied {leave.appliedDate}</span>
+                    </div>
 
-                <p className="text-xs text-text-primary/90 bg-muted p-2.5 rounded-md border border-border-subtle">
-                  "{leave.reason}"
-                </p>
-              </div>
+                    <p className="text-xs text-text-primary/90 bg-muted p-2.5 rounded-md border border-border-subtle">
+                      "{leave.reason}"
+                    </p>
+                  </div>
 
-              <div className="flex items-center gap-2 shrink-0">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  leftIcon={UserX}
-                  className="text-status-danger hover:border-status-danger"
-                  onClick={() => handleReject(leave)}
-                >
-                  Reject
-                </Button>
-                <Button
-                  variant="primary"
-                  size="sm"
-                  leftIcon={UserCheck}
-                  onClick={() => handleApprove(leave)}
-                >
-                  Approve
-                </Button>
-              </div>
-            </Card>
-          ))}
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      leftIcon={UserX}
+                      className="text-status-danger hover:border-status-danger"
+                      onClick={() => handleReject(leave)}
+                    >
+                      Reject
+                    </Button>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      leftIcon={UserCheck}
+                      onClick={() => handleApprove(leave)}
+                    >
+                      Approve
+                    </Button>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </div>
