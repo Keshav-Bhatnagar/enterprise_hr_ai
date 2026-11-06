@@ -2,77 +2,184 @@
 @tailwind components;
 @tailwind utilities;
 
-:root, [data-theme="slate"] {
-  --bg-page: #0B0F19;
-  --bg-surface: #0F172A;
-  --bg-card: #1E293B;
-  --bg-card-subtle: #0F172A;
-  --bg-card-hover: #334155;
-  --bg-input: #0F172A;
-  --border-subtle: #334155;
-  --border-strong: #475569;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --accent-primary: #38BDF8;
-  --accent-secondary: #10B981;
-  --accent-warning: #F59E0B;
-  --accent-danger: #F43F5E;
-}
-
-[data-theme="light"] {
+:root,
+[data-theme="executive-light"] {
   --bg-page: #F8FAFC;
-  --bg-surface: #F1F5F9;
+  --bg-surface: #FFFFFF;
   --bg-card: #FFFFFF;
-  --bg-card-subtle: #F8FAFC;
   --bg-card-hover: #F1F5F9;
   --bg-input: #FFFFFF;
+  --bg-muted: #F1F5F9;
+  --bg-popover: #FFFFFF;
+  --bg-sidebar: #0F172A;
+  --bg-sidebar-hover: #1E293B;
+  --bg-sidebar-active: #334155;
+  --text-sidebar: #E2E8F0;
+  --text-sidebar-muted: #94A3B8;
+
   --border-subtle: #E2E8F0;
   --border-strong: #CBD5E1;
+  --border-focus: #4F46E5;
+
   --text-primary: #0F172A;
   --text-secondary: #475569;
   --text-muted: #64748B;
-  --accent-primary: #4F46E5;
-  --accent-secondary: #059669;
-  --accent-warning: #D97706;
-  --accent-danger: #E11D48;
+  --text-inverse: #FFFFFF;
+
+  --accent: #4F46E5;
+  --accent-hover: #4338CA;
+  --accent-light: #EEF2FF;
+  --accent-fg: #FFFFFF;
+
+  --status-danger: #E11D48;
+  --status-danger-bg: #FFE4E6;
+  --status-danger-border: #FDA4AF;
+
+  --status-warning: #D97706;
+  --status-warning-bg: #FEF3C7;
+  --status-warning-border: #FCD34D;
+
+  --status-success: #059669;
+  --status-success-bg: #D1FAE5;
+  --status-success-border: #6EE7B7;
+
+  --status-info: #0284C7;
+  --status-info-bg: #E0F2FE;
+  --status-info-border: #7DD3FC;
+
+  --radius: 10px;
+  --shadow-subtle: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  --shadow-drawer: -4px 0 24px rgba(0, 0, 0, 0.12);
 }
 
-[data-theme="obsidian"] {
+[data-theme="slate-dark"] {
+  --bg-page: #0B0F19;
+  --bg-surface: #0F172A;
+  --bg-card: #1E293B;
+  --bg-card-hover: #27354A;
+  --bg-input: #0F172A;
+  --bg-muted: #1E293B;
+  --bg-popover: #1E293B;
+  --bg-sidebar: #090D16;
+  --bg-sidebar-hover: #131B2E;
+  --bg-sidebar-active: #1E293B;
+  --text-sidebar: #F8FAFC;
+  --text-sidebar-muted: #94A3B8;
+
+  --border-subtle: #334155;
+  --border-strong: #475569;
+  --border-focus: #38BDF8;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #0B0F19;
+
+  --accent: #38BDF8;
+  --accent-hover: #0EA5E9;
+  --accent-light: rgba(56, 189, 248, 0.12);
+  --accent-fg: #0B0F19;
+
+  --status-danger: #F43F5E;
+  --status-danger-bg: rgba(244, 63, 94, 0.14);
+  --status-danger-border: rgba(244, 63, 94, 0.35);
+
+  --status-warning: #F59E0B;
+  --status-warning-bg: rgba(245, 158, 11, 0.14);
+  --status-warning-border: rgba(245, 158, 11, 0.35);
+
+  --status-success: #10B981;
+  --status-success-bg: rgba(16, 185, 129, 0.14);
+  --status-success-border: rgba(16, 185, 129, 0.35);
+
+  --status-info: #38BDF8;
+  --status-info-bg: rgba(56, 189, 248, 0.14);
+  --status-info-border: rgba(56, 189, 248, 0.35);
+
+  --radius: 10px;
+  --shadow-subtle: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+  --shadow-drawer: -4px 0 32px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="obsidian-gold"] {
   --bg-page: #0A0C0E;
   --bg-surface: #101317;
   --bg-card: #14181D;
-  --bg-card-subtle: #191E24;
-  --bg-card-hover: #222830;
+  --bg-card-hover: #1E232B;
   --bg-input: #0A0C0E;
-  --border-subtle: rgba(237, 231, 220, 0.13);
-  --border-strong: rgba(237, 231, 220, 0.25);
+  --bg-muted: #161A20;
+  --bg-popover: #14181D;
+  --bg-sidebar: #07080A;
+  --bg-sidebar-hover: #101317;
+  --bg-sidebar-active: #181C22;
+  --text-sidebar: #EDE7DC;
+  --text-sidebar-muted: #9EA5A8;
+
+  --border-subtle: rgba(237, 231, 220, 0.12);
+  --border-strong: rgba(237, 231, 220, 0.22);
+  --border-focus: #E8913C;
+
   --text-primary: #EDE7DC;
   --text-secondary: #9EA5A8;
   --text-muted: #6C7378;
-  --accent-primary: #E8913C;
-  --accent-secondary: #2E6B72;
-  --accent-warning: #E8913C;
-  --accent-danger: #E5484D;
+  --text-inverse: #0A0C0E;
+
+  --accent: #E8913C;
+  --accent-hover: #D07B28;
+  --accent-light: rgba(232, 145, 60, 0.14);
+  --accent-fg: #0A0C0E;
+
+  --status-danger: #E5484D;
+  --status-danger-bg: rgba(229, 72, 77, 0.14);
+  --status-danger-border: rgba(229, 72, 77, 0.35);
+
+  --status-warning: #E8913C;
+  --status-warning-bg: rgba(232, 145, 60, 0.14);
+  --status-warning-border: rgba(232, 145, 60, 0.35);
+
+  --status-success: #2E6B72;
+  --status-success-bg: rgba(46, 107, 114, 0.18);
+  --status-success-border: rgba(46, 107, 114, 0.4);
+
+  --status-info: #2E6B72;
+  --status-info-bg: rgba(46, 107, 114, 0.18);
+  --status-info-border: rgba(46, 107, 114, 0.4);
+
+  --radius: 10px;
+  --shadow-subtle: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 4px 12px 0 rgba(0, 0, 0, 0.35);
+  --shadow-drawer: -4px 0 32px rgba(0, 0, 0, 0.6);
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-page);
   color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code, pre, .font-mono {
   font-family: 'JetBrains Mono', monospace;
 }
 
-input[type=range] {
-  accent-color: #38bdf8;
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom focus outline ring for accessible keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Smooth transitions for theme switches */
-* {
-  transition-property: background-color, border-color, color;
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+body, nav, aside, header, main, div, button, input, select, textarea {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 120ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
