@@ -1,9 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import uuid
 
 class WebhookEventData(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     MonthlySalary: Optional[float] = Field(None, description="Updated monthly salary in INR/USD")
     OvertimeHoursPerMonth: Optional[float] = Field(None, ge=0, description="Monthly overtime hours")
     PerformanceRating: Optional[int] = Field(None, ge=1, le=5, description="Performance review score (1-5)")
@@ -14,9 +16,6 @@ class WebhookEventData(BaseModel):
     ProjectsHandled: Optional[int] = Field(None, ge=0, description="Active projects handled")
     BonusPct: Optional[float] = Field(None, ge=0.0, le=100.0, description="Bonus percentage")
     EngagementScore: Optional[float] = Field(None, ge=1.0, le=5.0, description="Employee engagement score")
-
-    class Config:
-        extra = "allow"
 
 class HRMSEventPayload(BaseModel):
     event_id: Optional[str] = Field(default_factory=lambda: f"evt_{uuid.uuid4().hex[:12]}")

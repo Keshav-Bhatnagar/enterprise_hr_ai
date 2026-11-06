@@ -137,7 +137,7 @@ def process_hrms_event(
             provider=event.provider,
             event_type=event.event_type,
             employee_id=event.employee_id,
-            payload=json.dumps(event.data.dict()),
+            payload=json.dumps(event.data.model_dump() if hasattr(event.data, "model_dump") else event.data.dict()),
             status="FAILED",
             error_message=f"Employee GlobalID {event.employee_id} not found in enterprise records."
         )
@@ -152,7 +152,7 @@ def process_hrms_event(
     old_prob = employee.Attrition_Prob or 0.15
 
     # 3. Apply Incoming Delta to Master Record
-    update_data = event.data.dict(exclude_unset=True)
+    update_data = event.data.model_dump(exclude_unset=True) if hasattr(event.data, "model_dump") else event.data.dict(exclude_unset=True)
     for field, val in update_data.items():
         if val is not None and hasattr(employee, field):
             setattr(employee, field, val)

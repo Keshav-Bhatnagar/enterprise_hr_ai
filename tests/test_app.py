@@ -1,8 +1,17 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from app.api.auth import get_current_user
+from app.db.models import User
 import pytest
 
 client = TestClient(app)
+
+@pytest.fixture(autouse=True)
+def override_auth():
+    """Bypass auth dependency in unit tests using FastAPI official dependency overrides."""
+    app.dependency_overrides[get_current_user] = lambda: User(id=1, username="testadmin", role="admin")
+    yield
+    app.dependency_overrides.pop(get_current_user, None)
 
 def test_missing_required_column():
     # Age is missing

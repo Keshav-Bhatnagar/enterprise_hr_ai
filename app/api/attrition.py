@@ -14,23 +14,29 @@ logger = logging.getLogger(__name__)
 
 predictor = None
 
+def get_attrition_predictor():
+    global predictor
+    if predictor is None:
+        try:
+            from app.ml.predictor import get_predictor
+            predictor = get_predictor()
+        except Exception as e:
+            logger.error(f"Failed to load Attrition Predictor: {e}")
+    return predictor
+
 @router.on_event("startup")
 def load_model():
-    global predictor
-    try:
-        predictor = AttritionPredictor()
-        logger.info("Attrition Predictor loaded successfully.")
-    except Exception as e:
-        logger.error(f"Failed to load Attrition Predictor: {e}")
+    get_attrition_predictor()
 
 @router.post("/attrition", response_model=AttritionPrediction)
 def predict_attrition(employee: EmployeeInput):
-    if predictor is None:
+    pred = get_attrition_predictor()
+    if pred is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
         
     try:
         emp_dict = employee.dict()
-        result = predictor.predict(emp_dict)
+        result = pred.predict(emp_dict)
         
         # Log prediction
         log_entry = {

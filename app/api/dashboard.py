@@ -34,10 +34,14 @@ def load_data():
 def get_summary():
     emp, _ = load_data()
     if emp.empty: return {}
+    
+    eng_col = 'EngagementScore' if 'EngagementScore' in emp.columns else ('Engagement' if 'Engagement' in emp.columns else None)
+    avg_eng = round(emp[eng_col].mean(), 1) if eng_col and not emp[eng_col].isna().all() else 3.5
+
     return {
         "total_employees": len(emp),
-        "high_risk_employees": len(emp[emp['Risk'] == 'HIGH']),
-        "average_engagement": round(emp['Engagement'].mean(), 1)
+        "high_risk_employees": len(emp[emp['Risk'] == 'HIGH']) if 'Risk' in emp.columns else 0,
+        "average_engagement": avg_eng
     }
 
 @router.get("/attrition-by-department")
