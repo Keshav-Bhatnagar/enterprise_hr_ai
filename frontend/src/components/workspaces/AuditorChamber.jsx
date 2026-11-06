@@ -10,13 +10,19 @@ import {
   Filter,
   BarChart3,
   Clock,
-  Key
+  Key,
+  Sliders
 } from 'lucide-react';
+import { downloadJsonl } from '../../utils/exportHelpers';
 
 export default function AuditorChamber() {
   const [activeSubView, setActiveSubView] = useState('logs'); // logs, bias, retention
   const [filterAction, setFilterAction] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [auditExported, setAuditExported] = useState(false);
+
+  // Interactive EEOC Impact Slider
+  const [selectionThreshold, setSelectionThreshold] = useState(80);
 
   const auditLogs = [
     {
@@ -76,6 +82,12 @@ export default function AuditorChamber() {
     }
   ];
 
+  const handleExportLedger = () => {
+    downloadJsonl(`DPDP_Audit_Ledger_${new Date().toISOString().split('T')[0]}.jsonl`, auditLogs);
+    setAuditExported(true);
+    setTimeout(() => setAuditExported(false), 3000);
+  };
+
   const filteredLogs = auditLogs.filter((log) => {
     const matchFilter = filterAction === 'ALL' || log.action.includes(filterAction);
     const matchSearch =
@@ -88,14 +100,14 @@ export default function AuditorChamber() {
 
   return (
     <div className="space-y-8 font-body text-[#EDE7DC]">
-      {/* EDITORIAL STATS ROW - DECISIONLENS LEDGER STYLE */}
-      <div className="bg-[#101317] border border-l-4 border-[rgba(237,231,220,0.13)] border-l-[#EDE7DC] rounded-sm py-5 px-6 grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[rgba(237,231,220,0.13)] shadow-xs">
+      {/* STATS LEDGER - CRAFT FLOOR COMPLIANT */}
+      <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg py-5 px-6 grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[rgba(237,231,220,0.13)]">
         <div className="py-2 md:py-0 md:px-5 first:pl-0">
           <div className="font-display text-[30px] font-bold text-[#EDE7DC] leading-tight">
             100% <span className="text-sm font-mono text-[#2E6B72]">Certified</span>
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
-            DPDP Act 2023 Sec 8(1)
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+            DPDP Act §8(1)
           </div>
         </div>
 
@@ -103,8 +115,8 @@ export default function AuditorChamber() {
           <div className="font-display text-[30px] font-bold text-[#2E6B72] leading-tight flex items-center gap-2">
             0.88 <span className="text-xs font-mono text-[#2E6B72] font-semibold">&gt; 0.80</span>
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
-            EEOC Four-Fifths Fairness
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+            EEOC Four-Fifths Ratio
           </div>
         </div>
 
@@ -112,7 +124,7 @@ export default function AuditorChamber() {
           <div className="font-display text-[30px] font-bold text-[#EDE7DC] leading-tight">
             1,420 <span className="text-sm font-mono text-[#9EA5A8]">AES-256</span>
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
             Pseudonymized Records
           </div>
         </div>
@@ -121,8 +133,8 @@ export default function AuditorChamber() {
           <div className="font-display text-[22px] font-mono font-bold text-[#E8913C] leading-tight truncate">
             SHA-256
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
-            Immutable Audit Ledger Hash
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+            Ledger Digest
           </div>
         </div>
       </div>
@@ -132,7 +144,7 @@ export default function AuditorChamber() {
         {[
           { id: 'logs', label: 'Statutory DPDP Audit Stream', icon: ShieldCheck },
           { id: 'bias', label: 'Algorithmic Fairness & Bias Review', icon: BarChart3 },
-          { id: 'retention', label: 'Data Retention & Right to be Forgotten', icon: Lock }
+          { id: 'retention', label: 'Data Retention & Section 12 Erasure', icon: Lock }
         ].map((tab) => {
           const Icon = tab.icon;
           const active = activeSubView === tab.id;
@@ -141,13 +153,13 @@ export default function AuditorChamber() {
               key={tab.id}
               type="button"
               onClick={() => setActiveSubView(tab.id)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-sm text-xs font-mono transition ${
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-mono transition min-h-[44px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#EDE7DC] ${
                 active
                   ? 'bg-[#101317] border border-[#EDE7DC] text-[#EDE7DC] font-bold'
                   : 'text-[#9EA5A8] hover:text-[#EDE7DC] hover:bg-[#101317]/60'
               }`}
             >
-              <Icon className={`size-3.5 ${active ? 'text-[#EDE7DC]' : 'text-[#6C7378]'}`} />
+              <Icon className={`size-3.5 ${active ? 'text-[#EDE7DC]' : 'text-[#9EA5A8]'}`} />
               <span>{tab.label}</span>
             </button>
           );
@@ -161,7 +173,7 @@ export default function AuditorChamber() {
             <div>
               <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Immutable Access & Audit Stream</h3>
               <p className="text-xs text-[#9EA5A8] font-mono mt-0.5">
-                Every authorization event cryptographically signed and stored in append-only storage
+                Every authorization event signed with SHA-256 and recorded in append-only storage
               </p>
             </div>
 
@@ -171,24 +183,24 @@ export default function AuditorChamber() {
                 placeholder="Search audit ID, operator, or resource..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="px-3 py-1.5 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs font-mono text-[#EDE7DC] placeholder-[#6C7378] focus:outline-none focus:border-[#EDE7DC]"
+                className="px-3 py-1.5 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs font-mono text-[#EDE7DC] placeholder-[#9EA5A8]/50 focus:outline-none focus:border-[#EDE7DC] min-h-[44px]"
               />
 
               <button
                 type="button"
-                onClick={() => alert("Exporting certified immutable audit ledger: dpdp_audit_log_20261106.jsonl")}
-                className="flex items-center gap-1.5 px-3 py-1.5 border border-[#2E6B72] text-[#2E6B72] hover:text-[#EDE7DC] hover:border-[#EDE7DC] rounded-sm text-xs font-mono font-bold transition"
+                onClick={handleExportLedger}
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-[#2E6B72] text-[#2E6B72] hover:text-[#EDE7DC] hover:border-[#EDE7DC] rounded-sm text-xs font-mono font-bold transition min-h-[44px]"
               >
                 <Download className="size-3.5" />
-                <span>Export Ledger (.JSONL)</span>
+                <span>{auditExported ? 'Ledger Exported (.JSONL)' : 'Export Ledger (.JSONL)'}</span>
               </button>
             </div>
           </div>
 
-          <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm overflow-hidden">
+          <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs font-mono">
-                <thead className="bg-[#0A0C0E] text-[#6C7378] uppercase text-[10px] tracking-wider border-b border-[rgba(237,231,220,0.13)]">
+                <thead className="bg-[#0A0C0E] text-[#9EA5A8] uppercase text-[10px] tracking-wider border-b border-[rgba(237,231,220,0.13)]">
                   <tr>
                     <th className="p-3">Audit ID</th>
                     <th className="p-3">Timestamp (UTC)</th>
@@ -203,10 +215,10 @@ export default function AuditorChamber() {
                   {filteredLogs.map((log) => (
                     <tr key={log.id} className="hover:bg-[#0A0C0E]/50 transition">
                       <td className="p-3 font-bold text-[#EDE7DC]">{log.id}</td>
-                      <td className="p-3 text-[#6C7378]">{log.timestamp}</td>
+                      <td className="p-3 text-[#9EA5A8]">{log.timestamp}</td>
                       <td className="p-3">
                         <div className="text-[#EDE7DC]">{log.operator}</div>
-                        <div className="text-[10px] text-[#6C7378]">{log.role} • {log.ip}</div>
+                        <div className="text-[10px] text-[#9EA5A8]">{log.role} • {log.ip}</div>
                       </td>
                       <td className="p-3 font-semibold text-[#EDE7DC]">{log.action}</td>
                       <td className="p-3 text-[#2E6B72]">{log.resource}</td>
@@ -221,7 +233,7 @@ export default function AuditorChamber() {
                           {log.status}
                         </span>
                       </td>
-                      <td className="p-3 text-[10px] text-[#6C7378] font-mono truncate max-w-[120px]">
+                      <td className="p-3 text-[10px] text-[#9EA5A8] font-mono truncate max-w-[120px]">
                         {log.sha256}
                       </td>
                     </tr>
@@ -237,7 +249,7 @@ export default function AuditorChamber() {
       {activeSubView === 'bias' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-5">
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-5">
               <h3 className="font-display text-lg font-bold text-[#EDE7DC]">EEOC Four-Fifths (80%) Fairness Audit</h3>
               <p className="text-xs text-[#9EA5A8] font-mono">
                 Mandatory bias auditing for machine learning models (XGBoost Retention & ATS Resume Scoring)
@@ -246,7 +258,7 @@ export default function AuditorChamber() {
               <div className="space-y-4 pt-2">
                 {[
                   { metric: 'Gender Disparate Impact Ratio', score: 0.91, benchmark: '0.80', status: 'PASS', desc: 'Selection rate of females vs males in ATS hiring' },
-                  { metric: 'Age Demographic Parity (&gt;40 vs &lt;40)', score: 0.86, benchmark: '0.80', status: 'PASS', desc: 'Retention intervention proposal distribution' },
+                  { metric: 'Age Demographic Parity (>40 vs <40)', score: 0.86, benchmark: '0.80', status: 'PASS', desc: 'Retention intervention proposal distribution' },
                   { metric: 'Department Compensation Equity Index', score: 0.88, benchmark: '0.80', status: 'PASS', desc: 'Internal salary band variance across equal tiers' }
                 ].map((item, idx) => (
                   <div key={idx} className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-2">
@@ -259,7 +271,7 @@ export default function AuditorChamber() {
                     <div className="h-2 w-full bg-[#101317] rounded-full overflow-hidden">
                       <div className="h-full bg-[#2E6B72]" style={{ width: `${item.score * 100}%` }}></div>
                     </div>
-                    <div className="text-[11px] text-[#6C7378] font-body">{item.desc}</div>
+                    <div className="text-[11px] text-[#9EA5A8] font-body">{item.desc}</div>
                   </div>
                 ))}
               </div>
@@ -267,22 +279,22 @@ export default function AuditorChamber() {
           </div>
 
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-4">
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-4">
               <h4 className="font-display font-bold text-[#EDE7DC] text-base">Model Governance Certificate</h4>
               <p className="text-xs text-[#9EA5A8] leading-relaxed">
                 Retention model ROC-AUC 1.0 calibrated against historical enterprise dataset without protected class features.
               </p>
               <div className="p-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-2 text-xs font-mono">
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Model ID:</span>
+                  <span className="text-[#9EA5A8]">Model ID:</span>
                   <span className="text-[#EDE7DC]">XGB-V2-STABLE</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Protected Features:</span>
+                  <span className="text-[#9EA5A8]">Protected Features:</span>
                   <span className="text-[#2E6B72]">ZERO (Strictly Excluded)</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Audited By:</span>
+                  <span className="text-[#9EA5A8]">Audited By:</span>
                   <span className="text-[#EDE7DC]">Adv. Rajiv Nair (DPO)</span>
                 </div>
               </div>
@@ -294,7 +306,7 @@ export default function AuditorChamber() {
       {/* VIEW 3: DATA RETENTION & ANONYMIZATION */}
       {activeSubView === 'retention' && (
         <div className="space-y-6">
-          <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-5">
+          <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-5">
             <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Right to be Forgotten & Retention Schedule</h3>
             <p className="text-xs text-[#9EA5A8] font-mono">
               Statutory compliance under DPDP Section 12 (Erasure of Personal Data)
@@ -304,19 +316,19 @@ export default function AuditorChamber() {
               <div className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-2">
                 <div className="text-[10.5px] font-mono text-[#9EA5A8] uppercase">Pending Erasure Requests</div>
                 <div className="text-2xl font-display font-bold text-[#EDE7DC]">0 <span className="text-xs font-mono text-[#2E6B72]">Clean Queue</span></div>
-                <p className="text-[11px] text-[#6C7378]">Zero outstanding employee data deletion requests.</p>
+                <p className="text-[11px] text-[#9EA5A8]">Zero outstanding employee data deletion requests.</p>
               </div>
 
               <div className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-2">
                 <div className="text-[10.5px] font-mono text-[#9EA5A8] uppercase">Retention Lifecycle Policy</div>
                 <div className="text-2xl font-display font-bold text-[#EDE7DC]">7 Years</div>
-                <p className="text-[11px] text-[#6C7378]">Tax and payroll logs archived; candidate resumes purged at 180 days.</p>
+                <p className="text-[11px] text-[#9EA5A8]">Tax and payroll logs archived; candidate resumes purged at 180 days.</p>
               </div>
 
               <div className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-2">
                 <div className="text-[10.5px] font-mono text-[#9EA5A8] uppercase">Pseudonymization Key</div>
                 <div className="text-2xl font-display font-bold text-[#EDE7DC]">HSM Rotated</div>
-                <p className="text-[11px] text-[#6C7378]">Hardware security module keys rotated every 90 days.</p>
+                <p className="text-[11px] text-[#9EA5A8]">Hardware security module keys rotated every 90 days.</p>
               </div>
             </div>
           </div>
@@ -325,4 +337,3 @@ export default function AuditorChamber() {
     </div>
   );
 }
-

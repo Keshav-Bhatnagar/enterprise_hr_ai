@@ -12,8 +12,10 @@ import {
   Sparkles,
   TrendingUp,
   User,
-  Users
+  Users,
+  HeartHandshake
 } from 'lucide-react';
+import { downloadPayslipReceipt, downloadFile } from '../../utils/exportHelpers';
 
 export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
   const [activeSubView, setActiveSubView] = useState('overview'); // overview, leaves, compensation, pulse
@@ -34,6 +36,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
   const [pulseCategory, setPulseCategory] = useState('Work-Life Balance');
   const [pulseComment, setPulseComment] = useState('');
   const [pulseSubmitted, setPulseSubmitted] = useState(false);
+  const [dataExported, setDataExported] = useState(false);
 
   const handleLeaveSubmit = (e) => {
     e.preventDefault();
@@ -67,15 +70,38 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
     }, 3500);
   };
 
+  const handleExportData = () => {
+    const personalRecord = {
+      employee_id: "EMP_8A34",
+      legal_entity: "Enterprise HR AI Systems Pvt Ltd",
+      dpdp_compliance: "Indian Digital Personal Data Protection Act 2023 Sec 12",
+      data_fiduciary: "Enterprise HR Systems",
+      profile: {
+        pseudonymized_name: "V*** R***",
+        department: "AI Research",
+        job_role: "Principal AI Systems Scientist",
+        tenure_years: 3.1,
+        statutory_pf_account: "101994821092"
+      },
+      leave_ledger: appliedLeaves,
+      monthly_gross: 155000,
+      monthly_net: 142850,
+      exported_at: new Date().toISOString()
+    };
+    downloadFile('Personal_Data_Export_EMP_8A34.json', JSON.stringify(personalRecord, null, 2), 'application/json');
+    setDataExported(true);
+    setTimeout(() => setDataExported(false), 3000);
+  };
+
   return (
     <div className="space-y-8 font-body text-[#EDE7DC]">
-      {/* EDITORIAL STATS ROW - DECISIONLENS LEDGER STYLE */}
-      <div className="bg-[#101317] border border-l-4 border-[rgba(237,231,220,0.13)] border-l-[#E8913C] rounded-sm py-5 px-6 grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[rgba(237,231,220,0.13)] shadow-xs">
+      {/* STATS LEDGER - CRAFT FLOOR COMPLIANT (ELEVATION DECLARED ONCE) */}
+      <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg py-5 px-6 grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[rgba(237,231,220,0.13)]">
         <div className="py-2 md:py-0 md:px-5 first:pl-0">
           <div className="font-display text-[30px] font-bold text-[#EDE7DC] leading-tight">
             18 <span className="text-sm font-body text-[#9EA5A8] font-normal">/ 24</span>
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
             Available PTO Days
           </div>
         </div>
@@ -84,8 +110,8 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
           <div className="font-display text-[30px] font-bold text-[#2E6B72] leading-tight">
             ₹1,42,850
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
-            Monthly Net Salary (Nov)
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+            Monthly Net Salary (Oct)
           </div>
         </div>
 
@@ -93,8 +119,8 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
           <div className="font-display text-[30px] font-bold text-[#EDE7DC] leading-tight flex items-center gap-1.5">
             4.9 <span className="text-xs font-mono text-[#E8913C] font-semibold">Exceeds</span>
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
-            Performance Calibration
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+            Performance Score
           </div>
         </div>
 
@@ -102,18 +128,18 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
           <div className="font-display text-[22px] font-semibold text-[#EDE7DC] leading-tight truncate">
             Kavita Desai
           </div>
-          <div className="text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#9EA5A8] mt-1">
-            Reporting Manager (Eng)
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+            Reporting Manager
           </div>
         </div>
       </div>
 
-      {/* SUBVIEW SELECTOR - CALM & FOCUSED */}
+      {/* SUBVIEW SELECTOR */}
       <div className="flex items-center gap-2 border-b border-[rgba(237,231,220,0.13)] pb-3">
         {[
           { id: 'overview', label: 'My Workstation & Leaves', icon: Calendar },
           { id: 'compensation', label: 'Compensation & Pay Slips', icon: FileText },
-          { id: 'pulse', label: 'Confidential Pulse & DPDP Privacy', icon: ShieldCheck }
+          { id: 'pulse', label: 'Wellbeing & DPDP Consent', icon: ShieldCheck }
         ].map((tab) => {
           const Icon = tab.icon;
           const active = activeSubView === tab.id;
@@ -122,13 +148,13 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
               key={tab.id}
               type="button"
               onClick={() => setActiveSubView(tab.id)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-sm text-xs font-mono transition ${
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-mono transition min-h-[44px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E8913C] ${
                 active
                   ? 'bg-[#101317] border border-[#E8913C] text-[#EDE7DC] font-bold'
                   : 'text-[#9EA5A8] hover:text-[#EDE7DC] hover:bg-[#101317]/60'
               }`}
             >
-              <Icon className={`size-3.5 ${active ? 'text-[#E8913C]' : 'text-[#6C7378]'}`} />
+              <Icon className={`size-3.5 ${active ? 'text-[#E8913C]' : 'text-[#9EA5A8]'}`} />
               <span>{tab.label}</span>
             </button>
           );
@@ -138,12 +164,11 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
       {/* VIEW 1: MY WORKSTATION & LEAVES */}
       {activeSubView === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* LEFT: LEAVE HISTORY & ALLOCATIONS (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-5">
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-5">
               <div className="flex items-center justify-between border-b border-[rgba(237,231,220,0.13)] pb-3">
                 <div>
-                  <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Leave Ledger & Requests</h3>
+                  <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Leave Ledger</h3>
                   <p className="text-xs text-[#9EA5A8] mt-0.5 font-mono">
                     Statutory Leave Accrual for FY 2026-27 • Section 22 Compliant
                   </p>
@@ -153,23 +178,21 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                 </span>
               </div>
 
-              {/* Leave categories chips */}
               <div className="grid grid-cols-3 gap-3">
                 <div className="p-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm">
                   <div className="text-[10px] font-mono text-[#9EA5A8] uppercase">Privilege (PTO)</div>
-                  <div className="text-xl font-display font-bold text-[#EDE7DC] mt-1">14 <span className="text-xs font-mono text-[#6C7378]">days left</span></div>
+                  <div className="text-xl font-display font-bold text-[#EDE7DC] mt-1">14 <span className="text-xs font-mono text-[#9EA5A8]">days left</span></div>
                 </div>
                 <div className="p-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm">
                   <div className="text-[10px] font-mono text-[#9EA5A8] uppercase">Casual Leave</div>
-                  <div className="text-xl font-display font-bold text-[#EDE7DC] mt-1">4 <span className="text-xs font-mono text-[#6C7378]">days left</span></div>
+                  <div className="text-xl font-display font-bold text-[#EDE7DC] mt-1">4 <span className="text-xs font-mono text-[#9EA5A8]">days left</span></div>
                 </div>
                 <div className="p-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm">
                   <div className="text-[10px] font-mono text-[#9EA5A8] uppercase">Medical / Sick</div>
-                  <div className="text-xl font-display font-bold text-[#EDE7DC] mt-1">8 <span className="text-xs font-mono text-[#6C7378]">days left</span></div>
+                  <div className="text-xl font-display font-bold text-[#EDE7DC] mt-1">8 <span className="text-xs font-mono text-[#9EA5A8]">days left</span></div>
                 </div>
               </div>
 
-              {/* Table of Applied Leaves */}
               <div className="space-y-3 pt-2">
                 <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#9EA5A8]">
                   Recent Leave Requests
@@ -184,7 +207,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                             {leave.days} {leave.days === 1 ? 'day' : 'days'}
                           </span>
                         </div>
-                        <div className="text-[11px] font-mono text-[#6C7378]">
+                        <div className="text-[11px] font-mono text-[#9EA5A8]">
                           {leave.dates} • Applied: {leave.dateApplied}
                         </div>
                       </div>
@@ -201,7 +224,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                         >
                           {leave.status}
                         </span>
-                        <div className="text-[10px] font-mono text-[#6C7378]">
+                        <div className="text-[10px] font-mono text-[#9EA5A8]">
                           Approver: {leave.approver}
                         </div>
                       </div>
@@ -212,20 +235,19 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
             </div>
           </div>
 
-          {/* RIGHT: LEAVE APPLICATION FORM (5 Cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-5">
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-5">
               <div className="border-b border-[rgba(237,231,220,0.13)] pb-3">
                 <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Apply for Leave</h3>
                 <p className="text-xs text-[#9EA5A8] mt-0.5 font-mono">
-                  Submitted directly to Manager Kavita Desai
+                  Routes directly to Manager Kavita Desai
                 </p>
               </div>
 
               {submitSuccess && (
                 <div className="p-3 rounded-sm bg-[#2E6B72]/20 border border-[#2E6B72] text-[#EDE7DC] text-xs font-mono flex items-center gap-2">
                   <CheckCircle2 className="size-4 text-[#2E6B72]" />
-                  <span>Leave request logged successfully! Routing for manager sign-off.</span>
+                  <span>Leave request logged! Manager notified.</span>
                 </div>
               )}
 
@@ -237,12 +259,12 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                   <select
                     value={leaveType}
                     onChange={(e) => setLeaveType(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C]"
+                    className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C] min-h-[44px]"
                   >
                     <option value="Privilege Leave (PTO)">Privilege Leave (PTO) - 14 available</option>
                     <option value="Casual Leave">Casual Leave (CL) - 4 available</option>
                     <option value="Medical / Sick Leave">Medical / Sick Leave - 8 available</option>
-                    <option value="Compensatory Off">Compensatory Off (Weekend project release)</option>
+                    <option value="Compensatory Off">Compensatory Off (Release deployment)</option>
                   </select>
                 </div>
 
@@ -255,7 +277,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C]"
+                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C] min-h-[44px]"
                     />
                   </div>
                   <div>
@@ -266,7 +288,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C]"
+                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C] min-h-[44px]"
                     />
                   </div>
                 </div>
@@ -281,29 +303,29 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                     max="14"
                     value={leaveDays}
                     onChange={(e) => setLeaveDays(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C]"
+                    className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C] min-h-[44px]"
                   />
                 </div>
 
                 <div>
                   <label className="block text-[11px] font-mono text-[#9EA5A8] uppercase mb-1">
-                    Reason / Handover Context
+                    Context / Handover
                   </label>
                   <textarea
                     rows="3"
                     value={leaveReason}
                     onChange={(e) => setLeaveReason(e.target.value)}
-                    placeholder="e.g. Annual family travel; on-call coverage coordinated with Ananya."
-                    className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] placeholder-[#6C7378] focus:outline-none focus:border-[#E8913C]"
+                    placeholder="e.g. Personal recharge; handover coordinated with platform team."
+                    className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] placeholder-[#9EA5A8]/50 focus:outline-none focus:border-[#E8913C]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 px-4 bg-[#EDE7DC] text-[#0A0C0E] hover:bg-[#E8913C] hover:text-[#0A0C0E] font-mono text-xs font-bold uppercase tracking-wider rounded-sm transition flex items-center justify-center gap-2"
+                  className="w-full py-2.5 px-4 bg-[#EDE7DC] text-[#0A0C0E] hover:bg-[#E8913C] hover:text-[#0A0C0E] font-mono text-xs font-bold uppercase tracking-wider rounded-sm transition flex items-center justify-center gap-2 min-h-[44px]"
                 >
                   <Send className="size-3.5" />
-                  <span>Submit Leave Request</span>
+                  <span>Submit Request</span>
                 </button>
               </form>
             </div>
@@ -315,7 +337,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
       {activeSubView === 'compensation' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-6">
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-[rgba(237,231,220,0.13)] pb-4">
                 <div>
                   <h3 className="font-display text-xl font-bold text-[#EDE7DC]">Salary & Compensation Statement</h3>
@@ -325,17 +347,15 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                 </div>
                 <button
                   type="button"
-                  onClick={() => alert("Downloading encrypted salary slip PDF: Payslip_Vikramaditya_Rao_Oct2026.pdf")}
-                  className="flex items-center gap-2 px-3.5 py-2 border border-[#2E6B72] text-[#2E6B72] hover:text-[#EDE7DC] hover:border-[#EDE7DC] rounded-sm text-xs font-mono font-bold transition"
+                  onClick={() => downloadPayslipReceipt(currentUser || { name: 'Vikramaditya Rao' })}
+                  className="flex items-center gap-2 px-3.5 py-2 border border-[#2E6B72] text-[#2E6B72] hover:text-[#EDE7DC] hover:border-[#EDE7DC] rounded-sm text-xs font-mono font-bold transition min-h-[44px]"
                 >
                   <Download className="size-3.5" />
-                  <span>Download Payslip (.PDF)</span>
+                  <span>Download Payslip (.TXT)</span>
                 </button>
               </div>
 
-              {/* Itemized Table */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Earnings */}
                 <div className="space-y-3">
                   <div className="text-xs font-mono uppercase tracking-wider text-[#2E6B72] font-bold border-b border-[rgba(237,231,220,0.13)] pb-1">
                     Gross Earnings
@@ -358,13 +378,12 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                       <span className="text-[#EDE7DC] font-bold">₹10,000</span>
                     </div>
                     <div className="flex justify-between pt-2 text-sm font-bold text-[#EDE7DC]">
-                      <span>Total Gross Earnings</span>
+                      <span>Total Gross</span>
                       <span className="text-[#2E6B72]">₹1,55,000</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Deductions */}
                 <div className="space-y-3">
                   <div className="text-xs font-mono uppercase tracking-wider text-[#E8913C] font-bold border-b border-[rgba(237,231,220,0.13)] pb-1">
                     Statutory Deductions
@@ -390,14 +409,13 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                 </div>
               </div>
 
-              {/* Net Transfer Box */}
               <div className="p-4 rounded-sm bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] flex items-center justify-between">
                 <div>
                   <div className="text-[10px] font-mono text-[#9EA5A8] uppercase tracking-wider">
-                    Net Monthly Disbursement Credited to Bank Account
+                    Net Monthly Disbursement
                   </div>
                   <div className="text-2xl font-display font-bold text-[#EDE7DC] mt-0.5">
-                    ₹1,42,850 <span className="text-xs font-mono text-[#6C7378] font-normal">(One Lakh Forty Two Thousand Eight Hundred Fifty)</span>
+                    ₹1,42,850
                   </div>
                 </div>
                 <div className="text-right text-xs font-mono text-[#2E6B72]">
@@ -408,22 +426,22 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
           </div>
 
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-4">
-              <h4 className="font-display font-bold text-[#EDE7DC] text-base">Annual Tax & PF Statement</h4>
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-4">
+              <h4 className="font-display font-bold text-[#EDE7DC] text-base">Tax & PF Identifiers</h4>
               <p className="text-xs text-[#9EA5A8] leading-relaxed">
-                Your annual CTC is <strong className="text-[#EDE7DC]">₹18,60,000</strong>. Your Form 16 Part A & B is certified under Indian Income Tax Act 1961.
+                Annual CTC: <strong className="text-[#EDE7DC]">₹18,60,000</strong>. Form 16 certified under Indian Income Tax Act 1961.
               </p>
               <div className="p-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-2 text-xs font-mono">
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">UAN Number:</span>
+                  <span className="text-[#9EA5A8]">UAN Number:</span>
                   <span className="text-[#EDE7DC]">101994821092</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">PAN (Masked):</span>
+                  <span className="text-[#9EA5A8]">PAN (Masked):</span>
                   <span className="text-[#EDE7DC]">ABC*****9F</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Tax Scheme:</span>
+                  <span className="text-[#9EA5A8]">Tax Regime:</span>
                   <span className="text-[#2E6B72]">Section 115BAC (New)</span>
                 </div>
               </div>
@@ -432,15 +450,15 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
         </div>
       )}
 
-      {/* VIEW 3: CONFIDENTIAL PULSE & PRIVACY */}
+      {/* VIEW 3: CONFIDENTIAL WELLBEING & DPDP CONSENT */}
       {activeSubView === 'pulse' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-5">
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-5">
               <div className="border-b border-[rgba(237,231,220,0.13)] pb-3">
-                <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Monthly Anonymous Pulse Survey</h3>
+                <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Confidential Wellbeing Pulse</h3>
                 <p className="text-xs text-[#9EA5A8] mt-0.5 font-mono">
-                  Guaranteed confidential under DPDP Act §6 • Encrypted end-to-end
+                  Anonymous & encrypted under DPDP Act §6 • Aggregated with 40+ engineering peers
                 </p>
               </div>
 
@@ -448,10 +466,10 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                 <div className="p-4 rounded-sm bg-[#2E6B72]/20 border border-[#2E6B72] text-[#EDE7DC] text-xs font-mono space-y-1">
                   <div className="flex items-center gap-2 font-bold text-[#2E6B72]">
                     <CheckCircle2 className="size-4" />
-                    <span>Response cryptographically tokenized and recorded!</span>
+                    <span>Response cryptographically tokenized!</span>
                   </div>
                   <p className="text-[#9EA5A8]">
-                    Your feedback is aggregated with 40+ engineering peers to eliminate deanonymization risks.
+                    Your feedback is processed anonymously to protect team psychological safety.
                   </p>
                 </div>
               ) : (
@@ -463,7 +481,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                     <select
                       value={pulseCategory}
                       onChange={(e) => setPulseCategory(e.target.value)}
-                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C]"
+                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] focus:outline-none focus:border-[#E8913C] min-h-[44px]"
                     >
                       <option value="Work-Life Balance">Work-Life Balance & Sustainable Hours</option>
                       <option value="Project Alignment">Project Realignment & Technical Roadblocks</option>
@@ -482,7 +500,7 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                           key={val}
                           type="button"
                           onClick={() => setPulseRating(val)}
-                          className={`flex-1 py-2 text-xs font-mono font-bold rounded-sm border transition ${
+                          className={`flex-1 py-2 text-xs font-mono font-bold rounded-sm border transition min-h-[44px] ${
                             pulseRating === val
                               ? 'bg-[#E8913C] text-[#0A0C0E] border-[#E8913C]'
                               : 'bg-[#0A0C0E] text-[#9EA5A8] border-[rgba(237,231,220,0.13)] hover:text-[#EDE7DC]'
@@ -503,16 +521,16 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
                       value={pulseComment}
                       onChange={(e) => setPulseComment(e.target.value)}
                       placeholder="e.g. Cluster GPU allocation queue is slowing research velocity; need dedicated H100 access."
-                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] placeholder-[#6C7378] focus:outline-none focus:border-[#E8913C]"
+                      className="w-full px-3 py-2 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm text-xs text-[#EDE7DC] placeholder-[#9EA5A8]/50 focus:outline-none focus:border-[#E8913C]"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-2.5 px-4 bg-[#EDE7DC] text-[#0A0C0E] hover:bg-[#2E6B72] hover:text-[#EDE7DC] font-mono text-xs font-bold uppercase tracking-wider rounded-sm transition flex items-center justify-center gap-2"
+                    className="w-full py-2.5 px-4 bg-[#EDE7DC] text-[#0A0C0E] hover:bg-[#2E6B72] hover:text-[#EDE7DC] font-mono text-xs font-bold uppercase tracking-wider rounded-sm transition flex items-center justify-center gap-2 min-h-[44px]"
                   >
                     <Send className="size-3.5" />
-                    <span>Submit Anonymous Pulse</span>
+                    <span>Submit Anonymous Feedback</span>
                   </button>
                 </form>
               )}
@@ -520,31 +538,39 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
           </div>
 
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-sm p-6 space-y-4">
+            <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-4">
               <h4 className="font-display font-bold text-[#EDE7DC] text-base flex items-center gap-2">
                 <ShieldCheck className="size-4 text-[#2E6B72]" />
-                <span>DPDP Act 2023 Identity Shield</span>
+                <span>Statutory DPDP Act Rights Center</span>
               </h4>
               <p className="text-xs text-[#9EA5A8] leading-relaxed">
-                Under the Indian Digital Personal Data Protection Act 2023, your personal identity is shielded by automated pseudonymization.
+                Under Section 12 of the Indian DPDP Act 2023, you retain ownership of your personal data and right to export.
               </p>
+
               <div className="p-3.5 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-2 text-xs font-mono">
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Pseudonymized ID:</span>
+                  <span className="text-[#9EA5A8]">Pseudonymized ID:</span>
                   <span className="text-[#EDE7DC] font-bold">EMP_8A34</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Masked Name:</span>
+                  <span className="text-[#9EA5A8]">Masked Name:</span>
                   <span className="text-[#EDE7DC]">V*** R***</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Consent Granted:</span>
+                  <span className="text-[#9EA5A8]">Consent Status:</span>
                   <span className="text-[#2E6B72] font-semibold">Active (HR Operations)</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-[#6C7378]">Data Fiduciary:</span>
-                  <span className="text-[#EDE7DC]">Enterprise HR AI Ltd.</span>
-                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={handleExportData}
+                  className="w-full py-2 px-3 border border-[#2E6B72] text-[#2E6B72] hover:text-[#EDE7DC] hover:border-[#EDE7DC] text-xs font-mono font-bold rounded-sm transition flex items-center justify-center gap-2 min-h-[44px]"
+                >
+                  <Download className="size-3.5" />
+                  <span>{dataExported ? 'Data Exported (.JSON)' : 'Export My Personal Data (.JSON)'}</span>
+                </button>
               </div>
             </div>
           </div>
@@ -553,4 +579,3 @@ export default function EmployeeWorkstation({ currentUser, onApplyLeave }) {
     </div>
   );
 }
-
