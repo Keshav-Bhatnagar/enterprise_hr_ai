@@ -100,7 +100,7 @@ export function DataTable({
         <div className="overflow-x-auto max-h-[580px]">
           <table className="w-full text-left text-xs">
             <thead
-              className={`border-b border-border-subtle bg-muted/80 backdrop-blur-sm text-text-secondary font-mono uppercase text-[10.5px] tracking-wider select-none ${
+              className={`border-b border-border-subtle bg-muted text-text-secondary font-mono uppercase text-[10.5px] tracking-wider select-none ${
                 stickyHeader ? 'sticky top-0 z-10' : ''
               }`}
             >
@@ -218,3 +218,4 @@ export function DataTable({
 }
 
 export default DataTable;
+

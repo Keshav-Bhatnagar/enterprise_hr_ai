@@ -1,11 +1,11 @@
 import React, { useRef, useState, useMemo, Suspense } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { RotateCw, Activity, ArrowUpRight } from 'lucide-react';
+import { Activity, ArrowUpRight, Grid3X3, Eye, Compass } from 'lucide-react';
 import { RiskBadge, Button } from './primitives';
 
-// 3D coordinate mapping
+// 3D coordinate mapping: Perf (X), Potential (Y), Flight Risk (Z)
 function mapTo3D(perf, pot, risk) {
   const x = ((perf - 1) / 4) * 3.6 - 1.8;
   const y = ((pot - 1) / 4) * 3.6 - 1.8;
@@ -13,17 +13,33 @@ function mapTo3D(perf, pot, risk) {
   return [x, y, z];
 }
 
-function PrismScene({ employees, onSelectEmployee, hoveredEmp, setHoveredEmp, autoRotate }) {
+// Camera controller component inside Canvas
+function CameraController({ cameraView }) {
+  const { camera } = useThree();
+
+  React.useEffect(() => {
+    if (cameraView === 'classic-9box') {
+      camera.position.set(0, 7.2, 0.01);
+      camera.up.set(0, 0, -1);
+    } else if (cameraView === 'risk-profile') {
+      camera.position.set(7.5, 0, 0);
+      camera.up.set(0, 1, 0);
+    } else {
+      // Default: Isometric 3D
+      camera.position.set(4.8, 3.8, 5.8);
+      camera.up.set(0, 1, 0);
+    }
+    camera.lookAt(0, 0, 0);
+  }, [cameraView, camera]);
+
+  return null;
+}
+
+function PrismScene({ employees, onSelectEmployee, hoveredEmp, setHoveredEmp, cameraView }) {
   const controlsRef = useRef();
   const groupRef = useRef();
 
-  useFrame((_, delta) => {
-    if (autoRotate && groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.15;
-    }
-  });
-
-  // Safe color resolver reading CSS variables / standard hex
+  // Theme-safe contrast colors
   const colors = useMemo(() => {
     return {
       high: '#E11D48',
@@ -37,10 +53,12 @@ function PrismScene({ employees, onSelectEmployee, hoveredEmp, setHoveredEmp, au
 
   return (
     <>
+      <CameraController cameraView={cameraView} />
       <ambientLight intensity={1.2} />
       <directionalLight position={[6, 8, 6]} intensity={1.5} color="#ffffff" />
       <directionalLight position={[-6, -4, -4]} intensity={0.8} color="#38bdf8" />
 
+      {/* Static Group without any continuous auto-rotation */}
       <group ref={groupRef}>
         {/* 1. Volumetric 4x4x4 Bounding Wireframe Cube */}
         <lineSegments>
@@ -54,7 +72,7 @@ function PrismScene({ employees, onSelectEmployee, hoveredEmp, setHoveredEmp, au
         {/* 3. Translucent Danger Zone Plane (Z = 1.0 for Risk > 75%) */}
         <mesh position={[0, 0, 1.0]}>
           <planeGeometry args={[4, 4]} />
-          <meshBasicMaterial color={colors.dangerPlane} transparent opacity={0.1} side={THREE.DoubleSide} />
+          <meshBasicMaterial color={colors.dangerPlane} transparent opacity={0.12} side={THREE.DoubleSide} />
         </mesh>
         <lineSegments position={[0, 0, 1.0]}>
           <edgesGeometry args={[new THREE.PlaneGeometry(4, 4)]} />
@@ -127,12 +145,14 @@ function PrismScene({ employees, onSelectEmployee, hoveredEmp, setHoveredEmp, au
         })}
       </group>
 
+      {/* OrbitControls: smooth damping, user manual control only (no auto-spin) */}
       <OrbitControls
         ref={controlsRef}
         enableDamping
-        dampingFactor={0.05}
+        dampingFactor={0.06}
         minDistance={3}
-        maxDistance={12}
+        maxDistance={14}
+        makeDefault
       />
     </>
   );
@@ -140,10 +160,10 @@ function PrismScene({ employees, onSelectEmployee, hoveredEmp, setHoveredEmp, au
 
 export function TalentPrism3D({ employees = [], onSelectEmployee }) {
   const [hoveredEmp, setHoveredEmp] = useState(null);
-  const [autoRotate, setAutoRotate] = useState(true);
+  const [cameraView, setCameraView] = useState('isometric'); // 'isometric' | 'classic-9box' | 'risk-profile'
 
   return (
-    <div className="relative w-full h-[520px] rounded-enterprise border border-border-subtle bg-slate-950/95 overflow-hidden shadow-card">
+    <div className="relative w-full h-[540px] rounded-enterprise border border-border-strong bg-slate-950 overflow-hidden shadow-card">
       {/* 3D Canvas */}
       <Canvas
         camera={{ position: [4.8, 3.8, 5.8], fov: 45 }}
@@ -157,14 +177,14 @@ export function TalentPrism3D({ employees = [], onSelectEmployee }) {
             onSelectEmployee={onSelectEmployee}
             hoveredEmp={hoveredEmp}
             setHoveredEmp={setHoveredEmp}
-            autoRotate={autoRotate}
+            cameraView={cameraView}
           />
         </Suspense>
       </Canvas>
 
-      {/* Top Left HUD: Legend & Axes */}
-      <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
-        <div className="flex items-center gap-2 p-1.5 rounded-enterprise bg-surface/90 backdrop-blur-md border border-border-subtle text-xs font-mono">
+      {/* Top Left HUD: Title & 3D Axes Legend */}
+      <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 pointer-events-auto">
+        <div className="flex items-center gap-2 p-1.5 rounded-enterprise bg-card border border-border-strong text-xs font-mono shadow-md">
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted text-accent font-bold">
             <Activity className="size-3.5" />
             <span>3D TALENT PRISM</span>
@@ -173,25 +193,51 @@ export function TalentPrism3D({ employees = [], onSelectEmployee }) {
         </div>
       </div>
 
-      {/* Top Right HUD: Auto-rotation toggle */}
-      <div className="absolute top-4 right-4 z-10">
-        <button
-          type="button"
-          onClick={() => setAutoRotate(!autoRotate)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-enterprise font-mono text-[11px] font-bold uppercase transition border backdrop-blur-md ${
-            autoRotate
-              ? 'bg-surface/90 text-accent border-accent/40 shadow-subtle'
-              : 'bg-surface/80 text-text-muted border-border-subtle hover:text-text-primary'
-          }`}
-        >
-          <RotateCw className={`size-3.5 ${autoRotate ? 'animate-spin' : ''}`} style={{ animationDuration: '4s' }} />
-          <span>{autoRotate ? 'Rotating' : 'Paused'}</span>
-        </button>
+      {/* Top Right HUD: Perspective View Switcher (Static, Clean Presets - NO Dumb Auto-Rotation) */}
+      <div className="absolute top-4 right-4 z-10 pointer-events-auto">
+        <div className="inline-flex p-1 rounded-enterprise bg-card border border-border-strong shadow-md text-xs font-mono">
+          <button
+            type="button"
+            onClick={() => setCameraView('isometric')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition ${
+              cameraView === 'isometric'
+                ? 'bg-accent text-accent-fg font-bold shadow-subtle'
+                : 'text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <Compass className="size-3.5" />
+            <span>Isometric</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setCameraView('classic-9box')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition ${
+              cameraView === 'classic-9box'
+                ? 'bg-accent text-accent-fg font-bold shadow-subtle'
+                : 'text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <Grid3X3 className="size-3.5" />
+            <span>Top (9-Box)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setCameraView('risk-profile')}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition ${
+              cameraView === 'risk-profile'
+                ? 'bg-accent text-accent-fg font-bold shadow-subtle'
+                : 'text-text-muted hover:text-text-primary'
+            }`}
+          >
+            <Eye className="size-3.5" />
+            <span>Side (Risk)</span>
+          </button>
+        </div>
       </div>
 
       {/* Bottom Left HUD: Hover Tooltip Overlay (DOM overlay) */}
       {hoveredEmp && (
-        <div className="absolute bottom-4 left-4 z-10 max-w-xs w-full p-4 rounded-enterprise bg-surface/95 backdrop-blur-md border border-border-strong shadow-drawer text-xs font-mono space-y-2 animate-in fade-in duration-150">
+        <div className="absolute bottom-4 left-4 z-10 max-w-xs w-full p-4 rounded-enterprise bg-card border border-border-strong shadow-2xl text-xs font-mono space-y-2 animate-in fade-in duration-150">
           <div className="flex items-center justify-between pb-1.5 border-b border-border-subtle">
             <span className="font-bold text-text-primary text-sm truncate">{hoveredEmp.name}</span>
             <RiskBadge
@@ -228,7 +274,7 @@ export function TalentPrism3D({ employees = [], onSelectEmployee }) {
       )}
 
       {/* Bottom Right HUD: Legend */}
-      <div className="absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-enterprise bg-surface/90 backdrop-blur-md border border-border-subtle text-[11px] font-mono text-text-secondary">
+      <div className="absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-3 px-3 py-1.5 rounded-enterprise bg-card border border-border-strong text-[11px] font-mono text-text-secondary shadow-md">
         <div className="flex items-center gap-1.5">
           <span className="size-2 rounded-full bg-status-danger" />
           <span>Flight Danger (&gt;75%)</span>

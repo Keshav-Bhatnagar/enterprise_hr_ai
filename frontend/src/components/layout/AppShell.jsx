@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -43,8 +43,37 @@ export function AppShell({
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
 
+  const userMenuRef = useRef(null);
+  const themeMenuRef = useRef(null);
+
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Click-outside listener & Escape handler for topbar dropdowns
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+      if (themeMenuRef.current && !themeMenuRef.current.contains(event.target)) {
+        setThemeMenuOpen(false);
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        setUserMenuOpen(false);
+        setThemeMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // Save sidebar collapse state
   useEffect(() => {
@@ -191,7 +220,7 @@ export function AppShell({
           </nav>
 
           {/* User Profile & Role Card in Sidebar Footer */}
-          <div className="p-3 border-t border-border-subtle/40 bg-sidebar/50">
+          <div className="p-3 border-t border-border-subtle/40 bg-sidebar">
             {!sidebarCollapsed ? (
               <div className="flex items-center justify-between p-2 rounded-enterprise bg-sidebar-hover">
                 <div className="flex items-center gap-2.5 truncate">
@@ -215,7 +244,10 @@ export function AppShell({
         {/* MAIN BODY AREA */}
         <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
           {/* TOPBAR */}
-          <header className="sticky top-0 z-30 h-16 border-b border-border-subtle bg-surface/90 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between gap-4">
+          <header
+            className="sticky top-0 z-40 h-16 border-b border-border-subtle bg-surface px-4 sm:px-6 flex items-center justify-between gap-4 select-none"
+            style={{ backgroundColor: 'var(--bg-surface)' }}
+          >
             {/* Left: Mobile hamburger & Breadcrumbs */}
             <div className="flex items-center gap-3 min-w-0">
               <button
@@ -263,7 +295,7 @@ export function AppShell({
               </div>
 
               {/* Theme Picker Dropdown */}
-              <div className="relative">
+              <div ref={themeMenuRef} className="relative">
                 <button
                   type="button"
                   onClick={() => setThemeMenuOpen(!themeMenuOpen)}
@@ -274,7 +306,10 @@ export function AppShell({
                 </button>
 
                 {themeMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-enterprise bg-surface border border-border-strong p-1.5 shadow-drawer z-50 text-xs font-mono space-y-1">
+                  <div
+                    className="absolute right-0 mt-2 w-52 rounded-enterprise bg-card border border-border-strong p-1.5 shadow-2xl z-50 text-xs font-mono space-y-1"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
                     {[
                       { id: 'executive-light', name: 'Executive Light', icon: Sun },
                       { id: 'slate-dark', name: 'Slate Dark', icon: Moon },
@@ -305,7 +340,7 @@ export function AppShell({
               </div>
 
               {/* "View As..." Persona Switcher (Demo Mode) */}
-              <div className="relative">
+              <div ref={userMenuRef} className="relative">
                 <button
                   type="button"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -321,8 +356,11 @@ export function AppShell({
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-64 rounded-enterprise bg-surface border border-border-strong p-2 shadow-drawer z-50 text-xs font-mono space-y-1">
-                    <div className="px-2 py-1 text-[10px] uppercase font-bold text-text-muted">
+                  <div
+                    className="absolute right-0 mt-2 w-72 rounded-enterprise bg-card border border-border-strong p-2 shadow-2xl z-50 text-xs font-mono space-y-1.5 animate-in fade-in zoom-in-95 duration-100"
+                    style={{ backgroundColor: 'var(--bg-card)' }}
+                  >
+                    <div className="px-2 py-1 text-[10px] uppercase font-bold text-text-muted border-b border-border-subtle pb-1">
                       Demo Personas (Instant Switch)
                     </div>
                     {DEMO_PERSONAS.map((p) => {
@@ -338,15 +376,22 @@ export function AppShell({
                           }}
                           className={`w-full flex items-center justify-between p-2 rounded-md text-left transition ${
                             isSelected
-                              ? 'bg-accent text-accent-fg font-semibold'
+                              ? 'bg-accent text-accent-fg font-semibold shadow-subtle'
                               : 'text-text-secondary hover:bg-muted hover:text-text-primary'
                           }`}
                         >
-                          <div className="truncate">
-                            <div className="font-semibold">{p.badge} {p.name}</div>
-                            <div className="text-[10px] opacity-70 truncate">{p.title}</div>
+                          <div className="truncate pr-2">
+                            <div className="font-semibold text-xs flex items-center gap-1.5">
+                              <span>{p.badge}</span>
+                              <span className="truncate">{p.name}</span>
+                            </div>
+                            <div className="text-[10px] opacity-75 truncate mt-0.5">{p.title}</div>
                           </div>
-                          {isSelected && <span className="text-[10px] font-bold">ACTIVE</span>}
+                          {isSelected && (
+                            <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded bg-accent-fg/20 text-accent-fg uppercase tracking-wider shrink-0">
+                              ACTIVE
+                            </span>
+                          )}
                         </button>
                       );
                     })}

@@ -84,3 +84,4 @@ export function RiskBadge({ status = 'LOW', label, size = 'sm', className = '' }
 }
 
 export default RiskBadge;
+

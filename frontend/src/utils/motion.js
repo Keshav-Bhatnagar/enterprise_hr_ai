@@ -99,3 +99,4 @@ export const rowCollapseVariants = {
   animate: { opacity: 1, height: 'auto', y: 0, transition: { duration: MOTION_DURATIONS.standard, ease: MOTION_EASE } },
   exit: { opacity: 0, height: 0, y: -4, transition: { duration: MOTION_DURATIONS.fast, ease: MOTION_EASE } }
 };
+

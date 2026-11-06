@@ -72,3 +72,4 @@ export function TabsContent({ value, children, className = '' }) {
 }
 
 export default Tabs;
+

@@ -14,9 +14,6 @@ export default function Talent3DCube({ employees = [], onSelectEmployee, onOpenS
     monthly_salary: 115000
   };
   const [selectedNode, setSelectedNode] = useState(initialEmp);
-  const [autoRotate, setAutoRotate] = useState(true);
-  const autoRotateRef = useRef(true);
-  autoRotateRef.current = autoRotate;
   const cameraRef = useRef(null);
 
   useEffect(() => {
@@ -233,13 +230,10 @@ export default function Talent3DCube({ employees = [], onSelectEmployee, onOpenS
     // Initial size alignment
     handleResize();
 
-    // Animation Loop
+    // Animation Loop (Render static frame on change, camera lookAt origin)
     let animId;
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      if (autoRotateRef.current && !isDragging) {
-        prismGroup.rotation.y += 0.0035;
-      }
       camera.lookAt(0, 0, 0);
       renderer.render(scene, camera);
     };
@@ -276,7 +270,6 @@ export default function Talent3DCube({ employees = [], onSelectEmployee, onOpenS
   // View preset angles
   const setCameraView = (type) => {
     if (!cameraRef.current) return;
-    setAutoRotate(false);
     if (type === 'isometric') {
       cameraRef.current.position.set(4.8, 3.8, 5.8);
     } else if (type === 'classic-9box') {
@@ -342,20 +335,12 @@ export default function Talent3DCube({ employees = [], onSelectEmployee, onOpenS
         </div>
       </div>
 
-      {/* Top Right: Rotation Toggle */}
+      {/* Top Right: Status Pill */}
       <div className="absolute top-4 right-4 z-20">
-        <button
-          type="button"
-          onClick={() => setAutoRotate(!autoRotate)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold uppercase transition border backdrop-blur-md ${
-            autoRotate
-              ? 'bg-slate-900/90 text-sky-400 border-sky-500/50 shadow-sm shadow-sky-500/20'
-              : 'bg-slate-900/80 text-slate-400 border-slate-700 hover:text-white'
-          }`}
-        >
-          <RotateCw className={`size-3.5 ${autoRotate ? 'animate-spin' : ''}`} style={{ animationDuration: '4s' }} />
-          <span>{autoRotate ? 'Rotating' : 'Paused'}</span>
-        </button>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold uppercase border bg-slate-900 border-slate-700 text-slate-300 shadow-md">
+          <span className="size-2 rounded-full bg-emerald-400" />
+          <span>Active Coordinate Matrix</span>
+        </div>
       </div>
 
       {/* Bottom Left HUD: Spotlit Employee Coordinates */}

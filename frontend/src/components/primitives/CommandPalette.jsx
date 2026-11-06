@@ -147,10 +147,11 @@ export function CommandPalette({
         role="dialog"
         aria-modal="true"
         aria-label="Command Palette"
-        className="relative z-10 w-full max-w-xl bg-surface border border-border-strong rounded-enterprise shadow-drawer overflow-hidden flex flex-col font-mono text-xs"
+        className="relative z-10 w-full max-w-xl bg-card border border-border-strong rounded-enterprise shadow-2xl overflow-hidden flex flex-col font-mono text-xs"
+        style={{ backgroundColor: 'var(--bg-card)' }}
       >
         {/* Search Input */}
-        <div className="p-3.5 border-b border-border-subtle flex items-center gap-3 bg-muted/30">
+        <div className="p-3.5 border-b border-border-subtle flex items-center gap-3 bg-muted">
           <Search className="size-4 text-text-muted shrink-0" />
           <input
             ref={inputRef}
@@ -206,7 +207,7 @@ export function CommandPalette({
         </div>
 
         {/* Footer shortcuts */}
-        <div className="p-2.5 border-t border-border-subtle bg-muted/40 flex items-center justify-between text-[10.5px] text-text-muted">
+        <div className="p-2.5 border-t border-border-subtle bg-muted flex items-center justify-between text-[10.5px] text-text-muted">
           <span>Navigate with <kbd>↑</kbd> <kbd>↓</kbd></span>
           <span>Select with <kbd>↵</kbd></span>
         </div>
@@ -216,3 +217,4 @@ export function CommandPalette({
 }
 
 export default CommandPalette;
+

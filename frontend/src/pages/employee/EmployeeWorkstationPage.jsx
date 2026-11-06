@@ -128,7 +128,7 @@ export function EmployeeWorkstationPage({ currentUser, onApplyLeave }) {
                 {appliedLeaves.map((leave) => (
                   <div
                     key={leave.id}
-                    className="p-3.5 bg-muted/40 hover:bg-muted flex items-center justify-between transition"
+                    className="p-3.5 bg-card hover:bg-muted flex items-center justify-between transition"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
@@ -244,3 +244,4 @@ export function EmployeeWorkstationPage({ currentUser, onApplyLeave }) {
 }
 
 export default EmployeeWorkstationPage;
+

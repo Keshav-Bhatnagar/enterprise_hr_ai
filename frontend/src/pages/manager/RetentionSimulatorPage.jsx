@@ -191,3 +191,4 @@ export function RetentionSimulatorPage({ employees = [] }) {
 }
 
 export default RetentionSimulatorPage;
+

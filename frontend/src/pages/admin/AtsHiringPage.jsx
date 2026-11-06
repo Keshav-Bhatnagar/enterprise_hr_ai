@@ -153,7 +153,7 @@ export function AtsHiringPage({ candidates: initialCandidates = [] }) {
               </div>
             </CardContent>
 
-            <div className="p-4 border-t border-border-subtle bg-muted/30 flex items-center gap-2">
+            <div className="p-4 border-t border-border-subtle bg-muted flex items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -179,3 +179,4 @@ export function AtsHiringPage({ candidates: initialCandidates = [] }) {
 }
 
 export default AtsHiringPage;
+

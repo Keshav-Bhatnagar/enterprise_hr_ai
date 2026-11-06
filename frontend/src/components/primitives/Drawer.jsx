@@ -88,7 +88,7 @@ export function Drawer({
 
             {/* Optional Footer */}
             {footer && (
-              <div className="p-4 border-t border-border-subtle bg-muted/40 flex items-center justify-end gap-3">
+              <div className="p-4 border-t border-border-subtle bg-muted flex items-center justify-end gap-3">
                 {footer}
               </div>
             )}

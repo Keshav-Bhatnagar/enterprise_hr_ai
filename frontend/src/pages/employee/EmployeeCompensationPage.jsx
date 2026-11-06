@@ -177,3 +177,4 @@ export function EmployeeCompensationPage({ currentUser }) {
 }
 
 export default EmployeeCompensationPage;
+

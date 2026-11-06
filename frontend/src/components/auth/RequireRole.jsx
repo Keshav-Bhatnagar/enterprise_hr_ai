@@ -50,3 +50,4 @@ export function RequireRole({ userRole, allowedRoles = [], children, onSwitchRol
 }
 
 export default RequireRole;
+
