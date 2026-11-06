@@ -8,14 +8,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        ground: '#0A0C0E',
-        'ground-secondary': '#101317',
-        ink: '#EDE7DC',
-        'ink-secondary': '#9EA5A8',
-        muted: '#6C7378',
-        amber: '#E8913C',
-        teal: '#2E6B72',
-        hairline: 'rgba(237, 231, 220, 0.13)',
+        page: 'var(--bg-page)',
+        surface: 'var(--bg-surface)',
+        card: 'var(--bg-card)',
+        'card-subtle': 'var(--bg-card-subtle)',
+        'card-hover': 'var(--bg-card-hover)',
+        'border-subtle': 'var(--border-subtle)',
+        'border-strong': 'var(--border-strong)',
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
+        // Semantic aliases mapped to active theme
+        ground: 'var(--bg-page)',
+        'ground-secondary': 'var(--bg-card)',
+        ink: 'var(--text-primary)',
+        'ink-secondary': 'var(--text-secondary)',
+        muted: 'var(--text-muted)',
+        amber: 'var(--accent-warning)',
+        teal: 'var(--accent-secondary)',
+        hairline: 'var(--border-subtle)',
       },
       fontFamily: {
         display: ['Syne', 'sans-serif'],
@@ -25,4 +36,3 @@ export default {
   },
   plugins: [],
 }
-

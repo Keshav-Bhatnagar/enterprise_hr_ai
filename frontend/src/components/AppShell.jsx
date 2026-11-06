@@ -3,13 +3,13 @@ import {
   Menu,
   X,
   ChevronRight,
-  LogOut,
-  User,
   ShieldCheck,
   ChevronDown,
-  Layers,
+  Sun,
+  Moon,
+  Palette,
   Sparkles,
-  ArrowRight
+  Users
 } from 'lucide-react';
 
 export default function AppShell({
@@ -18,198 +18,212 @@ export default function AppShell({
   role = 'HR_ADMIN',
   breadcrumbs = [],
   actionButton,
-  onLogout,
   onSwitchPersona,
-  demoPersonas = []
+  demoPersonas = [],
+  theme = 'slate',
+  onSelectTheme
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [showPersonaModal, setShowPersonaModal] = useState(false);
-  const personaRef = useRef(null);
+  const [showThemeMenu, setShowThemeMenu] = useState(false);
+  const themeRef = useRef(null);
 
   // Normalize role string
   const normalizedRole = (role || 'HR_ADMIN').toUpperCase().replace('ROLE_', '');
 
-  // Close persona dropdown on outside click
+  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event) {
-      if (personaRef.current && !personaRef.current.contains(event.target)) {
-        setShowPersonaModal(false);
+      if (themeRef.current && !themeRef.current.contains(event.target)) {
+        setShowThemeMenu(false);
       }
     }
-    if (showPersonaModal) {
+    if (showThemeMenu) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showPersonaModal]);
+  }, [showThemeMenu]);
+
+  // Dynamic Theme Styling Tokens
+  const themeStyles = {
+    slate: {
+      root: 'bg-[#0B0F19] text-[#F8FAFC]',
+      header: 'bg-[#0B0F19]/95 border-slate-800',
+      pillActive: 'bg-sky-500 text-slate-950 font-bold',
+      pillInactive: 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700',
+      statusPip: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
+      footer: 'border-slate-800/80 text-slate-400'
+    },
+    light: {
+      root: 'bg-[#F8FAFC] text-[#0F172A]',
+      header: 'bg-white/95 border-slate-200 shadow-xs',
+      pillActive: 'bg-indigo-600 text-white font-bold',
+      pillInactive: 'bg-white border-slate-200 text-slate-600 hover:text-slate-950 hover:border-slate-300',
+      statusPip: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+      footer: 'border-slate-200 text-slate-500 bg-white'
+    },
+    obsidian: {
+      root: 'bg-[#0A0C0E] text-[#EDE7DC]',
+      header: 'bg-[#0A0C0E]/95 border-[rgba(237,231,220,0.13)]',
+      pillActive: 'bg-[#EDE7DC] text-[#0A0C0E] font-bold',
+      pillInactive: 'bg-[#101317] border-[rgba(237,231,220,0.13)] text-[#9EA5A8] hover:text-[#EDE7DC]',
+      statusPip: 'bg-[#101317] border-[rgba(237,231,220,0.13)] text-[#2E6B72]',
+      footer: 'border-[rgba(237,231,220,0.1)] text-[#6C7378]'
+    }
+  };
+
+  const currentTheme = themeStyles[theme] || themeStyles.slate;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0A0C0E] text-[#EDE7DC] font-body antialiased selection:bg-[#E8913C] selection:text-[#0A0C0E]">
-      {/* CONTEXTUAL TOPBAR - DECISIONLENS STYLE */}
-      <header className="sticky top-0 z-40 bg-[#0A0C0E]/95 backdrop-blur-md border-b border-[rgba(237,231,220,0.13)] px-4 sm:px-6 h-14 flex items-center justify-between transition-colors">
-        {/* LEFT: BREADCRUMBS & MOBILE TOGGLE */}
-        <div className="flex items-center gap-3 min-w-0">
-          <button
-            type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 rounded bg-[#101317] border border-[rgba(237,231,220,0.13)] text-[#9EA5A8] hover:text-[#EDE7DC] min-h-[44px] min-w-[44px] flex items-center justify-center"
-            aria-label="Toggle mobile menu"
-          >
-            {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
-          </button>
-
-          {/* Breadcrumbs */}
-          <nav className="flex items-center gap-1.5 text-xs font-mono text-[#6C7378] overflow-hidden truncate">
-            <span className="text-[#9EA5A8] font-bold">Enterprise HR AI</span>
-            {breadcrumbs.map((crumb, idx) => (
-              <React.Fragment key={idx}>
-                <ChevronRight className="size-3 text-[#6C7378] shrink-0" />
-                <span className={idx === breadcrumbs.length - 1 ? 'text-[#EDE7DC] font-semibold' : 'text-[#9EA5A8]'}>
-                  {crumb}
-                </span>
-              </React.Fragment>
-            ))}
-          </nav>
-        </div>
-
-        {/* RIGHT: LIVE TELEMETRY, ACTION BUTTON, AND USER PILL */}
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Live Security / DPDP Status */}
-          <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#101317] border border-[rgba(237,231,220,0.13)] text-[10.5px] font-mono text-[#2E6B72]">
-            <span className="size-1.5 rounded-full bg-[#2E6B72] animate-pulse"></span>
-            <span>DPDP Act §8(1) Shielded</span>
+    <div className={`min-h-screen flex flex-col font-body antialiased transition-colors duration-200 ${currentTheme.root}`}>
+      {/* CONTEXTUAL TOPBAR */}
+      <header className={`sticky top-0 z-40 backdrop-blur-md border-b px-4 sm:px-6 h-16 flex items-center justify-between transition-colors ${currentTheme.header}`}>
+        {/* LEFT: WORDMARK, BREADCRUMBS & DIRECT ROLE SWITCHER */}
+        <div className="flex items-center gap-3 md:gap-5 min-w-0">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="font-display font-extrabold text-base tracking-tight text-current">
+              ENTERPRISE HR<span className="text-sky-400">.</span>
+            </span>
           </div>
 
-          {/* Contextual Action Button if passed */}
-          {actionButton}
-
-          {/* User Persona Pill with Dropdown Trigger */}
-          <div className="relative" ref={personaRef}>
-            <button
-              type="button"
-              onClick={() => setShowPersonaModal(!showPersonaModal)}
-              className="flex items-center gap-2 px-2.5 py-1.5 rounded-sm bg-[#101317] border border-[rgba(237,231,220,0.13)] hover:border-[#E8913C] transition text-left min-h-[44px]"
-              aria-label="User profile and persona switch menu"
-            >
-              <div className="size-6 rounded-full bg-[#EDE7DC] text-[#0A0C0E] font-display font-bold text-[10.5px] flex items-center justify-center shrink-0">
-                {currentUser?.avatar || currentUser?.name?.[0] || 'U'}
-              </div>
-              <div className="hidden sm:block text-left font-mono leading-none">
-                <div className="text-xs font-bold text-[#EDE7DC] truncate max-w-[120px]">
-                  {currentUser?.name || 'Authorized User'}
-                </div>
-                <div className="text-[9.5px] text-[#E8913C] uppercase tracking-wider mt-0.5">
-                  {normalizedRole}
-                </div>
-              </div>
-              <ChevronDown className="size-3 text-[#6C7378]" />
-            </button>
-
-            {/* PERSONA SWITCHER POPUP MODAL */}
-            {showPersonaModal && (
-              <div className="absolute right-0 mt-2 w-72 bg-[#101317] border border-[rgba(237,231,220,0.2)] rounded-sm p-3 shadow-2xl z-50 font-mono space-y-3">
-                <div className="border-b border-[rgba(237,231,220,0.1)] pb-2 flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-wider text-[#6C7378] font-bold">
-                    Switch Active Persona
-                  </span>
-                  <span className="text-[10px] text-[#2E6B72]">Fast Switch</span>
-                </div>
-
-                <div className="space-y-1">
-                  {demoPersonas.map((p) => {
-                    const isCurrent = (p.role || '').toUpperCase() === normalizedRole;
-                    return (
-                      <button
-                        key={p.id}
-                        type="button"
-                        onClick={() => {
-                          setShowPersonaModal(false);
-                          if (onSwitchPersona) onSwitchPersona(p);
-                        }}
-                        className={`w-full flex items-center justify-between p-2 rounded-sm text-left text-xs transition ${
-                          isCurrent
-                            ? 'bg-[#0A0C0E] border border-[#E8913C] text-[#EDE7DC]'
-                            : 'hover:bg-[#0A0C0E] text-[#9EA5A8] hover:text-[#EDE7DC]'
-                        }`}
-                      >
-                        <div className="truncate">
-                          <div className="font-bold text-[#EDE7DC]">{p.name}</div>
-                          <div className="text-[10px] text-[#6C7378] uppercase">{p.role}</div>
-                        </div>
-                        {isCurrent && (
-                          <span className="size-2 rounded-full bg-[#E8913C]"></span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="pt-2 border-t border-[rgba(237,231,220,0.1)]">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowPersonaModal(false);
-                      if (onLogout) onLogout();
-                    }}
-                    className="w-full py-2 px-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] hover:border-red-500/50 hover:text-red-400 text-xs font-mono text-[#9EA5A8] rounded-sm transition flex items-center justify-center gap-2"
-                  >
-                    <LogOut className="size-3.5" />
-                    <span>Sign Out to Deck</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* MOBILE DRAWER SHEET */}
-      {mobileOpen && (
-        <div className="md:hidden bg-[#101317] border-b border-[rgba(237,231,220,0.13)] p-4 space-y-4 font-mono z-30 animate-in slide-in-from-top-2">
-          <div className="flex items-center justify-between border-b border-[rgba(237,231,220,0.1)] pb-2 text-xs">
-            <span className="text-[#9EA5A8]">Authenticated as:</span>
-            <span className="text-[#E8913C] font-bold">{normalizedRole}</span>
-          </div>
-          <div className="text-xs text-[#EDE7DC] font-bold">
-            {currentUser?.name} ({currentUser?.title})
-          </div>
-
-          <div className="space-y-2 pt-1">
-            <div className="text-[10px] uppercase text-[#6C7378] tracking-wider">Switch Persona:</div>
-            <div className="grid grid-cols-2 gap-2">
-              {demoPersonas.map((p) => (
+          {/* Quick 1-Click Role Switcher Pills (Zero Login Wall) */}
+          <div className="hidden lg:flex items-center gap-1.5 p-1 rounded-xl border border-current/10">
+            {demoPersonas.map((p) => {
+              const isCurrent = (p.role || '').toUpperCase() === normalizedRole;
+              return (
                 <button
                   key={p.id}
                   type="button"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    if (onSwitchPersona) onSwitchPersona(p);
-                  }}
-                  className={`p-2 rounded text-left text-xs border transition ${
-                    p.role.toUpperCase() === normalizedRole
-                      ? 'border-[#E8913C] text-[#EDE7DC] bg-[#0A0C0E]'
-                      : 'border-[rgba(237,231,220,0.13)] text-[#9EA5A8] bg-[#0A0C0E]/50'
+                  onClick={() => onSwitchPersona && onSwitchPersona(p)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition flex items-center gap-1.5 ${
+                    isCurrent ? currentTheme.pillActive : currentTheme.pillInactive
                   }`}
                 >
-                  <div className="font-bold truncate">{p.name.split(' ')[0]}</div>
-                  <div className="text-[9px] text-[#6C7378] uppercase">{p.role}</div>
+                  <span>{p.badge.split(' ')[0]}</span>
+                  <span className="font-semibold">{p.name.split(' ')[0]}</span>
+                  <span className="opacity-70 text-[10px]">({p.role})</span>
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
+          {/* Mobile hamburger */}
           <button
             type="button"
-            onClick={() => {
-              setMobileOpen(false);
-              if (onLogout) onLogout();
-            }}
-            className="w-full py-2 bg-[#0A0C0E] border border-red-500/40 text-red-400 text-xs rounded transition flex items-center justify-center gap-1.5"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2 rounded-lg border border-current/10 text-current min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Toggle role switch menu"
           >
-            <LogOut className="size-3.5" />
-            <span>Sign Out</span>
+            {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
+        </div>
+
+        {/* RIGHT: THEME PICKER, DPDP SHIELD PIP, AND ACTIONS */}
+        <div className="flex items-center gap-3 shrink-0">
+          {/* THEME SELECTOR PILL */}
+          <div className="relative" ref={themeRef}>
+            <button
+              type="button"
+              onClick={() => setShowThemeMenu(!showThemeMenu)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-current/15 text-xs font-mono transition hover:border-current/30 min-h-[40px]"
+              aria-label="Select color palette theme"
+            >
+              <Palette className="size-3.5 text-sky-400" />
+              <span className="capitalize font-semibold">{theme} Mode</span>
+              <ChevronDown className="size-3 opacity-60" />
+            </button>
+
+            {/* THEME MENU DROPDOWN */}
+            {showThemeMenu && (
+              <div className={`absolute right-0 mt-2 w-56 rounded-xl border p-2 shadow-2xl z-50 text-xs font-mono space-y-1 ${
+                theme === 'light'
+                  ? 'bg-white border-slate-200 text-slate-800'
+                  : theme === 'obsidian'
+                  ? 'bg-[#101317] border-[rgba(237,231,220,0.2)] text-[#EDE7DC]'
+                  : 'bg-slate-900 border-slate-700 text-slate-100'
+              }`}>
+                <div className="px-2 py-1 text-[10px] uppercase font-bold opacity-60">
+                  Select Visual Palette
+                </div>
+                {[
+                  { id: 'slate', name: 'Slate Dark (Electric Cyan)', icon: Moon, dot: 'bg-sky-400' },
+                  { id: 'light', name: 'Executive Light (Workday)', icon: Sun, dot: 'bg-indigo-600' },
+                  { id: 'obsidian', name: 'Obsidian (Dark Gold)', icon: Sparkles, dot: 'bg-amber-400' }
+                ].map((th) => {
+                  const Icon = th.icon;
+                  const isActive = theme === th.id;
+                  return (
+                    <button
+                      key={th.id}
+                      type="button"
+                      onClick={() => {
+                        onSelectTheme && onSelectTheme(th.id);
+                        setShowThemeMenu(false);
+                      }}
+                      className={`w-full flex items-center justify-between p-2 rounded-lg text-left transition ${
+                        isActive
+                          ? theme === 'light'
+                            ? 'bg-indigo-600 text-white font-bold'
+                            : theme === 'obsidian'
+                            ? 'bg-[#EDE7DC] text-[#0A0C0E] font-bold'
+                            : 'bg-sky-500 text-slate-950 font-bold'
+                          : theme === 'light'
+                          ? 'text-slate-700 hover:bg-slate-100'
+                          : theme === 'obsidian'
+                          ? 'text-[#9EA5A8] hover:bg-[#161A1F] hover:text-[#EDE7DC]'
+                          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Icon className="size-3.5 shrink-0" />
+                        <span>{th.name}</span>
+                      </div>
+                      <span className={`size-2 rounded-full ${th.dot}`} />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Live DPDP Status */}
+          <div className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10.5px] font-mono ${currentTheme.statusPip}`}>
+            <span className="size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>DPDP Act §8(1) Shield</span>
+          </div>
+
+          {/* Contextual Action Button */}
+          {actionButton}
+        </div>
+      </header>
+
+      {/* MOBILE ROLE SWITCH DRAWER */}
+      {mobileOpen && (
+        <div className="lg:hidden border-b p-4 space-y-3 font-mono z-30 bg-current/5 border-current/10">
+          <div className="text-xs font-bold opacity-70 uppercase tracking-wider">
+            Switch Active Role Workspace:
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {demoPersonas.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  onSwitchPersona && onSwitchPersona(p);
+                }}
+                className={`p-2.5 rounded-lg text-left text-xs border transition ${
+                  p.role.toUpperCase() === normalizedRole
+                    ? 'border-sky-500 font-bold bg-sky-500/10 text-sky-400'
+                    : 'border-current/10 hover:border-current/30'
+                }`}
+              >
+                <div>{p.badge.split(' ')[0]} {p.name}</div>
+                <div className="text-[10px] opacity-70">{p.role}</div>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
@@ -218,15 +232,15 @@ export default function AppShell({
         {children}
       </div>
 
-      {/* FOOTER - MINIMALIST STATUTORY STRIP */}
-      <footer className="border-t border-[rgba(237,231,220,0.1)] py-4 px-6 text-center text-[11px] font-mono text-[#6C7378] flex flex-col sm:flex-row items-center justify-between gap-2">
+      {/* FOOTER */}
+      <footer className={`border-t py-4 px-6 text-center text-[11px] font-mono flex flex-col sm:flex-row items-center justify-between gap-2 ${currentTheme.footer}`}>
         <div>
-          Enterprise HR AI • Built for Strategic Workforce Retention & DPDP Act 2023 Compliance
+          Enterprise HR AI Platform • Role-Isolated Spatial Intelligence
         </div>
-        <div className="flex items-center gap-4 text-[#9EA5A8]">
-          <span>Role Isolation: Active</span>
+        <div className="flex items-center gap-3">
+          <span>Active Persona: <strong className="text-current font-bold">{currentUser?.name} ({normalizedRole})</strong></span>
           <span>•</span>
-          <span>Zero Nav Overload</span>
+          <span>DPDP Act 2023 Certified</span>
         </div>
       </footer>
     </div>

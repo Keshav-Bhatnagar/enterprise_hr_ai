@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import AppShell from './components/AppShell';
-import RoleThrowableDeck from './components/RoleThrowableDeck';
 import EmployeeWorkstation from './components/workspaces/EmployeeWorkstation';
 import ManagerCockpit from './components/workspaces/ManagerCockpit';
 import AuditorChamber from './components/workspaces/AuditorChamber';
 import AdminCommandCenter from './components/workspaces/AdminCommandCenter';
 
-// DEMO PERSONAS FOR INSTANT 1-CLICK AUTHENTICATION
+// DEMO PERSONAS FOR INSTANT 1-CLICK AUTHENTICATION (ZERO LOGIN WALL)
 const DEMO_PERSONAS = [
   {
     id: 'admin',
@@ -68,6 +66,7 @@ const INITIAL_EMPLOYEES = [
     salary_band: "₹1,00,000 - ₹1,25,000/mo",
     overtime_hours: 42,
     attrition_probability: 0.9948,
+    risk: 0.9948,
     risk_tier: "HIGH",
     years_at_company: 4.2,
     avatar: "CB",
@@ -87,6 +86,7 @@ const INITIAL_EMPLOYEES = [
     salary_band: "₹1,25,000 - ₹1,50,000/mo",
     overtime_hours: 24,
     attrition_probability: 0.682,
+    risk: 0.682,
     risk_tier: "MEDIUM",
     years_at_company: 2.8,
     avatar: "PS",
@@ -106,6 +106,7 @@ const INITIAL_EMPLOYEES = [
     salary_band: "₹1,50,000 - ₹1,75,000/mo",
     overtime_hours: 31,
     attrition_probability: 0.614,
+    risk: 0.614,
     risk_tier: "MEDIUM",
     years_at_company: 3.1,
     avatar: "VR",
@@ -125,6 +126,7 @@ const INITIAL_EMPLOYEES = [
     salary_band: "₹1,25,000 - ₹1,50,000/mo",
     overtime_hours: 38,
     attrition_probability: 0.884,
+    risk: 0.884,
     risk_tier: "HIGH",
     years_at_company: 3.8,
     avatar: "AD",
@@ -136,112 +138,47 @@ const INITIAL_EMPLOYEES = [
 ];
 
 export default function App() {
-  const [token, setToken] = useState(() => localStorage.getItem('nemo_token') || null);
+  // ZERO LOGIN GATE: Always authenticated by default as Priya Sharma (CHRO)
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const u = localStorage.getItem('nemo_user');
-      return u ? JSON.parse(u) : null;
+      return u ? JSON.parse(u) : DEMO_PERSONAS[0];
     } catch {
-      return null;
+      return DEMO_PERSONAS[0];
     }
+  });
+
+  // Theme engine: Slate Dark (default) | Executive Light | Obsidian Gold
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('enterprise_theme') || 'slate';
   });
 
   const [employees, setEmployees] = useState(INITIAL_EMPLOYEES);
 
-  // Authenticate using demo persona credentials
-  const handleLogin = async (persona) => {
-    try {
-      const params = new URLSearchParams();
-      params.append('username', persona.username);
-      params.append('password', persona.password);
-
-      const res = await axios.post('/token', params, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      });
-
-      const authToken = res.data.access_token;
-      const userObj = {
-        name: persona.name,
-        role: (res.data.role || persona.role).toUpperCase(),
-        title: persona.title,
-        avatar: persona.avatar,
-        username: persona.username
-      };
-
-      setToken(authToken);
-      setCurrentUser(userObj);
-      localStorage.setItem('nemo_token', authToken);
-      localStorage.setItem('nemo_user', JSON.stringify(userObj));
-    } catch (err) {
-      // Fallback for offline sandbox mode
-      const simulatedToken = `demo_jwt_${persona.id}_${Date.now()}`;
-      const userObj = {
-        name: persona.name,
-        role: persona.role.toUpperCase(),
-        title: persona.title,
-        avatar: persona.avatar,
-        username: persona.username
-      };
-      setToken(simulatedToken);
-      setCurrentUser(userObj);
-      localStorage.setItem('nemo_token', simulatedToken);
-      localStorage.setItem('nemo_user', JSON.stringify(userObj));
+  // Sync theme with HTML document attribute & localStorage
+  useEffect(() => {
+    localStorage.setItem('enterprise_theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
     }
+  }, [theme]);
+
+  // Instant 1-click persona switcher (No login, no password, no barriers)
+  const handleSwitchPersona = (persona) => {
+    const userObj = {
+      name: persona.name,
+      role: persona.role.toUpperCase(),
+      title: persona.title,
+      avatar: persona.avatar,
+      username: persona.username
+    };
+    setCurrentUser(userObj);
+    localStorage.setItem('nemo_user', JSON.stringify(userObj));
+    localStorage.setItem('nemo_token', `demo_token_${persona.id}`);
   };
-
-  const handleLogout = () => {
-    setToken(null);
-    setCurrentUser(null);
-    localStorage.removeItem('nemo_token');
-    localStorage.removeItem('nemo_user');
-  };
-
-  // If unauthenticated: Render DecisionLens-style portal hero with Throwable Role Card Deck
-  if (!token || !currentUser) {
-    return (
-      <div className="min-h-screen bg-[#0A0C0E] text-[#EDE7DC] flex flex-col justify-between p-6 md:p-12 font-body selection:bg-[#E8913C] selection:text-[#0A0C0E]">
-        {/* Top Minimal Wordmark */}
-        <header className="flex items-center justify-between border-b border-[rgba(237,231,220,0.13)] pb-4 max-w-5xl mx-auto w-full">
-          <div className="flex items-center gap-2">
-            <span className="font-display font-extrabold text-lg text-[#EDE7DC] tracking-tight">
-              ENTERPRISE HR<span className="text-[#E8913C]">.</span>
-            </span>
-            <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded border border-[#2E6B72] text-[#2E6B72]">
-              DPDP Act §8(1) Ready
-            </span>
-          </div>
-
-          <div className="text-xs font-mono text-[#9EA5A8]">
-            Select Persona to Sign In
-          </div>
-        </header>
-
-        {/* Center: Throwable Role Card Deck */}
-        <main className="max-w-4xl mx-auto w-full py-8">
-          <div className="text-center max-w-xl mx-auto mb-8 space-y-2">
-            <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-[#EDE7DC] tracking-tight">
-              Select Your Role Workspace
-            </h1>
-            <p className="text-xs sm:text-sm font-mono text-[#9EA5A8] leading-relaxed">
-              Throw or drag cards to inspect enterprise personas. Click any card to enter a dedicated, role-isolated workspace.
-            </p>
-          </div>
-
-          <RoleThrowableDeck
-            personas={DEMO_PERSONAS}
-            onSelectPersona={(persona) => handleLogin(persona)}
-            onSelectRole={(persona) => handleLogin(persona)}
-          />
-        </main>
-
-        {/* Bottom Statutory Notice */}
-        <footer className="text-center text-[11px] font-mono text-[#6C7378] border-t border-[rgba(237,231,220,0.13)] pt-4 max-w-5xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>Enterprise HR AI Platform • Role-Based Access Control</span>
-          <span>Indian DPDP Act 2023 Compliant</span>
-        </footer>
-      </div>
-    );
-  }
 
   // Resolve normalized role
   const userRole = (currentUser.role || 'HR_ADMIN').toUpperCase().replace('ROLE_', '');
@@ -255,57 +192,60 @@ export default function App() {
   };
 
   return (
-    <AppShell
-      currentUser={currentUser}
-      role={userRole}
-      breadcrumbs={getBreadcrumbs()}
-      onLogout={handleLogout}
-      onSwitchPersona={(persona) => handleLogin(persona)}
-      demoPersonas={DEMO_PERSONAS}
-    >
-      {/* 
-        NO CLUNKY HORIZONTAL TABS! NO 403 WALLS!
-        USER SEES ONLY WHAT IS PERMITTED FOR THEIR ROLE:
-      */}
-      {userRole === 'EMPLOYEE' && (
-        <EmployeeWorkstation
-          currentUser={currentUser}
-          onApplyLeave={(req) => {
-            console.log("New leave requested by employee:", req);
-          }}
-        />
-      )}
+    <div data-theme={theme} className="min-h-screen">
+      <AppShell
+        currentUser={currentUser}
+        role={userRole}
+        breadcrumbs={getBreadcrumbs()}
+        onSwitchPersona={handleSwitchPersona}
+        demoPersonas={DEMO_PERSONAS}
+        theme={theme}
+        onSelectTheme={setTheme}
+      >
+        {/* ROLE-ISOLATED WORKSPACES: USER SEES ONLY WHAT BELONGS TO THEIR ROLE */}
+        {userRole === 'EMPLOYEE' && (
+          <EmployeeWorkstation
+            currentUser={currentUser}
+            theme={theme}
+            onApplyLeave={(req) => {
+              console.log("New leave requested by employee:", req);
+            }}
+          />
+        )}
 
-      {userRole === 'MANAGER' && (
-        <ManagerCockpit
-          employees={employees}
-          onApproveLeave={(id) => {
-            console.log("Manager approved leave ID:", id);
-          }}
-          onRejectLeave={(id) => {
-            console.log("Manager rejected leave ID:", id);
-          }}
-        />
-      )}
+        {userRole === 'MANAGER' && (
+          <ManagerCockpit
+            employees={employees}
+            theme={theme}
+            onApproveLeave={(id) => {
+              console.log("Manager approved leave ID:", id);
+            }}
+            onRejectLeave={(id) => {
+              console.log("Manager rejected leave ID:", id);
+            }}
+          />
+        )}
 
-      {userRole === 'AUDITOR' && (
-        <AuditorChamber />
-      )}
+        {userRole === 'AUDITOR' && (
+          <AuditorChamber theme={theme} />
+        )}
 
-      {(userRole === 'HR_ADMIN' || userRole === 'ADMIN') && (
-        <AdminCommandCenter
-          employees={employees}
-          onHireCandidate={(id) => {
-            console.log("Admin hired candidate ID:", id);
-          }}
-          onRejectCandidate={(id) => {
-            console.log("Admin rejected candidate ID:", id);
-          }}
-          onRunPayroll={() => {
-            console.log("Admin triggered payroll disbursal batch");
-          }}
-        />
-      )}
-    </AppShell>
+        {(userRole === 'HR_ADMIN' || userRole === 'ADMIN') && (
+          <AdminCommandCenter
+            employees={employees}
+            theme={theme}
+            onHireCandidate={(id) => {
+              console.log("Admin hired candidate ID:", id);
+            }}
+            onRejectCandidate={(id) => {
+              console.log("Admin rejected candidate ID:", id);
+            }}
+            onRunPayroll={() => {
+              console.log("Admin triggered payroll disbursal batch");
+            }}
+          />
+        )}
+      </AppShell>
+    </div>
   );
 }

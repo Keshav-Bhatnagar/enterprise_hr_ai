@@ -21,6 +21,7 @@ import { downloadFile } from '../../utils/exportHelpers';
 export default function AdminCommandCenter({
   employees = [],
   candidates = [],
+  theme = 'slate',
   onHireCandidate,
   onRejectCandidate,
   onRunPayroll
@@ -90,49 +91,49 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
   };
 
   return (
-    <div className="space-y-8 font-body text-[#EDE7DC]">
-      {/* STATS LEDGER - CRAFT FLOOR COMPLIANT */}
-      <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg py-5 px-6 grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[rgba(237,231,220,0.13)]">
+    <div className="space-y-8 font-body text-text-primary">
+      {/* STATS LEDGER */}
+      <div className="bg-card border border-border-subtle rounded-xl py-5 px-6 grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-border-subtle shadow-md">
         <div className="py-2 md:py-0 md:px-5 first:pl-0">
-          <div className="font-display text-[30px] font-bold text-[#EDE7DC] leading-tight">
-            1,420 <span className="text-sm font-mono text-[#2E6B72]">Global</span>
+          <div className="font-display text-[30px] font-bold text-text-primary leading-tight">
+            1,420 <span className="text-sm font-mono text-emerald-500">Global</span>
           </div>
-          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-text-secondary mt-1">
             Total Headcount
           </div>
         </div>
 
         <div className="py-2 md:py-0 md:px-5">
-          <div className="font-display text-[30px] font-bold text-[#E8913C] leading-tight flex items-center gap-2">
-            14 <span className="text-xs font-mono text-[#E8913C] font-semibold">Flagged</span>
+          <div className="font-display text-[30px] font-bold text-rose-500 leading-tight flex items-center gap-2">
+            14 <span className="text-xs font-mono text-rose-400 font-semibold px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/30">Flagged</span>
           </div>
-          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-text-secondary mt-1">
             Critical Flight Risks (&gt;75%)
           </div>
         </div>
 
         <div className="py-2 md:py-0 md:px-5">
-          <div className="font-display text-[30px] font-bold text-[#2E6B72] leading-tight">
+          <div className="font-display text-[30px] font-bold text-emerald-500 leading-tight">
             ₹1.84 Cr
           </div>
-          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-text-secondary mt-1">
             Projected Net Savings
           </div>
         </div>
 
         <div className="py-2 md:py-0 md:px-5">
-          <div className="font-display text-[30px] font-bold text-[#EDE7DC] leading-tight">
+          <div className="font-display text-[30px] font-bold text-sky-500 leading-tight">
             ₹14.8 Cr
           </div>
-          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-[#9EA5A8] mt-1">
+          <div className="text-[10.5px] font-mono uppercase tracking-[0.12em] text-text-secondary mt-1">
             Monthly Payroll Run
           </div>
         </div>
       </div>
 
       {/* SUBVIEW SELECTOR */}
-      <div className="flex items-center justify-between border-b border-[rgba(237,231,220,0.13)] pb-3">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-border-subtle pb-3 gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
           {[
             { id: 'prism', label: '3D Talent Prism & Flight War Room', icon: Box },
             { id: 'ats', label: 'Recruitment ATS Pipeline', icon: Users },
@@ -146,13 +147,13 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveSubView(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-sm text-xs font-mono transition min-h-[44px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E8913C] ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-mono transition min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
                   active
-                    ? 'bg-[#101317] border border-[#E8913C] text-[#EDE7DC] font-bold'
-                    : 'text-[#9EA5A8] hover:text-[#EDE7DC] hover:bg-[#101317]/60'
+                    ? 'bg-sky-500 text-slate-950 font-bold shadow-md shadow-sky-500/20'
+                    : 'bg-card border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-card-hover'
                 }`}
               >
-                <Icon className={`size-3.5 ${active ? 'text-[#E8913C]' : 'text-[#9EA5A8]'}`} />
+                <Icon className={`size-3.5 ${active ? 'text-slate-950' : 'text-text-secondary'}`} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -162,7 +163,7 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
         <button
           type="button"
           onClick={handleDownloadBoardMemo}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 border border-[#2E6B72] text-[#2E6B72] hover:text-[#EDE7DC] hover:border-[#EDE7DC] rounded-sm text-xs font-mono font-bold transition min-h-[44px]"
+          className="flex items-center gap-1.5 px-3.5 py-2 border border-emerald-500/40 text-emerald-500 hover:bg-emerald-500/10 rounded-lg text-xs font-mono font-bold transition min-h-[44px]"
         >
           <Download className="size-3.5" />
           <span>{boardMemoDownloaded ? 'Board Memo Downloaded (.TXT)' : 'Export Board Memo (.TXT)'}</span>
@@ -172,16 +173,16 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
       {/* VIEW 1: 3D TALENT PRISM & WAR ROOM */}
       {activeSubView === 'prism' && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h3 className="font-display text-lg font-bold text-[#EDE7DC]">
+              <h3 className="font-display text-lg font-bold text-text-primary">
                 Enterprise 3D Talent & Risk Prism
               </h3>
-              <p className="text-xs text-[#9EA5A8] font-mono mt-0.5">
+              <p className="text-xs text-text-secondary font-mono mt-0.5">
                 Volumetric spatial coordinate engine: Performance (X), Growth Potential (Y), Attrition Flight Risk (Z)
               </p>
             </div>
-            <span className="text-xs font-mono text-[#E8913C] border border-[#E8913C]/40 px-2.5 py-1 rounded">
+            <span className="text-xs font-mono text-rose-500 border border-rose-500/40 bg-rose-500/10 px-2.5 py-1 rounded-lg font-semibold w-fit">
               Danger Plane: Z &gt; 75%
             </span>
           </div>
@@ -193,28 +194,28 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
             }}
           />
 
-          <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-4">
-            <h4 className="font-display font-bold text-[#EDE7DC] text-base">Immediate High-Risk Flight Roster</h4>
-            <div className="divide-y divide-[rgba(237,231,220,0.08)] border border-[rgba(237,231,220,0.13)] rounded-sm overflow-hidden bg-[#0A0C0E]">
+          <div className="bg-card border border-border-subtle rounded-xl p-6 space-y-4 shadow-md">
+            <h4 className="font-display font-bold text-text-primary text-base">Immediate High-Risk Flight Roster</h4>
+            <div className="divide-y divide-border-subtle border border-border-subtle rounded-lg overflow-hidden bg-card-subtle">
               {employees.slice(0, 4).map((emp) => (
-                <div key={emp.global_id} className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-[#101317] transition">
+                <div key={emp.global_id} className="p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-card-hover transition">
                   <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-display font-bold text-[#EDE7DC]">{emp.name}</span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#101317] border border-[rgba(237,231,220,0.13)] text-[#9EA5A8]">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-display font-bold text-text-primary">{emp.name}</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-card border border-border-subtle text-text-secondary font-semibold">
                         {emp.job_role}
                       </span>
-                      <span className="text-[10px] font-mono text-[#9EA5A8]">{emp.department}</span>
+                      <span className="text-[10px] font-mono text-text-muted">{emp.department}</span>
                     </div>
-                    <div className="text-xs font-mono text-[#9EA5A8]">
-                      Salary: {emp.salary_band} • Overtime: {emp.overtime_hours}h • Primary Driver: <span className="text-[#E8913C]">{emp.reason}</span>
+                    <div className="text-xs font-mono text-text-secondary">
+                      Salary: <span className="text-text-primary font-semibold">{emp.salary_band}</span> • Overtime: <span className="text-amber-500 font-semibold">{emp.overtime_hours}h</span> • Primary Driver: <span className="text-rose-400 font-semibold">{emp.reason}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-4">
                     <div className="text-right font-mono">
-                      <div className="text-sm font-bold text-red-400">{(emp.attrition_probability * 100).toFixed(1)}% Risk</div>
-                      <div className="text-[10px] text-[#9EA5A8]">Perf {emp.perf} / Pot {emp.pot}</div>
+                      <div className="text-sm font-bold text-rose-500">{(emp.attrition_probability * 100).toFixed(1)}% Risk</div>
+                      <div className="text-[10px] text-text-secondary">Perf {emp.perf} / Pot {emp.pot}</div>
                     </div>
                   </div>
                 </div>
@@ -229,15 +230,15 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Talent Acquisition Pipeline</h3>
-              <p className="text-xs text-[#9EA5A8] font-mono mt-0.5">
+              <h3 className="font-display text-lg font-bold text-text-primary">Talent Acquisition Pipeline</h3>
+              <p className="text-xs text-text-secondary font-mono mt-0.5">
                 AI resume screening and hiring approval gate
               </p>
             </div>
 
             {candidateActionMessage && (
-              <div className="p-2 px-3 rounded-sm bg-[#2E6B72]/20 border border-[#2E6B72] text-[#EDE7DC] text-xs font-mono flex items-center gap-2">
-                <CheckCircle2 className="size-3.5 text-[#2E6B72]" />
+              <div className="p-2 px-3 rounded-lg bg-emerald-500/10 border border-emerald-500 text-emerald-400 text-xs font-mono flex items-center gap-2">
+                <CheckCircle2 className="size-3.5 text-emerald-400" />
                 <span>{candidateActionMessage}</span>
               </div>
             )}
@@ -247,30 +248,30 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
             {candidateList.map((cand) => (
               <div
                 key={cand.id}
-                className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-5 space-y-4 hover:border-[rgba(237,231,220,0.25)] transition"
+                className="bg-card border border-border-subtle rounded-xl p-5 space-y-4 hover:border-sky-500/40 transition shadow-md"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h4 className="font-display font-bold text-[#EDE7DC] text-base">{cand.name}</h4>
-                    <div className="text-xs font-mono text-[#9EA5A8] mt-0.5">{cand.role}</div>
+                    <h4 className="font-display font-bold text-text-primary text-base">{cand.name}</h4>
+                    <div className="text-xs font-mono text-text-secondary mt-0.5">{cand.role}</div>
                   </div>
-                  <span className="text-[10.5px] font-mono px-2 py-0.5 rounded border border-[#E8913C] text-[#E8913C] font-bold">
+                  <span className="text-[10.5px] font-mono px-2 py-0.5 rounded-lg border border-sky-500/40 bg-sky-500/10 text-sky-400 font-bold">
                     {cand.score}% Fit
                   </span>
                 </div>
 
-                <div className="p-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.08)] rounded-sm space-y-1.5 text-xs font-mono">
+                <div className="p-3 bg-card-subtle border border-border-subtle rounded-lg space-y-1.5 text-xs font-mono">
                   <div className="flex justify-between">
-                    <span className="text-[#9EA5A8]">Stage:</span>
-                    <span className="text-[#EDE7DC]">{cand.stage}</span>
+                    <span className="text-text-muted">Stage:</span>
+                    <span className="text-text-primary font-semibold">{cand.stage}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#9EA5A8]">Experience:</span>
-                    <span className="text-[#EDE7DC]">{cand.experience}</span>
+                    <span className="text-text-muted">Experience:</span>
+                    <span className="text-text-primary font-semibold">{cand.experience}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#9EA5A8]">Expected:</span>
-                    <span className="text-[#2E6B72]">{cand.expected_salary}</span>
+                    <span className="text-text-muted">Expected:</span>
+                    <span className="text-emerald-500 font-bold">{cand.expected_salary}</span>
                   </div>
                 </div>
 
@@ -278,14 +279,14 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
                   <button
                     type="button"
                     onClick={() => handleReject(cand)}
-                    className="flex-1 py-2 border border-red-500/40 text-red-400 hover:bg-red-500/10 rounded-sm text-xs font-mono transition min-h-[44px]"
+                    className="flex-1 py-2 border border-rose-500/40 text-rose-500 hover:bg-rose-500/10 rounded-lg text-xs font-mono transition min-h-[44px]"
                   >
                     Reject
                   </button>
                   <button
                     type="button"
                     onClick={() => handleHire(cand)}
-                    className="flex-1 py-2 bg-[#EDE7DC] text-[#0A0C0E] hover:bg-[#2E6B72] hover:text-[#EDE7DC] rounded-sm text-xs font-mono font-bold uppercase transition min-h-[44px]"
+                    className="flex-1 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 rounded-lg text-xs font-mono font-bold uppercase transition min-h-[44px] shadow-sm shadow-sky-500/20"
                   >
                     Hire Candidate
                   </button>
@@ -299,9 +300,9 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
       {/* VIEW 3: WORKFORCE HCM & SUCCESSION */}
       {activeSubView === 'hcm' && (
         <div className="space-y-6">
-          <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-5">
-            <h3 className="font-display text-lg font-bold text-[#EDE7DC]">Succession Bench & Critical Leadership Coverage</h3>
-            <p className="text-xs text-[#9EA5A8] font-mono">
+          <div className="bg-card border border-border-subtle rounded-xl p-6 space-y-5 shadow-md">
+            <h3 className="font-display text-lg font-bold text-text-primary">Succession Bench & Critical Leadership Coverage</h3>
+            <p className="text-xs text-text-secondary font-mono">
               Bench readiness pipelines for Director and Chief Architect seats
             </p>
 
@@ -311,21 +312,21 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
                 { target: 'Director of Engineering', current: 'Kavita Desai', successor: 'Christopher Benson', readiness: '84% Ready', time: '6 months' },
                 { target: 'Lead Solutions Architect', current: 'Ananya Deshmukh', successor: 'Dr. Siddharth Sen (Pipeline)', readiness: '78% Ready', time: '12 months' }
               ].map((bench, idx) => (
-                <div key={idx} className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-3 font-mono text-xs">
+                <div key={idx} className="p-4 bg-card-subtle border border-border-subtle rounded-lg space-y-3 font-mono text-xs">
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-[#EDE7DC] text-sm">{bench.target}</span>
-                    <span className="text-[#2E6B72] border border-[#2E6B72] px-2 py-0.5 rounded text-[10px] font-bold">
+                    <span className="font-bold text-text-primary text-sm">{bench.target}</span>
+                    <span className="text-emerald-500 border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 rounded text-[10px] font-bold">
                       {bench.readiness}
                     </span>
                   </div>
-                  <div className="space-y-1 text-[#9EA5A8]">
+                  <div className="space-y-1 text-text-secondary">
                     <div className="flex justify-between">
-                      <span className="text-[#9EA5A8]">Primary Ready Successor:</span>
-                      <span className="text-[#EDE7DC]">{bench.successor}</span>
+                      <span className="text-text-muted">Primary Ready Successor:</span>
+                      <span className="text-text-primary font-semibold">{bench.successor}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#9EA5A8]">Estimated Time to Ready:</span>
-                      <span className="text-[#E8913C]">{bench.time}</span>
+                      <span className="text-text-muted">Estimated Time to Ready:</span>
+                      <span className="text-amber-500 font-semibold">{bench.time}</span>
                     </div>
                   </div>
                 </div>
@@ -338,11 +339,11 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
       {/* VIEW 4: ENTERPRISE PAYROLL */}
       {activeSubView === 'payroll' && (
         <div className="space-y-6">
-          <div className="bg-[#101317] border border-[rgba(237,231,220,0.13)] rounded-lg p-6 space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[rgba(237,231,220,0.13)] pb-4">
+          <div className="bg-card border border-border-subtle rounded-xl p-6 space-y-6 shadow-md">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-subtle pb-4">
               <div>
-                <h3 className="font-display text-xl font-bold text-[#EDE7DC]">Corporate Payroll Register</h3>
-                <div className="text-xs font-mono text-[#9EA5A8] mt-0.5">
+                <h3 className="font-display text-xl font-bold text-text-primary">Corporate Payroll Register</h3>
+                <div className="text-xs font-mono text-text-secondary mt-0.5">
                   Monthly Disbursal Cycle • FY 2026-27 • Section 192 TDS Compliant
                 </div>
               </div>
@@ -353,29 +354,29 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
                   setPayrollProcessed(true);
                   if (onRunPayroll) onRunPayroll();
                 }}
-                className="px-4 py-2 bg-[#EDE7DC] text-[#0A0C0E] hover:bg-[#2E6B72] hover:text-[#EDE7DC] font-mono text-xs font-bold uppercase tracking-wider rounded-sm transition min-h-[44px]"
+                className="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider rounded-lg transition min-h-[44px] shadow-md shadow-sky-500/20"
               >
                 {payrollProcessed ? 'Batch Disbursed to Bank' : 'Run November Payroll'}
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-1">
-                <div className="text-[10px] font-mono text-[#9EA5A8] uppercase">Total Salary Outflow</div>
-                <div className="text-2xl font-display font-bold text-[#EDE7DC]">₹14,82,40,000</div>
-                <div className="text-[11px] font-mono text-[#9EA5A8]">1,420 Active Employees</div>
+              <div className="p-4 bg-card-subtle border border-border-subtle rounded-lg space-y-1">
+                <div className="text-[10px] font-mono text-text-muted uppercase">Total Salary Outflow</div>
+                <div className="text-2xl font-display font-bold text-text-primary">₹14,82,40,000</div>
+                <div className="text-[11px] font-mono text-text-secondary">1,420 Active Employees</div>
               </div>
 
-              <div className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-1">
-                <div className="text-[10px] font-mono text-[#9EA5A8] uppercase">Statutory EPF & ESI</div>
-                <div className="text-2xl font-display font-bold text-[#2E6B72]">₹1,77,88,800</div>
-                <div className="text-[11px] font-mono text-[#9EA5A8]">EPFO Portal Sync Ready</div>
+              <div className="p-4 bg-card-subtle border border-border-subtle rounded-lg space-y-1">
+                <div className="text-[10px] font-mono text-text-muted uppercase">Statutory EPF & ESI</div>
+                <div className="text-2xl font-display font-bold text-emerald-500">₹1,77,88,800</div>
+                <div className="text-[11px] font-mono text-text-secondary">EPFO Portal Sync Ready</div>
               </div>
 
-              <div className="p-4 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] rounded-sm space-y-1">
-                <div className="text-[10px] font-mono text-[#9EA5A8] uppercase">Withheld Income Tax (TDS)</div>
-                <div className="text-2xl font-display font-bold text-[#E8913C]">₹2,96,48,000</div>
-                <div className="text-[11px] font-mono text-[#9EA5A8]">Challan 281 Auto-filing</div>
+              <div className="p-4 bg-card-subtle border border-border-subtle rounded-lg space-y-1">
+                <div className="text-[10px] font-mono text-text-muted uppercase">Withheld Income Tax (TDS)</div>
+                <div className="text-2xl font-display font-bold text-amber-500">₹2,96,48,000</div>
+                <div className="text-[11px] font-mono text-text-secondary">Challan 281 Auto-filing</div>
               </div>
             </div>
           </div>
