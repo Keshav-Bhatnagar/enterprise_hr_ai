@@ -402,7 +402,7 @@ export default function ManagerCockpit({ employees = [], onApproveLeave, onRejec
                 <div className="pt-2">
                   <div className="flex justify-between text-[#6C7378] text-[10.5px] uppercase">
                     <span>Projected Post-Intervention:</span>
-                    <span className="text-[#2E6B72] font-bold">{(simuredRisk * 100 || simulatedRisk * 100).toFixed(1)}% (Safe)</span>
+                    <span className="text-[#2E6B72] font-bold">{(simulatedRisk * 100).toFixed(1)}% (Safe)</span>
                   </div>
                   <div className="h-1.5 w-full bg-[#101317] rounded-full overflow-hidden mt-1">
                     <div className="h-full bg-[#2E6B72]" style={{ width: `${simulatedRisk * 100}%` }}></div>
@@ -432,3 +432,4 @@ export default function ManagerCockpit({ employees = [], onApproveLeave, onRejec
     </div>
   );
 }
+

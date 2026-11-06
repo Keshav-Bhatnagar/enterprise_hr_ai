@@ -178,10 +178,35 @@ export default function Talent3DCube({ employees, onSelectEmployee, onOpenSimula
       }
     };
 
+    const onTouchStart = (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        prevX = e.touches[0].clientX;
+        prevY = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchMove = (e) => {
+      if (isDragging && e.touches.length === 1) {
+        const dx = e.touches[0].clientX - prevX;
+        const dy = e.touches[0].clientY - prevY;
+        prismGroup.rotation.y += dx * 0.008;
+        prismGroup.rotation.x += dy * 0.008;
+        prevX = e.touches[0].clientX;
+        prevY = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchEnd = () => { isDragging = false; };
+
     container.addEventListener('mousedown', onMouseDown);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
     container.addEventListener('click', onClick);
+
+    container.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
 
     // Resize
     const handleResize = () => {
@@ -215,6 +240,10 @@ export default function Talent3DCube({ employees, onSelectEmployee, onOpenSimula
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
       container.removeEventListener('click', onClick);
+
+      container.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
 
       boxGeo.dispose();
       edgesGeo.dispose();

@@ -22,12 +22,15 @@ export default function RoleThrowableDeck({ personas, onSelectPersona, activePer
   const topPersona = deckList[0];
 
   const handlePointerDown = (e) => {
+    if (e.target.closest('button')) {
+      return; // Do not hijack pointer capture when clicking the action button
+    }
     const cardEl = topCardRef.current;
     if (!cardEl) return;
     setIsDragging(true);
     startXRef.current = e.clientX;
     startYRef.current = e.clientY;
-    cardEl.setPointerCapture(e.pointerId);
+    try { cardEl.setPointerCapture(e.pointerId); } catch {}
     cardEl.style.transition = 'none';
   };
 

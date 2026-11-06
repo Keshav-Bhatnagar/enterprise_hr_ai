@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Menu,
   X,
@@ -22,15 +22,30 @@ export default function AppShell({
   onSwitchPersona,
   demoPersonas = []
 }) {
-  const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showPersonaModal, setShowPersonaModal] = useState(false);
+  const personaRef = useRef(null);
 
   // Normalize role string
   const normalizedRole = (role || 'HR_ADMIN').toUpperCase().replace('ROLE_', '');
 
+  // Close persona dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (personaRef.current && !personaRef.current.contains(event.target)) {
+        setShowPersonaModal(false);
+      }
+    }
+    if (showPersonaModal) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showPersonaModal]);
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#0A0C0E] text-[#EDE7DC] font-body antialiased">
+    <div className="min-h-screen flex flex-col bg-[#0A0C0E] text-[#EDE7DC] font-body antialiased selection:bg-[#E8913C] selection:text-[#0A0C0E]">
       {/* CONTEXTUAL TOPBAR - DECISIONLENS STYLE */}
       <header className="sticky top-0 z-40 bg-[#0A0C0E]/95 backdrop-blur-md border-b border-[rgba(237,231,220,0.13)] px-4 sm:px-6 h-14 flex items-center justify-between transition-colors">
         {/* LEFT: BREADCRUMBS & MOBILE TOGGLE */}
@@ -38,8 +53,8 @@ export default function AppShell({
           <button
             type="button"
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-1.5 rounded bg-[#101317] border border-[rgba(237,231,220,0.13)] text-[#9EA5A8] hover:text-[#EDE7DC]"
-            aria-label="Toggle menu"
+            className="md:hidden p-2 rounded bg-[#101317] border border-[rgba(237,231,220,0.13)] text-[#9EA5A8] hover:text-[#EDE7DC] min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Toggle mobile menu"
           >
             {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
@@ -70,13 +85,14 @@ export default function AppShell({
           {actionButton}
 
           {/* User Persona Pill with Dropdown Trigger */}
-          <div className="relative">
+          <div className="relative" ref={personaRef}>
             <button
               type="button"
               onClick={() => setShowPersonaModal(!showPersonaModal)}
-              className="flex items-center gap-2 px-2.5 py-1.5 rounded-sm bg-[#101317] border border-[rgba(237,231,220,0.13)] hover:border-[#E8913C] transition text-left"
+              className="flex items-center gap-2 px-2.5 py-1.5 rounded-sm bg-[#101317] border border-[rgba(237,231,220,0.13)] hover:border-[#E8913C] transition text-left min-h-[44px]"
+              aria-label="User profile and persona switch menu"
             >
-              <div className="size-6 rounded-full bg-[#EDE7DC] text-[#0A0C0E] font-display font-bold text-[10.5px] flex items-center justify-center">
+              <div className="size-6 rounded-full bg-[#EDE7DC] text-[#0A0C0E] font-display font-bold text-[10.5px] flex items-center justify-center shrink-0">
                 {currentUser?.avatar || currentUser?.name?.[0] || 'U'}
               </div>
               <div className="hidden sm:block text-left font-mono leading-none">
@@ -136,7 +152,7 @@ export default function AppShell({
                       setShowPersonaModal(false);
                       if (onLogout) onLogout();
                     }}
-                    className="w-full py-1.5 px-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] hover:border-red-500/50 hover:text-red-400 text-xs font-mono text-[#9EA5A8] rounded-sm transition flex items-center justify-center gap-2"
+                    className="w-full py-2 px-3 bg-[#0A0C0E] border border-[rgba(237,231,220,0.13)] hover:border-red-500/50 hover:text-red-400 text-xs font-mono text-[#9EA5A8] rounded-sm transition flex items-center justify-center gap-2"
                   >
                     <LogOut className="size-3.5" />
                     <span>Sign Out to Deck</span>
@@ -147,6 +163,55 @@ export default function AppShell({
           </div>
         </div>
       </header>
+
+      {/* MOBILE DRAWER SHEET */}
+      {mobileOpen && (
+        <div className="md:hidden bg-[#101317] border-b border-[rgba(237,231,220,0.13)] p-4 space-y-4 font-mono z-30 animate-in slide-in-from-top-2">
+          <div className="flex items-center justify-between border-b border-[rgba(237,231,220,0.1)] pb-2 text-xs">
+            <span className="text-[#9EA5A8]">Authenticated as:</span>
+            <span className="text-[#E8913C] font-bold">{normalizedRole}</span>
+          </div>
+          <div className="text-xs text-[#EDE7DC] font-bold">
+            {currentUser?.name} ({currentUser?.title})
+          </div>
+
+          <div className="space-y-2 pt-1">
+            <div className="text-[10px] uppercase text-[#6C7378] tracking-wider">Switch Persona:</div>
+            <div className="grid grid-cols-2 gap-2">
+              {demoPersonas.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    if (onSwitchPersona) onSwitchPersona(p);
+                  }}
+                  className={`p-2 rounded text-left text-xs border transition ${
+                    p.role.toUpperCase() === normalizedRole
+                      ? 'border-[#E8913C] text-[#EDE7DC] bg-[#0A0C0E]'
+                      : 'border-[rgba(237,231,220,0.13)] text-[#9EA5A8] bg-[#0A0C0E]/50'
+                  }`}
+                >
+                  <div className="font-bold truncate">{p.name.split(' ')[0]}</div>
+                  <div className="text-[9px] text-[#6C7378] uppercase">{p.role}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileOpen(false);
+              if (onLogout) onLogout();
+            }}
+            className="w-full py-2 bg-[#0A0C0E] border border-red-500/40 text-red-400 text-xs rounded transition flex items-center justify-center gap-1.5"
+          >
+            <LogOut className="size-3.5" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      )}
 
       {/* MAIN CONTAINER */}
       <div className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
