@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Grid, Sliders, Users, AlertTriangle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, KpiCard, DataTable, RiskBadge } from '../../components/primitives';
-import Talent3DCube from '../../components/Talent3DCube';
+import TalentPrism3D from '../../components/TalentPrism3D';
 
 export function TeamCalibrationPage({ employees = [], onSelectEmployee }) {
   const [viewMode, setViewMode] = useState('3d'); // '3d' | '2d'
@@ -109,7 +109,7 @@ export function TeamCalibrationPage({ employees = [], onSelectEmployee }) {
       {/* Spatial 3D / Accessible 2D */}
       {viewMode === '3d' ? (
         <div className="space-y-4">
-          <Talent3DCube
+          <TalentPrism3D
             employees={employees}
             onSelectEmployee={onSelectEmployee}
           />

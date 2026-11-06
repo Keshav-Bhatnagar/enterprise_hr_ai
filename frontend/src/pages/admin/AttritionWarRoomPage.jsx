@@ -3,7 +3,7 @@ import { Box, Table, Download, ShieldAlert, Sparkles, UserCheck, ArrowUpRight } 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, KpiCard, DataTable, RiskBadge, Button } from '../../components/primitives';
 import { useToast } from '../../components/primitives/Toast';
 import { downloadFile } from '../../utils/exportHelpers';
-import Talent3DCube from '../../components/Talent3DCube';
+import TalentPrism3D from '../../components/TalentPrism3D';
 
 export function AttritionWarRoomPage({ employees = [], onSelectEmployee }) {
   const [viewMode, setViewMode] = useState('table'); // 'table' (default) | '3d'
@@ -204,7 +204,7 @@ End of Boardroom Briefing • Enterprise HR AI Platform • Confidential
             <span className="text-xs font-mono text-status-danger">Danger Plane at Z &gt; 75%</span>
           </div>
 
-          <Talent3DCube
+          <TalentPrism3D
             employees={employees}
             onSelectEmployee={onSelectEmployee}
           />
