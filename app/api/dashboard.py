@@ -30,10 +30,14 @@ def load_data():
         return pd.DataFrame(), pd.DataFrame()
 
 @router.get("/summary")
-@lru_cache(maxsize=1)
 def get_summary():
     emp, _ = load_data()
-    if emp.empty: return {}
+    if emp.empty:
+        return {
+            "total_employees": 0,
+            "high_risk_employees": 0,
+            "average_engagement": 3.5
+        }
     
     eng_col = 'EngagementScore' if 'EngagementScore' in emp.columns else ('Engagement' if 'Engagement' in emp.columns else None)
     avg_eng = round(emp[eng_col].mean(), 1) if eng_col and not emp[eng_col].isna().all() else 3.5

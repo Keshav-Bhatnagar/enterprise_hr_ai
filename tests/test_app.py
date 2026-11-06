@@ -48,9 +48,12 @@ def test_invalid_engagement_score():
 
 # We skip full prediction tests because model loading requires actual files which might not be built in CI
 def test_dashboard_summary():
+    from app.api.dashboard import load_data
+    load_data.cache_clear()
     response = client.get("/dashboard/summary")
     assert response.status_code == 200
-    assert "total_employees" in response.json()
+    data = response.json()
+    assert "total_employees" in data
 
 def test_skill_gap_calculation():
     # Test core set logic

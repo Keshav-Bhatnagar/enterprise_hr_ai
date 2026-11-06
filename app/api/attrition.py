@@ -24,10 +24,6 @@ def get_attrition_predictor():
             logger.error(f"Failed to load Attrition Predictor: {e}")
     return predictor
 
-@router.on_event("startup")
-def load_model():
-    get_attrition_predictor()
-
 @router.post("/attrition", response_model=AttritionPrediction)
 def predict_attrition(employee: EmployeeInput):
     pred = get_attrition_predictor()
