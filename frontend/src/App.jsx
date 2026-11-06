@@ -32,8 +32,11 @@ import {
   Search,
   Filter,
   ArrowUpRight,
-  ShieldCheck
+  ShieldCheck,
+  Globe,
+  Ban
 } from 'lucide-react';
+import Org3DConstellation from './components/Org3DConstellation';
 
 // DEMO PERSONAS FOR INSTANT 1-CLICK LOGIN
 const DEMO_PERSONAS = [
@@ -58,7 +61,7 @@ const DEMO_PERSONAS = [
     title: 'Director of Engineering & Platform',
     avatar: 'KD',
     badge: '👔 Engineering Manager',
-    desc: 'Team approvals: 1-click leave sign-offs, 9-Box talent calibrations, team retention packages. Financials partially masked.',
+    desc: 'Team approvals: 1-click leave sign-offs, 9-Box calibrations, team retention. ATS & Payroll access strictly locked.',
     color: 'from-emerald-600 to-teal-600'
   },
   {
@@ -70,7 +73,7 @@ const DEMO_PERSONAS = [
     title: 'Principal AI Systems Scientist',
     avatar: 'VR',
     badge: '👤 Employee Portal',
-    desc: 'Self-service workspace: personal leave quota, compensation band, team sentiment pulse, and flight risk self-check.',
+    desc: 'Self-service workspace: personal leave quota, compensation band, team sentiment pulse. Executive data locked.',
     color: 'from-amber-600 to-orange-600'
   },
   {
@@ -86,6 +89,46 @@ const DEMO_PERSONAS = [
     color: 'from-purple-600 to-violet-600'
   }
 ];
+
+// ROLE-BASED ACCESS CONTROL (RBAC) AUTHORIZATION RULES
+const ROLE_PERMISSIONS = {
+  HR_ADMIN: {
+    allowedTabs: ['3d-constellation', 'war-room', 'simulator', 'leaves', 'nine-box', 'ats', 'succession', 'webhooks', 'compliance', 'payroll', 'sentiment', 'reports', 'self-service'],
+    clearanceLabel: 'Tier 1 • Full Clearance (CHRO / SuperAdmin)',
+    badgeColor: 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+  },
+  MANAGER: {
+    allowedTabs: ['3d-constellation', 'leaves', 'nine-box', 'simulator', 'sentiment'],
+    clearanceLabel: 'Tier 2 • People Leader (Department Approvals & Team 9-Box)',
+    badgeColor: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+  },
+  EMPLOYEE: {
+    allowedTabs: ['3d-constellation', 'self-service', 'sentiment'],
+    clearanceLabel: 'Tier 4 • Individual Contributor (Self-Service Portal Only)',
+    badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+  },
+  AUDITOR: {
+    allowedTabs: ['3d-constellation', 'compliance', 'reports', 'war-room'],
+    clearanceLabel: 'Tier 3 • Compliance Officer (DPDP Act & Algorithmic Audit)',
+    badgeColor: 'bg-purple-500/10 text-purple-500 border-purple-500/20'
+  }
+};
+
+const TAB_REQUIRED_PERMISSIONS = {
+  '3d-constellation': { perm: '3d:visualize:read', name: '3D Workforce Constellation', roleNeeded: 'All Authenticated Personnel' },
+  'war-room': { perm: 'hr:executive:macro_read', name: 'Flight Risk War Room', roleNeeded: 'HR_ADMIN, AUDITOR' },
+  'simulator': { perm: 'hr:compensation:simulate', name: 'Retention ROI Simulator', roleNeeded: 'HR_ADMIN, MANAGER' },
+  'leaves': { perm: 'hcm:approvals:write', name: 'Leave Management & Approvals', roleNeeded: 'HR_ADMIN, MANAGER' },
+  'nine-box': { perm: 'hcm:performance:calibrate', name: '9-Box Talent Calibration', roleNeeded: 'HR_ADMIN, MANAGER' },
+  'ats': { perm: 'hr:talent_acquisition:write', name: 'Talent Acquisition & ATS Hiring', roleNeeded: 'HR_ADMIN only' },
+  'succession': { perm: 'hr:boardroom:succession_write', name: 'Succession Planning & Bench', roleNeeded: 'HR_ADMIN only' },
+  'webhooks': { perm: 'sec:devops:webhook_admin', name: 'HRMS Webhook Gateway', roleNeeded: 'HR_ADMIN only' },
+  'compliance': { perm: 'dpdp:dpo:audit_read', name: 'DPDP Act 2023 & Bias Audit', roleNeeded: 'HR_ADMIN, AUDITOR' },
+  'payroll': { perm: 'finance:compensation:ledger_read', name: 'Payroll & Compensation Register', roleNeeded: 'HR_ADMIN only' },
+  'sentiment': { perm: 'hr:pulse:sentiment_read', name: 'Sentiment Pulse & eNPS', roleNeeded: 'HR_ADMIN, MANAGER, EMPLOYEE' },
+  'reports': { perm: 'exec:boardroom:memo_export', name: 'Executive Boardroom Briefing', roleNeeded: 'HR_ADMIN, AUDITOR' },
+  'self-service': { perm: 'employee:workspace:self_service', name: 'Employee Self-Service', roleNeeded: 'EMPLOYEE, HR_ADMIN' }
+};
 
 // INITIAL AT-RISK EMPLOYEES
 const INITIAL_EMPLOYEES = [
@@ -178,7 +221,7 @@ export default function App() {
   const [loginError, setLoginError] = useState('');
 
   // Active module navigation
-  const [activeTab, setActiveTab] = useState('war-room');
+  const [activeTab, setActiveTab] = useState('3d-constellation');
   const [backendOnline, setBackendOnline] = useState(true);
   const [toast, setToast] = useState(null);
 
@@ -265,39 +308,56 @@ export default function App() {
     setTimeout(() => setToast(null), 4000);
   };
 
-  // Helper for authenticated backend calls
   const authHeaders = () => ({
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
 
-  // Fetch initial live data from backend if server is running
+  // Effective Role & Authorization Checking
+  const userRole = currentUser ? currentUser.role : 'HR_ADMIN';
+  const roleRules = ROLE_PERMISSIONS[userRole] || ROLE_PERMISSIONS.HR_ADMIN;
+  const isAuthorized = (tabKey) => {
+    return roleRules.allowedTabs.includes(tabKey);
+  };
+
+  // Switch tab safely with authorization check
+  const handleNavigate = (tabKey) => {
+    if (!isAuthorized(tabKey)) {
+      const req = TAB_REQUIRED_PERMISSIONS[tabKey];
+      // Log an access denied violation in DPDP audit log
+      const newAudit = {
+        id: Date.now(),
+        user: currentUser?.username || 'unknown',
+        role: userRole,
+        target: 'SYSTEM_RESOURCE',
+        action: `ACCESS_DENIED_VIOLATION (${tabKey})`,
+        exposed: 'BLOCKED_BY_RBAC',
+        time: 'Just now'
+      };
+      setAccessLogs(prev => [newAudit, ...prev]);
+      showToast(`⛔ 403 Forbidden: Role ${userRole} lacks permission for ${req?.name || tabKey}.`);
+    }
+    setActiveTab(tabKey);
+  };
+
+  // Sync with live backend
   useEffect(() => {
     if (!token) return;
 
-    // Check HCM leave
     axios.get('/hcm/leave', authHeaders())
       .then(res => {
-        if (Array.isArray(res.data) && res.data.length > 0) {
-          setLeaves(res.data.slice(0, 15));
-        }
+        if (Array.isArray(res.data) && res.data.length > 0) setLeaves(res.data.slice(0, 15));
         setBackendOnline(true);
       })
-      .catch(() => {
-        setBackendOnline(false);
-      });
+      .catch(() => setBackendOnline(false));
 
-    // Fetch Candidates
     axios.get('/hcm/candidates', authHeaders())
       .then(res => {
-        if (Array.isArray(res.data) && res.data.length > 0) {
-          setCandidates(res.data.slice(0, 12));
-        }
+        if (Array.isArray(res.data) && res.data.length > 0) setCandidates(res.data.slice(0, 12));
       })
       .catch(() => {});
 
-    // Fetch 9-Box Performance
     axios.get('/hcm/performance', authHeaders())
       .then(res => {
         if (Array.isArray(res.data) && res.data.length > 0) {
@@ -317,7 +377,6 @@ export default function App() {
       })
       .catch(() => {});
 
-    // Fetch Succession
     axios.get('/hcm/succession', authHeaders())
       .then(res => {
         if (Array.isArray(res.data) && res.data.length > 0) {
@@ -334,7 +393,6 @@ export default function App() {
       })
       .catch(() => {});
 
-    // Fetch Sentiment
     axios.get('/hcm/sentiment', authHeaders())
       .then(res => {
         if (Array.isArray(res.data) && res.data.length > 0) {
@@ -350,7 +408,6 @@ export default function App() {
       })
       .catch(() => {});
 
-    // Fetch DPDP Access Logs
     axios.get('/api/v1/compliance/access-logs?limit=5', authHeaders())
       .then(res => {
         if (res.data && res.data.audit_logs && res.data.audit_logs.length > 0) {
@@ -375,7 +432,6 @@ export default function App() {
     setLoginError('');
 
     try {
-      // Standard OAuth2 Form Data for /token
       const formData = new URLSearchParams();
       formData.append('username', loginUsername);
       formData.append('password', loginPassword);
@@ -401,15 +457,13 @@ export default function App() {
       setToken(authToken);
       setCurrentUser(userObj);
 
-      // Default tab based on role
       if (userObj.role === 'EMPLOYEE') setActiveTab('self-service');
       else if (userObj.role === 'MANAGER') setActiveTab('leaves');
       else if (userObj.role === 'AUDITOR') setActiveTab('compliance');
-      else setActiveTab('war-room');
+      else setActiveTab('3d-constellation');
 
-      showToast(`Welcome back, ${userObj.name}! Logged in as ${userObj.role}.`);
+      showToast(`Authenticated as ${userObj.name} • Clearance: ${userObj.role}`);
     } catch {
-      // Fallback for seamless offline demo testing
       const foundPersona = DEMO_PERSONAS.find(p => p.username === loginUsername && p.password === loginPassword);
       if (foundPersona) {
         const dummyToken = 'demo_jwt_token_enterprise_' + Date.now();
@@ -426,11 +480,11 @@ export default function App() {
         if (userObj.role === 'EMPLOYEE') setActiveTab('self-service');
         else if (userObj.role === 'MANAGER') setActiveTab('leaves');
         else if (userObj.role === 'AUDITOR') setActiveTab('compliance');
-        else setActiveTab('war-room');
+        else setActiveTab('3d-constellation');
 
-        showToast(`Offline Demo Mode: Logged in as ${foundPersona.name} (${foundPersona.role})`);
+        showToast(`Offline Demo Session: ${foundPersona.name} (${foundPersona.role})`);
       } else {
-        setLoginError('Invalid username or password. Use demo persona credentials below.');
+        setLoginError('Invalid credentials. Select a quick persona below to test role gating.');
       }
     } finally {
       setLoginLoading(false);
@@ -440,7 +494,6 @@ export default function App() {
   const handleQuickLogin = (persona) => {
     setLoginUsername(persona.username);
     setLoginPassword(persona.password);
-    // Instant login
     const dummyToken = 'demo_jwt_token_enterprise_' + Date.now();
     const userObj = {
       username: persona.username,
@@ -455,9 +508,9 @@ export default function App() {
     if (userObj.role === 'EMPLOYEE') setActiveTab('self-service');
     else if (userObj.role === 'MANAGER') setActiveTab('leaves');
     else if (userObj.role === 'AUDITOR') setActiveTab('compliance');
-    else setActiveTab('war-room');
+    else setActiveTab('3d-constellation');
 
-    showToast(`Logged in as ${persona.name} (${persona.role})`);
+    showToast(`Switched persona to ${persona.name} (${persona.role})`);
   };
 
   const handleLogout = () => {
@@ -465,16 +518,14 @@ export default function App() {
     localStorage.removeItem('nemo_user');
     setToken(null);
     setCurrentUser(null);
-    showToast('Signed out successfully.');
+    showToast('Session terminated cleanly.');
   };
 
-  // Operational HCM Handlers
+  // Operational Actions
   const handleApproveLeave = async (id) => {
     try {
       await axios.post(`/hcm/leave/${id}/approve`, {}, authHeaders());
-    } catch {
-      // offline fallback
-    }
+    } catch {}
     setLeaves(prev => prev.map(l => l.id === id ? { ...l, status: 'Approved' } : l));
     showToast(`Leave Request #${id} Approved.`);
   };
@@ -482,9 +533,7 @@ export default function App() {
   const handleRejectLeave = async (id) => {
     try {
       await axios.post(`/hcm/leave/${id}/reject`, {}, authHeaders());
-    } catch {
-      // offline fallback
-    }
+    } catch {}
     setLeaves(prev => prev.map(l => l.id === id ? { ...l, status: 'Rejected' } : l));
     showToast(`Leave Request #${id} Rejected.`);
   };
@@ -506,9 +555,7 @@ export default function App() {
         leave_type: newLeaveType,
         days: parseInt(newLeaveDays, 10)
       }, authHeaders());
-    } catch {
-      // offline
-    }
+    } catch {}
 
     setLeaves(prev => [newReq, ...prev]);
     setApplyLeaveModal(false);
@@ -516,27 +563,35 @@ export default function App() {
   };
 
   const handleHireCandidate = async (candidateId) => {
+    if (userRole !== 'HR_ADMIN') {
+      showToast('⛔ Authorization Failure: Only HR_ADMIN can execute candidate hiring.');
+      return;
+    }
     try {
       await axios.post(`/hcm/workflow/hire/${candidateId}`, {}, authHeaders());
-    } catch {
-      // offline
-    }
+    } catch {}
     setCandidates(prev => prev.map(c => c.id === candidateId ? { ...c, stage: 'Hired' } : c));
     showToast(`Candidate #${candidateId} officially HIRED! IT provisioning triggered.`);
   };
 
   const handleRejectCandidate = async (candidateId) => {
+    if (userRole !== 'HR_ADMIN') {
+      showToast('⛔ Authorization Failure: Only HR_ADMIN can reject candidates.');
+      return;
+    }
     try {
       await axios.post(`/hcm/candidates/${candidateId}/reject`, {}, authHeaders());
-    } catch {
-      // offline
-    }
+    } catch {}
     setCandidates(prev => prev.filter(c => c.id !== candidateId));
     showToast(`Candidate #${candidateId} marked as Rejected.`);
   };
 
-  // Webhook Simulation Trigger
   const handleSimulateWebhook = async (provider, eventType) => {
+    if (userRole !== 'HR_ADMIN') {
+      showToast('⛔ Authorization Failure: Only HR_ADMIN can trigger webhook simulations.');
+      return;
+    }
+
     const newEvt = {
       id: "evt_" + Math.floor(Math.random() * 9000 + 1000),
       provider,
@@ -561,9 +616,7 @@ export default function App() {
       if (res.data && res.data.simulated_risk) {
         newEvt.desc = `Risk recalculated: ${(res.data.simulated_risk.new_probability * 100).toFixed(1)}% (${res.data.simulated_risk.risk_tier})`;
       }
-    } catch {
-      // offline
-    }
+    } catch {}
 
     setWebhooks(prev => [newEvt, ...prev]);
     showToast(`Webhook [${provider.toUpperCase()}] ${eventType} received & processed.`);
@@ -585,7 +638,6 @@ export default function App() {
   const netFinancialGain = Math.max(0, turnoverCostAvoidance - annualInterventionCost);
   const roiMultiple = annualInterventionCost > 0 ? (turnoverCostAvoidance / annualInterventionCost).toFixed(1) : "N/A";
 
-  // Filtered employees for War Room
   const filteredEmployees = employees.filter(e => {
     const matchesSearch = e.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           String(e.global_id).includes(searchQuery);
@@ -593,11 +645,7 @@ export default function App() {
     return matchesSearch && matchesDept;
   });
 
-  // Effective Role & Masking Rules
-  const userRole = currentUser ? currentUser.role : 'HR_ADMIN';
   const isAuditor = userRole === 'AUDITOR';
-  const isManager = userRole === 'MANAGER';
-  const isEmployee = userRole === 'EMPLOYEE';
 
   // -------------------------------------------------------------
   // RENDER: LOGIN VIEW (IF NOT AUTHENTICATED)
@@ -605,42 +653,41 @@ export default function App() {
   if (!token) {
     return (
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#09090b] text-zinc-100' : 'bg-zinc-50 text-zinc-900'} flex flex-col justify-between p-6 transition-colors duration-200 font-sans`}>
-        {/* Top bar with Theme Switcher */}
         <div className="flex justify-between items-center max-w-6xl w-full mx-auto">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/20">
+            <div className="size-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/20">
               Ne
             </div>
             <div>
               <div className="font-extrabold text-base tracking-tight flex items-center gap-2">
                 NeMo HR <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">Enterprise AI</span>
               </div>
-              <div className="text-xs text-zinc-500">Workforce Retention Intelligence & DPDP Act 2023 Shield</div>
+              <div className="text-xs text-zinc-500">Workforce Retention Intelligence & 3D Constellation Layer</div>
             </div>
           </div>
 
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             className="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0c0c0f] text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition shadow-sm"
+            aria-label="Toggle Theme"
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-zinc-600" />}
+            {theme === 'dark' ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4 text-zinc-600" />}
           </button>
         </div>
 
-        {/* Central Sign-In Container */}
         <div className="max-w-4xl w-full mx-auto my-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            {/* Left Column: Sign-In Form */}
-            <div className="md:col-span-6 bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 shadow-2xl">
+            {/* Form */}
+            <div className="md:col-span-6 bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 shadow-2xl">
               <div className="mb-6">
                 <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Secure SSO Gateway</span>
                 <h2 className="text-2xl font-black mt-1 tracking-tight text-zinc-900 dark:text-zinc-50">Sign In to Workspace</h2>
-                <p className="text-xs text-zinc-500 mt-1">Authenticate with enterprise credentials or choose a pre-configured persona below.</p>
+                <p className="text-xs text-zinc-500 mt-1">Authenticate to enforce strictly gated enterprise role permissions.</p>
               </div>
 
               {loginError && (
                 <div className="mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs font-semibold flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <AlertTriangle className="size-4 shrink-0" />
                   <span>{loginError}</span>
                 </div>
               )}
@@ -653,7 +700,7 @@ export default function App() {
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
                     required
-                    placeholder="e.g. admin, manager, employee, auditor"
+                    placeholder="admin, manager, employee, auditor"
                     className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -673,49 +720,41 @@ export default function App() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-zinc-500 pt-1">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" defaultChecked className="rounded border-zinc-300 text-blue-600 focus:ring-blue-500" />
-                    <span>Remember session</span>
-                  </label>
-                  <span className="text-blue-500 hover:underline cursor-pointer">Trouble signing in?</span>
-                </div>
-
                 <button
                   type="submit"
                   disabled={loginLoading}
                   className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2 mt-2"
                 >
-                  {loginLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
+                  {loginLoading ? <RefreshCw className="size-4 animate-spin" /> : <Lock className="size-4" />}
                   <span>{loginLoading ? 'Authenticating...' : 'Sign In to Workspace'}</span>
                 </button>
               </form>
 
               <div className="mt-6 pt-5 border-t border-zinc-200 dark:border-zinc-800 text-center">
                 <div className="flex items-center justify-center gap-2 text-xs text-zinc-500">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  <span>Enforcing DPDP Act 2023 Masking Rules</span>
+                  <ShieldCheck className="size-4 text-emerald-500" />
+                  <span>Enforcing DPDP Act 2023 & RBAC Policy SEC-04</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: 4 One-Click Enterprise Persona Cards */}
+            {/* Persona Switchers */}
             <div className="md:col-span-6 space-y-3">
               <div className="mb-2">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">Recruiter & Investor Fast-Track</span>
+                <span className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">Role-Based Access Calibration</span>
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">1-Click Demo Personas</h3>
-                <p className="text-xs text-zinc-500">Select any role to instantly experience tailored permissions and interface modes.</p>
+                <p className="text-xs text-zinc-500">Notice how each persona has distinct, strictly gated module access.</p>
               </div>
 
               {DEMO_PERSONAS.map(p => (
                 <div
                   key={p.id}
                   onClick={() => handleQuickLogin(p)}
-                  className="p-3.5 rounded-xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 hover:border-blue-500/60 dark:hover:border-blue-500/60 transition cursor-pointer shadow-sm group"
+                  className="p-3.5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 hover:border-blue-500/60 transition cursor-pointer shadow-sm group"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${p.color} flex items-center justify-center text-white font-bold text-xs shadow-sm`}>
+                      <div className={`size-9 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white font-bold text-xs shadow-sm`}>
                         {p.avatar}
                       </div>
                       <div>
@@ -726,7 +765,7 @@ export default function App() {
                         <div className="text-[11px] text-zinc-400">{p.title}</div>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-blue-500 group-hover:translate-x-0.5 transition" />
+                    <ChevronRight className="size-4 text-zinc-400 group-hover:text-blue-500 group-hover:translate-x-0.5 transition" />
                   </div>
                   <p className="text-[11px] text-zinc-500 mt-2 line-clamp-1">{p.desc}</p>
                 </div>
@@ -735,10 +774,9 @@ export default function App() {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="text-center text-xs text-zinc-400 max-w-6xl mx-auto w-full pt-4 border-t border-zinc-200 dark:border-zinc-800/60 flex flex-col md:flex-row justify-between items-center gap-2">
-          <span>NeMo HR • Enterprise Workforce Retention Intelligence & Add-On Suite</span>
-          <span>FastAPI 0.115 • React 18 • Vite 6 • Tailored for Workday & Darwinbox</span>
+          <span>NeMo HR • Enterprise Workforce Retention Intelligence & 3D Constellation</span>
+          <span>FastAPI 0.115 • React 18 • Three.js WebGL • Workday & Darwinbox Add-On</span>
         </div>
       </div>
     );
@@ -750,16 +788,16 @@ export default function App() {
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#09090b] text-zinc-100' : 'bg-zinc-50 text-zinc-900'} flex flex-col transition-colors duration-200 font-sans`}>
 
-      {/* TOP ENTERPRISE NAVIGATION HEADER */}
+      {/* TOP NAVIGATION HEADER */}
       <header className="sticky top-0 z-40 bg-white/80 dark:bg-[#0c0c0f]/80 backdrop-blur border-b border-zinc-200 dark:border-zinc-800 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-500/20">
+            <div className="size-8 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-500/20">
               Ne
             </div>
             <div>
               <span className="font-extrabold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">NeMo HR</span>
-              <span className="text-xs text-zinc-400 font-normal ml-2 hidden md:inline">Workforce Intelligence & Retention</span>
+              <span className="text-xs text-zinc-400 font-normal ml-2 hidden md:inline">Enterprise 3D Workforce Intelligence</span>
             </div>
           </div>
 
@@ -767,95 +805,108 @@ export default function App() {
 
           {/* Backend Status Badge */}
           <div className="flex items-center gap-2 text-xs">
-            <span className={`w-2 h-2 rounded-full ${backendOnline ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+            <span className={`size-2 rounded-full ${backendOnline ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
             <span className="text-[11px] font-semibold text-zinc-500">
-              {backendOnline ? 'FastAPI :8000 Connected' : 'Simulated Session'}
+              {backendOnline ? 'FastAPI :8000 Live' : 'Simulated Session'}
             </span>
           </div>
         </div>
 
-        {/* User Pill, Theme Toggle, Logout */}
+        {/* User Pill & Controls */}
         <div className="flex items-center gap-3">
-          {/* Active Persona Pill */}
+          {/* Active Persona & Clearance Pill */}
           <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs">
-            <div className="w-6 h-6 rounded-md bg-blue-600 text-white font-bold flex items-center justify-center text-[11px]">
+            <div className="size-6 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center text-[11px]">
               {currentUser?.name.substring(0, 2).toUpperCase() || 'US'}
             </div>
             <div className="leading-tight text-left">
-              <div className="font-bold text-zinc-900 dark:text-zinc-100 text-[11px]">{currentUser?.name}</div>
-              <div className="text-[10px] text-zinc-400 font-mono flex items-center gap-1">
-                <span>{userRole}</span>
-                {isAuditor && <span className="text-purple-400 font-bold">• MASKED</span>}
+              <div className="font-bold text-zinc-900 dark:text-zinc-100 text-[11px] flex items-center gap-1.5">
+                <span>{currentUser?.name}</span>
+                <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold uppercase border ${roleRules.badgeColor}`}>
+                  {userRole}
+                </span>
+              </div>
+              <div className="text-[10px] text-zinc-400 font-mono">
+                {roleRules.clearanceLabel}
               </div>
             </div>
           </div>
 
-          {/* Theme switch */}
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             className="p-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition"
-            title="Toggle Light/Dark Theme"
+            aria-label="Toggle Theme"
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-zinc-600" />}
+            {theme === 'dark' ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4 text-zinc-600" />}
           </button>
 
-          {/* Sign Out */}
           <button
             onClick={handleLogout}
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-rose-500/10 hover:border-rose-500/30 text-zinc-600 dark:text-zinc-400 hover:text-rose-500 text-xs font-semibold transition"
           >
-            <LogOut className="w-3.5 h-3.5" />
+            <LogOut className="size-3.5" />
             <span className="hidden sm:inline">Sign Out</span>
           </button>
         </div>
       </header>
 
-      {/* MAIN CONTAINER: SIDEBAR + CONTENT */}
+      {/* MAIN CONTAINER */}
       <div className="flex-1 flex overflow-hidden">
 
-        {/* LEFT COLLAPSIBLE ENTERPRISE SIDEBAR */}
+        {/* SIDEBAR NAVIGATION WITH RBAC STATUS */}
         <aside className="w-64 bg-white dark:bg-[#0c0c0f] border-r border-zinc-200 dark:border-zinc-800 p-4 flex flex-col justify-between shrink-0 overflow-y-auto">
           <div className="space-y-6">
+
+            {/* 3D VISUALIZATION PREMIER */}
+            <div>
+              <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider px-2 mb-2">3D Core Engine</div>
+              <button
+                onClick={() => handleNavigate('3d-constellation')}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                  activeTab === '3d-constellation'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Globe className="size-4 shrink-0 text-cyan-400" />
+                  <span>3D Org Constellation</span>
+                </div>
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 font-bold uppercase">WebGL</span>
+              </button>
+            </div>
 
             {/* GROUP 1: EXECUTIVE INTELLIGENCE */}
             <div>
               <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider px-2 mb-2">Executive Intelligence</div>
               <nav className="space-y-1">
-                <button
-                  onClick={() => setActiveTab('war-room')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'war-room'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <ShieldAlert className="w-4 h-4 shrink-0" />
-                  <span>Flight Risk War Room</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('simulator')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'simulator'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <Sliders className="w-4 h-4 shrink-0" />
-                  <span>Retention ROI Simulator</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('reports')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'reports'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <FileText className="w-4 h-4 shrink-0" />
-                  <span>Executive Boardroom Memo</span>
-                </button>
+                {[
+                  { id: 'war-room', name: 'Flight Risk War Room', icon: ShieldAlert },
+                  { id: 'simulator', name: 'Retention ROI Simulator', icon: Sliders },
+                  { id: 'reports', name: 'Executive Boardroom Memo', icon: FileText }
+                ].map(item => {
+                  const allowed = isAuthorized(item.id);
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => handleNavigate(item.id)}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                        activeTab === item.id
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : allowed
+                          ? 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                          : 'text-zinc-400 dark:text-zinc-600 bg-zinc-100/50 dark:bg-zinc-900/30 cursor-pointer'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className="size-4 shrink-0" />
+                        <span>{item.name}</span>
+                      </div>
+                      {!allowed && <Lock className="size-3 text-zinc-400" />}
+                    </button>
+                  );
+                })}
               </nav>
             </div>
 
@@ -863,60 +914,40 @@ export default function App() {
             <div>
               <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider px-2 mb-2">HCM Operations</div>
               <nav className="space-y-1">
-                <button
-                  onClick={() => setActiveTab('leaves')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'leaves'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Calendar className="w-4 h-4 shrink-0" />
-                    <span>Leave Approvals</span>
-                  </div>
-                  {leaves.filter(l => l.status === 'Pending').length > 0 && (
-                    <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-500/20 text-amber-500 font-bold">
-                      {leaves.filter(l => l.status === 'Pending').length}
-                    </span>
-                  )}
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('nine-box')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'nine-box'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <Activity className="w-4 h-4 shrink-0" />
-                  <span>9-Box Talent Review</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('ats')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'ats'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <Users className="w-4 h-4 shrink-0" />
-                  <span>Talent Acquisition ATS</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('succession')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'succession'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <Award className="w-4 h-4 shrink-0" />
-                  <span>Succession & Bench</span>
-                </button>
+                {[
+                  { id: 'leaves', name: 'Leave Approvals', icon: Calendar, badge: leaves.filter(l => l.status === 'Pending').length },
+                  { id: 'nine-box', name: '9-Box Talent Review', icon: Activity },
+                  { id: 'ats', name: 'Talent Acquisition ATS', icon: Users },
+                  { id: 'succession', name: 'Succession & Bench', icon: Award }
+                ].map(item => {
+                  const allowed = isAuthorized(item.id);
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => handleNavigate(item.id)}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                        activeTab === item.id
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : allowed
+                          ? 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                          : 'text-zinc-400 dark:text-zinc-600 bg-zinc-100/50 dark:bg-zinc-900/30 cursor-pointer'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className="size-4 shrink-0" />
+                        <span>{item.name}</span>
+                      </div>
+                      {!allowed ? (
+                        <Lock className="size-3 text-zinc-400" />
+                      ) : item.badge && item.badge > 0 ? (
+                        <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-500/20 text-amber-500 font-bold">
+                          {item.badge}
+                        </span>
+                      ) : null}
+                    </button>
+                  );
+                })}
               </nav>
             </div>
 
@@ -924,1207 +955,1175 @@ export default function App() {
             <div>
               <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider px-2 mb-2">Governance & Feeds</div>
               <nav className="space-y-1">
-                <button
-                  onClick={() => setActiveTab('webhooks')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'webhooks'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <Webhook className="w-4 h-4 shrink-0" />
-                  <span>HRMS Webhook Gateway</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('compliance')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'compliance'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <Lock className="w-4 h-4 shrink-0" />
-                  <span>DPDP Act 2023 & Bias</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('payroll')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'payroll'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <DollarSign className="w-4 h-4 shrink-0" />
-                  <span>Payroll & Comp Equity</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab('sentiment')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'sentiment'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <BarChart3 className="w-4 h-4 shrink-0" />
-                  <span>Sentiment Pulse (eNPS)</span>
-                </button>
+                {[
+                  { id: 'webhooks', name: 'HRMS Webhook Gateway', icon: Webhook },
+                  { id: 'compliance', name: 'DPDP Act 2023 & Bias', icon: Lock },
+                  { id: 'payroll', name: 'Payroll & Comp Equity', icon: DollarSign },
+                  { id: 'sentiment', name: 'Sentiment Pulse (eNPS)', icon: BarChart3 }
+                ].map(item => {
+                  const allowed = isAuthorized(item.id);
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => handleNavigate(item.id)}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                        activeTab === item.id
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : allowed
+                          ? 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                          : 'text-zinc-400 dark:text-zinc-600 bg-zinc-100/50 dark:bg-zinc-900/30 cursor-pointer'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className="size-4 shrink-0" />
+                        <span>{item.name}</span>
+                      </div>
+                      {!allowed && <Lock className="size-3 text-zinc-400" />}
+                    </button>
+                  );
+                })}
               </nav>
             </div>
 
             {/* GROUP 4: PERSONAL WORKSPACE */}
             <div>
               <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider px-2 mb-2">My Workspace</div>
-              <nav className="space-y-1">
-                <button
-                  onClick={() => setActiveTab('self-service')}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                    activeTab === 'self-service'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                  }`}
-                >
-                  <UserCheck className="w-4 h-4 shrink-0" />
+              <button
+                onClick={() => handleNavigate('self-service')}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                  activeTab === 'self-service'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <UserCheck className="size-4 shrink-0" />
                   <span>Employee Self-Service</span>
-                </button>
-              </nav>
+                </div>
+              </button>
             </div>
 
           </div>
 
-          {/* Sidebar Footer Info */}
           <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-400 space-y-1">
             <div className="flex justify-between">
-              <span>Environment</span>
-              <span className="font-mono text-zinc-500">Production</span>
+              <span>RBAC Policy</span>
+              <span className="font-mono text-zinc-500">SEC-04 Active</span>
             </div>
             <div className="flex justify-between">
-              <span>DPDP Status</span>
-              <span className="text-emerald-500 font-semibold">Active Shield</span>
+              <span>DPDP Section 6</span>
+              <span className="text-emerald-500 font-semibold">Strict Masking</span>
             </div>
           </div>
         </aside>
 
-        {/* MAIN WORKING CONTENT AREA */}
+        {/* MAIN CONTENT AREA */}
         <main className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
 
-          {/* BREADCRUMB & HEADER */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
-            <div>
-              <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-                {activeTab === 'war-room' && 'Attrition Early-Warning Engine'}
-                {activeTab === 'simulator' && 'Tijori Capital Retention Modeling'}
-                {activeTab === 'leaves' && 'Attendance & Burnout Management'}
-                {activeTab === 'nine-box' && 'Strategic Talent Review Matrix'}
-                {activeTab === 'ats' && 'Talent Acquisition & Candidate Pipeline'}
-                {activeTab === 'succession' && 'Critical Role Continuity'}
-                {activeTab === 'webhooks' && 'Real-Time Darwinbox / Workday Gateway'}
-                {activeTab === 'compliance' && 'Algorithmic Fairness & Privacy Audit'}
-                {activeTab === 'self-service' && 'Personal Profile & Leave Request'}
-                {activeTab === 'payroll' && 'Compensation Equity & Bands'}
-                {activeTab === 'sentiment' && 'Organizational Engagement Pulse'}
-                {activeTab === 'reports' && 'Executive C-Suite Briefing'}
+          {/* CHECK AUTHORIZATION: IF UNAUTHORIZED, RENDER ENTERPRISE 403 WALL */}
+          {!isAuthorized(activeTab) ? (
+            <div className="max-w-2xl mx-auto my-12 p-8 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-rose-500/20 shadow-2xl space-y-6 text-center">
+              <div className="size-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-500 flex items-center justify-center mx-auto shadow-inner">
+                <Ban className="size-8" />
               </div>
-              <h1 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 capitalize">
-                {activeTab.replace('-', ' ')}
-              </h1>
-            </div>
 
-            <div className="flex items-center gap-3">
-              {activeTab === 'simulator' && (
-                <button
-                  onClick={() => setMemoOpen(true)}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-500/20 transition flex items-center gap-2"
-                >
-                  <FileText className="w-3.5 h-3.5" />
-                  <span>Draft CFO Memo</span>
-                </button>
-              )}
+              <div>
+                <span className="text-[11px] uppercase font-mono font-bold px-3 py-1 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20">
+                  HTTP 403 • Access Restricted by RBAC Policy
+                </span>
+                <h2 className="text-2xl font-black mt-3 text-zinc-900 dark:text-zinc-50">
+                  Unauthorized Module Access
+                </h2>
+                <p className="text-xs text-zinc-500 mt-2 max-w-lg mx-auto leading-relaxed">
+                  Your authenticated session identity <strong>{currentUser?.name}</strong> (Role: <code className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-bold">{userRole}</code>) does not hold the mandatory privilege <code className="text-rose-500 font-mono font-bold">{TAB_REQUIRED_PERMISSIONS[activeTab]?.perm}</code> required to access the <strong>{TAB_REQUIRED_PERMISSIONS[activeTab]?.name}</strong> module.
+                </p>
+              </div>
 
-              {activeTab === 'leaves' && (
-                <button
-                  onClick={() => setApplyLeaveModal(true)}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-500/20 transition flex items-center gap-2"
-                >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>Apply for Leave</span>
-                </button>
-              )}
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-left text-xs space-y-2 font-mono">
+                <div className="flex justify-between">
+                  <span className="text-zinc-400">Statutory Shield:</span>
+                  <span className="text-zinc-800 dark:text-zinc-200 font-bold">Indian DPDP Act 2023 Sec 6</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-zinc-400">Required Role Clearance:</span>
+                  <span className="text-blue-500 font-bold">{TAB_REQUIRED_PERMISSIONS[activeTab]?.roleNeeded}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-zinc-400">Security Audit Status:</span>
+                  <span className="text-emerald-500 font-bold">ACCESS_DENIED_VIOLATION LOGGED</span>
+                </div>
+              </div>
 
-              {activeTab === 'webhooks' && (
-                <div className="flex items-center gap-2">
+              <div className="space-y-3 pt-2">
+                <div className="text-xs text-zinc-400">Need to test this module? Switch to an authorized demo persona:</div>
+                <div className="flex flex-wrap justify-center gap-2">
                   <button
-                    onClick={() => handleSimulateWebhook('darwinbox', 'COMPENSATION_CHANGE')}
-                    className="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-blue-50 dark:hover:bg-blue-900/40 text-zinc-700 dark:text-zinc-300 text-xs font-semibold border border-zinc-200 dark:border-zinc-700 transition"
+                    onClick={() => handleQuickLogin(DEMO_PERSONAS[0])}
+                    className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition shadow-sm"
                   >
-                    + Darwinbox Event
+                    👑 Switch to HR Admin (Full Access)
                   </button>
                   <button
-                    onClick={() => handleSimulateWebhook('workday', 'OVERTIME_LOGGED')}
-                    className="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-blue-50 dark:hover:bg-blue-900/40 text-zinc-700 dark:text-zinc-300 text-xs font-semibold border border-zinc-200 dark:border-zinc-700 transition"
+                    onClick={() => handleQuickLogin(DEMO_PERSONAS[1])}
+                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-sm"
                   >
-                    + Workday Event
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* ============================================================== */}
-          {/* TAB 1: FLIGHT RISK WAR ROOM */}
-          {/* ============================================================== */}
-          {activeTab === 'war-room' && (
-            <div className="space-y-6">
-              {/* Macro KPI Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                  <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
-                    <span>Total Headcount</span>
-                    <Building2 className="w-4 h-4 text-blue-500" />
-                  </div>
-                  <div className="text-2xl font-black mt-2 text-zinc-900 dark:text-zinc-50">1,470</div>
-                  <div className="text-[11px] text-zinc-500 mt-1">Active across 6 departments</div>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                  <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
-                    <span>Tier-3 Critical Flight Risk</span>
-                    <AlertTriangle className="w-4 h-4 text-rose-500" />
-                  </div>
-                  <div className="text-2xl font-black mt-2 text-rose-600 dark:text-rose-400">42 Employees</div>
-                  <div className="text-[11px] text-zinc-500 mt-1">Attrition probability &gt; 80%</div>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                  <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
-                    <span>Replacement Cost at Risk</span>
-                    <DollarSign className="w-4 h-4 text-amber-500" />
-                  </div>
-                  <div className="text-2xl font-black mt-2 text-amber-600 dark:text-amber-400">₹8.42 Crore</div>
-                  <div className="text-[11px] text-zinc-500 mt-1">Calculated at 1.5x Annual CTC</div>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                  <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
-                    <span>Four-Fifths Bias Ratio</span>
-                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  </div>
-                  <div className="text-2xl font-black mt-2 text-emerald-600 dark:text-emerald-400">1.04 DIR</div>
-                  <div className="text-[11px] text-zinc-500 mt-1">Statistically equitable (0.80 - 1.25)</div>
-                </div>
-              </div>
-
-              {/* Filters & Search */}
-              <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
-                <div className="relative w-full sm:w-80">
-                  <Search className="w-4 h-4 text-zinc-400 absolute left-3 top-3" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search employee or GlobalID..."
-                    className="w-full pl-9 pr-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <span className="text-xs font-semibold text-zinc-400">Department:</span>
-                  <select
-                    value={deptFilter}
-                    onChange={(e) => setDeptFilter(e.target.value)}
-                    className="px-3 py-2 rounded-xl text-xs bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 focus:outline-none"
-                  >
-                    <option value="ALL">All Departments</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Product">Product</option>
-                    <option value="AI Research">AI Research</option>
-                    <option value="Sales Engineering">Sales Engineering</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* At-Risk Employee Table */}
-              <div className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
-                <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-                    High-Risk Workforce Queue ({filteredEmployees.length})
-                  </h3>
-                  <span className="text-[11px] text-zinc-500 font-mono">
-                    {isAuditor ? 'Salted Pseudonyms Active' : 'Real Demographics'}
-                  </span>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-zinc-50 dark:bg-zinc-900/60 text-zinc-400 font-semibold border-b border-zinc-200 dark:border-zinc-800">
-                      <tr>
-                        <th className="py-3 px-4">Employee</th>
-                        <th className="py-3 px-4">Role & Dept</th>
-                        <th className="py-3 px-4">Flight Risk</th>
-                        <th className="py-3 px-4">Compensation</th>
-                        <th className="py-3 px-4">Primary Trigger</th>
-                        <th className="py-3 px-4 text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                      {filteredEmployees.map(emp => {
-                        const displayName = isAuditor ? emp.masked_name : emp.name;
-                        const displaySalary = isAuditor ? emp.salary_band : `₹${emp.monthly_salary.toLocaleString('en-IN')}/mo`;
-
-                        return (
-                          <tr key={emp.global_id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition">
-                            <td className="py-3 px-4">
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center font-bold text-xs">
-                                  {emp.avatar}
-                                </div>
-                                <div>
-                                  <div className="font-bold text-zinc-900 dark:text-zinc-100">{displayName}</div>
-                                  <div className="text-[10px] text-zinc-400 font-mono">ID #{emp.global_id}</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="py-3 px-4">
-                              <div className="font-semibold text-zinc-800 dark:text-zinc-200">{emp.job_role}</div>
-                              <div className="text-[11px] text-zinc-500">{emp.department}</div>
-                            </td>
-                            <td className="py-3 px-4">
-                              <div className="flex items-center gap-2">
-                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-                                  emp.risk_tier === 'HIGH'
-                                    ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
-                                    : 'bg-amber-500/10 text-amber-500 border border-amber-500/20'
-                                }`}>
-                                  {(emp.attrition_probability * 100).toFixed(1)}% RISK
-                                </span>
-                              </div>
-                            </td>
-                            <td className="py-3 px-4 font-mono text-zinc-700 dark:text-zinc-300">
-                              {displaySalary}
-                            </td>
-                            <td className="py-3 px-4 text-zinc-500 text-[11px]">
-                              {emp.reason}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              <button
-                                onClick={() => {
-                                  setSelectedEmp(emp);
-                                  setActiveTab('simulator');
-                                }}
-                                className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-600 hover:text-white transition text-[11px]"
-                              >
-                                Simulate Package
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================== */}
-          {/* TAB 2: WHAT-IF RETENTION ROI SIMULATOR */}
-          {/* ============================================================== */}
-          {activeTab === 'simulator' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Levers Card */}
-              <div className="lg:col-span-6 space-y-6">
-                <div className="p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-5">
-                  <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                    <div>
-                      <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Executive Retention Levers</h3>
-                      <p className="text-xs text-zinc-500">Tune compensation and work-life variables to model flight risk suppression.</p>
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 font-bold">
-                      Tijori Engine
-                    </span>
-                  </div>
-
-                  {/* Target Employee Selector */}
-                  <div>
-                    <label className="text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5 block">Target Employee</label>
-                    <select
-                      value={selectedEmp.global_id}
-                      onChange={(e) => {
-                        const found = employees.find(em => em.global_id === parseInt(e.target.value, 10));
-                        if (found) setSelectedEmp(found);
-                      }}
-                      className="w-full px-3.5 py-2.5 rounded-xl text-xs bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 focus:outline-none"
-                    >
-                      {employees.map(em => (
-                        <option key={em.global_id} value={em.global_id}>
-                          {em.name} ({em.job_role} • {(em.attrition_probability * 100).toFixed(1)}% Risk)
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Lever 1: Salary Hike */}
-                  <div>
-                    <div className="flex justify-between items-center text-xs mb-1.5 font-bold">
-                      <span>Salary Hike Increment</span>
-                      <span className="text-blue-500 font-mono">+{salaryHike}% (₹{incAmount.toLocaleString('en-IN')}/mo)</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0"
-                      max="40"
-                      step="5"
-                      value={salaryHike}
-                      onChange={(e) => setSalaryHike(parseInt(e.target.value, 10))}
-                      className="w-full accent-blue-600 h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg cursor-pointer"
-                    />
-                    <div className="flex justify-between text-[10px] text-zinc-400 mt-1">
-                      <span>0%</span>
-                      <span>+20%</span>
-                      <span>+40%</span>
-                    </div>
-                  </div>
-
-                  {/* Lever 2: Overtime Reduction */}
-                  <div>
-                    <div className="flex justify-between items-center text-xs mb-1.5 font-bold">
-                      <span>Overtime Capping & Relief</span>
-                      <span className="text-emerald-500 font-mono">-{overtimeReduction} hrs/mo relief</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0"
-                      max="30"
-                      step="5"
-                      value={overtimeReduction}
-                      onChange={(e) => setOvertimeReduction(parseInt(e.target.value, 10))}
-                      className="w-full accent-emerald-600 h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg cursor-pointer"
-                    />
-                    <div className="flex justify-between text-[10px] text-zinc-400 mt-1">
-                      <span>Current ({selectedEmp.overtime_hours}h)</span>
-                      <span>-15h</span>
-                      <span>-30h</span>
-                    </div>
-                  </div>
-
-                  {/* Lever 3: WLB Policy */}
-                  <div>
-                    <label className="text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5 block">Flexibility Model</label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {['office', 'hybrid', 'remote'].map(policy => (
-                        <button
-                          key={policy}
-                          onClick={() => setWlbPolicy(policy)}
-                          className={`py-2 px-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition border ${
-                            wlbPolicy === policy
-                              ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                              : 'bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300'
-                          }`}
-                        >
-                          {policy === 'office' ? '🏢 On-Site' : policy === 'hybrid' ? '⚡ Hybrid 3+2' : '🌍 Full Remote'}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setMemoOpen(true)}
-                    className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2"
-                  >
-                    <FileText className="w-4 h-4" />
-                    <span>Generate CFO Retention Authorization Memo</span>
+                    👔 Switch to Engineering Manager
                   </button>
                 </div>
               </div>
-
-              {/* Financial ROI Output Card */}
-              <div className="lg:col-span-6 space-y-6">
-                <div className="p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-6">
-                  <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                    <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Financial Impact & ROI Projection</h3>
-                    <span className="text-xs font-mono text-emerald-500 font-bold">{roiMultiple}x Multiple</span>
-                  </div>
-
-                  {/* Probability Comparison Pill */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-center">
-                      <div className="text-[11px] font-bold text-rose-500 uppercase">Baseline Flight Risk</div>
-                      <div className="text-2xl font-black text-rose-600 dark:text-rose-400 mt-1">{baseProb.toFixed(1)}%</div>
-                      <div className="text-[10px] text-zinc-500 mt-1">Imminent Departure</div>
-                    </div>
-
-                    <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center">
-                      <div className="text-[11px] font-bold text-emerald-500 uppercase">Post-Package Risk</div>
-                      <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">{simulatedProb}%</div>
-                      <div className="text-[10px] text-emerald-600 dark:text-emerald-400 mt-1">-{totalReductionPct.toFixed(1)}% Suppression</div>
-                    </div>
-                  </div>
-
-                  {/* Financial Breakdown Table */}
-                  <div className="space-y-3 text-xs">
-                    <div className="flex justify-between py-2 border-b border-zinc-100 dark:border-zinc-800/80">
-                      <span className="text-zinc-500">Estimated Turnover Replacement Loss (1.5x CTC)</span>
-                      <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">₹{replacementCost.toLocaleString('en-IN')}</span>
-                    </div>
-
-                    <div className="flex justify-between py-2 border-b border-zinc-100 dark:border-zinc-800/80">
-                      <span className="text-zinc-500">Turnover Cost Avoidance</span>
-                      <span className="font-mono font-bold text-emerald-500">₹{turnoverCostAvoidance.toLocaleString('en-IN')}</span>
-                    </div>
-
-                    <div className="flex justify-between py-2 border-b border-zinc-100 dark:border-zinc-800/80">
-                      <span className="text-zinc-500">Proposed Annual Package Cost</span>
-                      <span className="font-mono font-bold text-rose-500">-₹{annualInterventionCost.toLocaleString('en-IN')}</span>
-                    </div>
-
-                    <div className="flex justify-between py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 px-4 font-bold text-sm">
-                      <span className="text-zinc-900 dark:text-zinc-100">Net Enterprise Financial Gain</span>
-                      <span className="font-mono text-emerald-600 dark:text-emerald-400">₹{netFinancialGain.toLocaleString('en-IN')}</span>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-600 dark:text-blue-400 leading-relaxed">
-                    <strong>CFO Business Case:</strong> Investing ₹{(annualInterventionCost / 100000).toFixed(1)} Lakhs in compensation realignment prevents an immediate ₹{(replacementCost / 100000).toFixed(1)} Lakh recruitment, ramp-up, and velocity disruption cycle.
-                  </div>
-                </div>
-              </div>
             </div>
-          )}
-
-          {/* ============================================================== */}
-          {/* TAB 3: LEAVE MANAGEMENT & APPROVALS */}
-          {/* ============================================================== */}
-          {activeTab === 'leaves' && (
-            <div className="space-y-6">
-              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3 text-xs text-amber-600 dark:text-amber-400">
-                <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+          ) : (
+            /* ============================================================== */
+            /* AUTHORIZED CONTENT CONTAINER */
+            /* ============================================================== */
+            <>
+              {/* SECTION HEADER */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
                 <div>
-                  <strong>Burnout Risk Correlation:</strong> Employees with zero approved leaves in 90 days while logging &gt;30 hours of overtime exhibit an <strong>82.4% higher attrition velocity</strong>. Timely leave approvals directly decrease flight risk.
+                  <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                    {activeTab === '3d-constellation' && 'Interactive WebGL 3D Workforce Architecture'}
+                    {activeTab === 'war-room' && 'Attrition Early-Warning Engine'}
+                    {activeTab === 'simulator' && 'Tijori Capital Retention Modeling'}
+                    {activeTab === 'leaves' && 'Attendance & Burnout Management'}
+                    {activeTab === 'nine-box' && 'Strategic Talent Review Matrix'}
+                    {activeTab === 'ats' && 'Talent Acquisition & Candidate Pipeline'}
+                    {activeTab === 'succession' && 'Critical Role Continuity'}
+                    {activeTab === 'webhooks' && 'Real-Time Darwinbox / Workday Gateway'}
+                    {activeTab === 'compliance' && 'Algorithmic Fairness & Privacy Audit'}
+                    {activeTab === 'self-service' && 'Personal Profile & Leave Request'}
+                    {activeTab === 'payroll' && 'Compensation Equity & Bands'}
+                    {activeTab === 'sentiment' && 'Organizational Engagement Pulse'}
+                    {activeTab === 'reports' && 'Executive C-Suite Briefing'}
+                  </div>
+                  <h1 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 capitalize">
+                    {activeTab === '3d-constellation' ? '3D Org Constellation & Risk Spheres' : activeTab.replace('-', ' ')}
+                  </h1>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {activeTab === 'simulator' && (
+                    <button
+                      onClick={() => setMemoOpen(true)}
+                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-500/20 transition flex items-center gap-2"
+                    >
+                      <FileText className="size-3.5" />
+                      <span>Draft CFO Memo</span>
+                    </button>
+                  )}
+
+                  {activeTab === 'leaves' && (
+                    <button
+                      onClick={() => setApplyLeaveModal(true)}
+                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-500/20 transition flex items-center gap-2"
+                    >
+                      <Calendar className="size-3.5" />
+                      <span>Apply for Leave</span>
+                    </button>
+                  )}
+
+                  {activeTab === 'webhooks' && (
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleSimulateWebhook('darwinbox', 'COMPENSATION_CHANGE')}
+                        className="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-blue-50 dark:hover:bg-blue-900/40 text-zinc-700 dark:text-zinc-300 text-xs font-semibold border border-zinc-200 dark:border-zinc-700 transition"
+                      >
+                        + Darwinbox Event
+                      </button>
+                      <button
+                        onClick={() => handleSimulateWebhook('workday', 'OVERTIME_LOGGED')}
+                        className="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-blue-50 dark:hover:bg-blue-900/40 text-zinc-700 dark:text-zinc-300 text-xs font-semibold border border-zinc-200 dark:border-zinc-700 transition"
+                      >
+                        + Workday Event
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
-                <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-                    Pending Leave Requests Queue
-                  </h3>
-                  <span className="text-xs text-zinc-500 font-mono">{leaves.length} Total Requests</span>
-                </div>
+              {/* TAB 0: 3D ORG CONSTELLATION (PREMIER) */}
+              {activeTab === '3d-constellation' && (
+                <div className="space-y-6">
+                  <Org3DConstellation
+                    theme={theme}
+                    onSelectDepartment={(deptName) => {
+                      setDeptFilter(deptName);
+                      showToast(`Selected ${deptName} in 3D Space.`);
+                    }}
+                  />
 
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-zinc-50 dark:bg-zinc-900/60 text-zinc-400 font-semibold border-b border-zinc-200 dark:border-zinc-800">
-                      <tr>
-                        <th className="py-3 px-4">Request ID</th>
-                        <th className="py-3 px-4">Employee</th>
-                        <th className="py-3 px-4">Leave Type</th>
-                        <th className="py-3 px-4">Duration</th>
-                        <th className="py-3 px-4">Status</th>
-                        <th className="py-3 px-4 text-right">Manager Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                      {leaves.map(l => (
-                        <tr key={l.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition">
-                          <td className="py-3 px-4 font-mono text-zinc-500">#{l.id}</td>
-                          <td className="py-3 px-4 font-bold text-zinc-900 dark:text-zinc-100">
-                            {l.name}
-                            <span className="text-[10px] text-zinc-400 block font-normal">ID #{l.employee_id}</span>
-                          </td>
-                          <td className="py-3 px-4 font-semibold text-zinc-700 dark:text-zinc-300">{l.leave_type}</td>
-                          <td className="py-3 px-4 font-mono">{l.days} Days</td>
-                          <td className="py-3 px-4">
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              l.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
-                              l.status === 'Rejected' ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
-                              'bg-amber-500/10 text-amber-500 border border-amber-500/20'
-                            }`}>
-                              {l.status}
-                            </span>
-                          </td>
-                          <td className="py-3 px-4 text-right">
-                            {l.status === 'Pending' ? (
-                              <div className="flex items-center justify-end gap-2">
-                                <button
-                                  onClick={() => handleApproveLeave(l.id)}
-                                  className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] transition"
-                                >
-                                  Approve
-                                </button>
-                                <button
-                                  onClick={() => handleRejectLeave(l.id)}
-                                  className="px-3 py-1 rounded-lg bg-zinc-200 dark:bg-zinc-800 hover:bg-rose-600 hover:text-white text-zinc-700 dark:text-zinc-300 font-bold text-[11px] transition"
-                                >
-                                  Reject
-                                </button>
-                              </div>
-                            ) : (
-                              <span className="text-zinc-400 font-mono text-[11px]">Completed</span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          )}
+                  {/* 3D KPI Context Card */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <div className="text-xs text-zinc-400 font-bold uppercase">Spatial Rendering</div>
+                      <div className="text-xl font-black text-zinc-900 dark:text-zinc-100 mt-1">WebGL GPU Pipeline</div>
+                      <div className="text-[11px] text-zinc-500 mt-1">60 FPS dynamic mesh with orbiting risk satellites</div>
+                    </div>
 
-          {/* ============================================================== */}
-          {/* TAB 4: 9-BOX TALENT REVIEW MATRIX */}
-          {/* ============================================================== */}
-          {activeTab === 'nine-box' && (
-            <div className="space-y-6">
-              <div className="p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
-                <div className="flex justify-between items-center pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                  <div>
-                    <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">9-Box Performance vs Potential Calibration</h3>
-                    <p className="text-xs text-zinc-500">Maps organizational bench strength across Performance (X-Axis) and Growth Potential (Y-Axis).</p>
-                  </div>
-                  <span className="text-xs font-mono text-zinc-400">{nineBoxReviews.length} Evaluated</span>
-                </div>
+                    <div className="p-4 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <div className="text-xs text-zinc-400 font-bold uppercase">Org Hierarchy</div>
+                      <div className="text-xl font-black text-blue-500 mt-1">5 Core Clusters</div>
+                      <div className="text-[11px] text-zinc-500 mt-1">AI Research, Engineering, Product, Sales, Exec</div>
+                    </div>
 
-                {/* 3x3 Grid Visualizer */}
-                <div className="grid grid-cols-3 gap-3">
-                  {/* Row 1: High Potential */}
-                  <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-xs">
-                    <div className="font-bold text-blue-500 uppercase text-[10px]">High Potential • Med Perf</div>
-                    <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Growth Enigma</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Mentorship & Stretch assignments</div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs">
-                    <div className="font-bold text-indigo-500 uppercase text-[10px]">High Potential • High Perf</div>
-                    <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">High Impact Leader</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Accelerated promotion track</div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-xs shadow-sm">
-                    <div className="font-bold text-emerald-500 uppercase text-[10px]">Top Star (5 / 5)</div>
-                    <div className="font-bold text-emerald-600 dark:text-emerald-400 mt-1">Star Performer</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Target for Equity & Succession</div>
-                  </div>
-
-                  {/* Row 2: Medium Potential */}
-                  <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs">
-                    <div className="font-bold text-zinc-400 uppercase text-[10px]">Med Potential • Low Perf</div>
-                    <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Dilemma</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Coaching required</div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-xs">
-                    <div className="font-bold text-zinc-500 uppercase text-[10px]">Med Potential • Med Perf</div>
-                    <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Core Contributor</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">The organizational backbone</div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-teal-500/10 border border-teal-500/20 text-xs">
-                    <div className="font-bold text-teal-500 uppercase text-[10px]">Med Potential • High Perf</div>
-                    <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">High Performer</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Reward & retain in current role</div>
-                  </div>
-
-                  {/* Row 3: Low Potential */}
-                  <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs">
-                    <div className="font-bold text-rose-500 uppercase text-[10px]">Low Potential • Low Perf</div>
-                    <div className="font-bold text-rose-600 dark:text-rose-400 mt-1">Underperformer</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Performance Improvement Plan (PIP)</div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs">
-                    <div className="font-bold text-zinc-400 uppercase text-[10px]">Low Potential • Med Perf</div>
-                    <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Effective Contributor</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Reliable execution</div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs">
-                    <div className="font-bold text-amber-500 uppercase text-[10px]">Low Potential • High Perf</div>
-                    <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Workhorse / Trusted Pro</div>
-                    <div className="text-[11px] text-zinc-500 mt-1">Deep subject-matter expert</div>
+                    <div className="p-4 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <div className="text-xs text-zinc-400 font-bold uppercase">Telemetry Stream</div>
+                      <div className="text-xl font-black text-emerald-500 mt-1">Real-Time Sync</div>
+                      <div className="text-[11px] text-zinc-500 mt-1">Live webhook listeners connected to Darwinbox</div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Reviewee Roster */}
-              <div className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
-                <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-                    Calibrated Reviewees
-                  </h3>
-                </div>
-                <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                  {nineBoxReviews.map(r => (
-                    <div key={r.id} className="p-4 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-900/40 text-xs">
-                      <div>
-                        <div className="font-bold text-zinc-900 dark:text-zinc-100">{r.name}</div>
-                        <div className="text-zinc-500 text-[11px]">{r.role} • {r.dept}</div>
+              {/* TAB 1: FLIGHT RISK WAR ROOM */}
+              {activeTab === 'war-room' && (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
+                        <span>Total Headcount</span>
+                        <Building2 className="size-4 text-blue-500" />
                       </div>
-                      <div className="flex items-center gap-4">
-                        <div className="text-right">
-                          <span className="font-mono text-zinc-400">Perf: {r.perf}/5 • Pot: {r.pot}/5</span>
-                        </div>
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20">
-                          {r.category}
-                        </span>
+                      <div className="text-2xl font-black mt-2 text-zinc-900 dark:text-zinc-50 tabular-nums">1,470</div>
+                      <div className="text-[11px] text-zinc-500 mt-1">Active across 6 departments</div>
+                    </div>
+
+                    <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
+                        <span>Tier-3 Critical Flight Risk</span>
+                        <AlertTriangle className="size-4 text-rose-500" />
                       </div>
+                      <div className="text-2xl font-black mt-2 text-rose-600 dark:text-rose-400 tabular-nums">42 Employees</div>
+                      <div className="text-[11px] text-zinc-500 mt-1">Attrition probability &gt; 80%</div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* ============================================================== */}
-          {/* TAB 5: TALENT ACQUISITION ATS PIPELINE */}
-          {/* ============================================================== */}
-          {activeTab === 'ats' && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {['Sourced', 'Interview', 'Offered', 'Hired'].map(stage => {
-                  const stageCandidates = candidates.filter(c => c.stage === stage);
-                  return (
-                    <div key={stage} className="bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 shadow-sm flex flex-col justify-between">
-                      <div>
-                        <div className="flex justify-between items-center pb-2 border-b border-zinc-200 dark:border-zinc-800">
-                          <span className="font-bold text-xs uppercase tracking-wider text-zinc-700 dark:text-zinc-300">{stage}</span>
-                          <span className="w-5 h-5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[11px] font-mono flex items-center justify-center font-bold">
-                            {stageCandidates.length}
-                          </span>
-                        </div>
-
-                        <div className="mt-3 space-y-3">
-                          {stageCandidates.map(c => (
-                            <div key={c.id} className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-xs space-y-2">
-                              <div className="font-bold text-zinc-900 dark:text-zinc-100">{c.name}</div>
-                              <div className="text-[11px] text-zinc-500">{c.role}</div>
-                              <div className="text-[10px] text-zinc-400 font-mono">Skills: {c.skills}</div>
-
-                              {stage === 'Offered' && (
-                                <div className="pt-2 flex gap-2">
-                                  <button
-                                    onClick={() => handleHireCandidate(c.id)}
-                                    className="flex-1 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] transition"
-                                  >
-                                    ✨ Hire
-                                  </button>
-                                  <button
-                                    onClick={() => handleRejectCandidate(c.id)}
-                                    className="px-2 py-1 rounded-lg bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-rose-600 hover:text-white font-bold text-[10px] transition"
-                                  >
-                                    Reject
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                    <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
+                        <span>Replacement Cost at Risk</span>
+                        <DollarSign className="size-4 text-amber-500" />
                       </div>
+                      <div className="text-2xl font-black mt-2 text-amber-600 dark:text-amber-400 tabular-nums">₹8.42 Crore</div>
+                      <div className="text-[11px] text-zinc-500 mt-1">Calculated at 1.5x Annual CTC</div>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
 
-          {/* ============================================================== */}
-          {/* TAB 6: SUCCESSION PLANNING */}
-          {/* ============================================================== */}
-          {activeTab === 'succession' && (
-            <div className="space-y-6">
-              <div className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
-                <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-                    Critical Leadership Roles & Succession Bench
-                  </h3>
-                  <span className="text-xs text-emerald-500 font-bold">100% Target Role Coverage</span>
-                </div>
-
-                <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                  {successionPlans.map(plan => (
-                    <div key={plan.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/40 text-xs">
-                      <div>
-                        <div className="text-[10px] font-bold text-blue-500 uppercase">{plan.dept}</div>
-                        <div className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mt-0.5">{plan.target_role}</div>
-                        <div className="text-zinc-500 mt-1">
-                          Primary Successor: <strong>{plan.successor}</strong>
-                        </div>
+                    <div className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <div className="flex justify-between items-center text-zinc-400 text-xs font-semibold">
+                        <span>Four-Fifths Bias Ratio</span>
+                        <ShieldCheck className="size-4 text-emerald-500" />
                       </div>
-
-                      <div className="flex items-center gap-6">
-                        <div>
-                          <div className="text-[10px] text-zinc-400 font-bold uppercase">Readiness</div>
-                          <div className="font-black text-emerald-600 dark:text-emerald-400 font-mono text-sm">{plan.readiness}</div>
-                        </div>
-
-                        <div>
-                          <div className="text-[10px] text-zinc-400 font-bold uppercase">Estimated Ramp</div>
-                          <div className="font-mono text-zinc-700 dark:text-zinc-300">{plan.ramp_time}</div>
-                        </div>
-
-                        <div className="max-w-xs">
-                          <div className="text-[10px] text-zinc-400 font-bold uppercase">Development Gap</div>
-                          <div className="text-zinc-500 text-[11px] truncate">{plan.gap}</div>
-                        </div>
-
-                        <button
-                          onClick={() => showToast(`Transition plan activated for ${plan.successor}.`)}
-                          className="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-blue-600 hover:text-white font-bold transition text-[11px]"
-                        >
-                          Calibrate
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================== */}
-          {/* TAB 7: HRMS WEBHOOK GATEWAY */}
-          {/* ============================================================== */}
-          {activeTab === 'webhooks' && (
-            <div className="space-y-6">
-              {/* Webhook Action Bar */}
-              <div className="p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Live HRMS Webhook Gateway</h3>
-                    <p className="text-xs text-zinc-500">Ingests real-time events from Darwinbox, Workday, and BambooHR via HMAC-SHA256 signature verification.</p>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                    🟢 Listeners Active
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                  <button
-                    onClick={() => handleSimulateWebhook('darwinbox', 'COMPENSATION_CHANGE')}
-                    className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-left transition"
-                  >
-                    <div className="font-bold text-xs text-blue-500">Darwinbox Integration</div>
-                    <div className="text-[11px] text-zinc-500 mt-0.5">POST /darwinbox • Comp Hike</div>
-                  </button>
-
-                  <button
-                    onClick={() => handleSimulateWebhook('workday', 'OVERTIME_LOGGED')}
-                    className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-left transition"
-                  >
-                    <div className="font-bold text-xs text-emerald-500">Workday Integration</div>
-                    <div className="text-[11px] text-zinc-500 mt-0.5">POST /workday • Overtime Event</div>
-                  </button>
-
-                  <button
-                    onClick={() => handleSimulateWebhook('bamboohr', 'RESIGNATION_NOTICE')}
-                    className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-left transition"
-                  >
-                    <div className="font-bold text-xs text-amber-500">BambooHR Integration</div>
-                    <div className="text-[11px] text-zinc-500 mt-0.5">POST /generic • Resignation Alert</div>
-                  </button>
-                </div>
-              </div>
-
-              {/* Event Log Stream */}
-              <div className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
-                <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-                    Real-Time Ingestion Event Log
-                  </h3>
-                  <span className="text-[11px] font-mono text-zinc-500">Idempotency & Audit Verified</span>
-                </div>
-
-                <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                  {webhooks.map(ev => (
-                    <div key={ev.id} className="p-4 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-900/40 text-xs">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-mono font-bold text-blue-500">
-                          ⚡
-                        </div>
-                        <div>
-                          <div className="font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-                            <span>{ev.provider.toUpperCase()}</span>
-                            <span className="text-zinc-400 font-normal">• {ev.event}</span>
-                            <span className="text-[10px] text-zinc-400 font-mono">({ev.id})</span>
-                          </div>
-                          <div className="text-zinc-500 text-[11px] mt-0.5">{ev.desc}</div>
-                        </div>
-                      </div>
-
-                      <div className="text-right">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-500">
-                          {ev.latency}
-                        </span>
-                        <div className="text-[10px] text-zinc-400 mt-1">{ev.time}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================== */}
-          {/* TAB 8: DPDP ACT 2023 & BIAS AUDIT */}
-          {/* ============================================================== */}
-          {activeTab === 'compliance' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Bias Ratio Card */}
-              <div className="lg:col-span-6 p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                  <div>
-                    <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Four-Fifths Algorithmic Bias Audit</h3>
-                    <p className="text-xs text-zinc-500">EEOC & Indian DPDP Act 2023 Disparate Impact Ratio (DIR) compliance.</p>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                    Statistically Equitable
-                  </span>
-                </div>
-
-                <div className="space-y-4 pt-2 text-xs">
-                  <div>
-                    <div className="flex justify-between font-bold mb-1">
-                      <span>Female Cohort (High-Risk Identification Rate)</span>
-                      <span className="font-mono">14.2%</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
-                      <div className="h-full bg-blue-500 rounded-full" style={{ width: '14.2%' }} />
+                      <div className="text-2xl font-black mt-2 text-emerald-600 dark:text-emerald-400 tabular-nums">1.04 DIR</div>
+                      <div className="text-[11px] text-zinc-500 mt-1">Statistically equitable (0.80 - 1.25)</div>
                     </div>
                   </div>
 
-                  <div>
-                    <div className="flex justify-between font-bold mb-1">
-                      <span>Male Cohort (High-Risk Identification Rate)</span>
-                      <span className="font-mono">13.6%</span>
+                  <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                    <div className="relative w-full sm:w-80">
+                      <Search className="size-4 text-zinc-400 absolute left-3 top-3" />
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search employee or GlobalID..."
+                        className="w-full pl-9 pr-3.5 py-2 rounded-xl text-xs bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      />
                     </div>
-                    <div className="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
-                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: '13.6%' }} />
+
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                      <span className="text-xs font-semibold text-zinc-400">Department:</span>
+                      <select
+                        value={deptFilter}
+                        onChange={(e) => setDeptFilter(e.target.value)}
+                        className="px-3 py-2 rounded-xl text-xs bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 focus:outline-none"
+                      >
+                        <option value="ALL">All Departments</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Product">Product</option>
+                        <option value="AI Research">AI Research</option>
+                        <option value="Sales Engineering">Sales Engineering</option>
+                      </select>
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-500 space-y-1">
-                    <div className="flex justify-between">
-                      <span>Disparate Impact Ratio:</span>
-                      <strong className="text-zinc-900 dark:text-zinc-100">14.2% / 13.6% = 1.04 DIR</strong>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Mandated Range:</span>
-                      <span>0.80 DIR to 1.25 DIR</span>
-                    </div>
-                    <div className="text-emerald-500 font-semibold pt-1">
-                      Status: PASSED • Zero adverse impact detected against protected groups.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* DPDP Access Logs */}
-              <div className="lg:col-span-6 p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                  <div>
-                    <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">DPDP DPO Access Audit Trail</h3>
-                    <p className="text-xs text-zinc-500">Immutable ledger of employee data access and dynamic masking level.</p>
-                  </div>
-                  <span className="text-[10px] font-mono text-zinc-400">Section 6 DPDP</span>
-                </div>
-
-                <div className="space-y-2.5 text-xs">
-                  {accessLogs.map(log => (
-                    <div key={log.id} className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-                      <div>
-                        <div className="font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
-                          <span>{log.user}</span>
-                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">{log.role}</span>
-                        </div>
-                        <div className="text-[11px] text-zinc-500 mt-0.5">
-                          {log.action} • GlobalID #{log.target} ({log.exposed})
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-mono text-zinc-400">{log.time}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================== */}
-          {/* TAB 9: EMPLOYEE SELF-SERVICE PORTAL */}
-          {/* ============================================================== */}
-          {activeTab === 'self-service' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Profile Card */}
-              <div className="lg:col-span-6 p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-5">
-                <div className="flex items-center gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-orange-500/20">
-                    VR
-                  </div>
-                  <div>
-                    <h2 className="font-black text-lg text-zinc-900 dark:text-zinc-50">Vikramaditya Rao</h2>
-                    <div className="text-xs text-zinc-500">Principal AI Systems Scientist • AI Research</div>
-                    <div className="text-[11px] font-mono text-zinc-400 mt-0.5">GlobalID #3757101776 • Tenure: 3.1 Years</div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 text-center text-xs">
-                  <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800">
-                    <div className="text-[10px] uppercase font-bold text-zinc-400">Privilege Leave</div>
-                    <div className="text-lg font-black text-blue-500 mt-1">14 Days</div>
-                    <div className="text-[10px] text-zinc-500">Remaining</div>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800">
-                    <div className="text-[10px] uppercase font-bold text-zinc-400">Sick Leave</div>
-                    <div className="text-lg font-black text-emerald-500 mt-1">8 Days</div>
-                    <div className="text-[10px] text-zinc-500">Remaining</div>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800">
-                    <div className="text-[10px] uppercase font-bold text-zinc-400">Casual Leave</div>
-                    <div className="text-lg font-black text-purple-500 mt-1">4 Days</div>
-                    <div className="text-[10px] text-zinc-500">Remaining</div>
-                  </div>
-                </div>
-
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-zinc-800/80">
-                    <span className="text-zinc-500">Current Band</span>
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">IC-6 Principal Staff</span>
-                  </div>
-                  <div className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-zinc-800/80">
-                    <span className="text-zinc-500">Reporting Manager</span>
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">Kavita Desai (Eng Director)</span>
-                  </div>
-                  <div className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-zinc-800/80">
-                    <span className="text-zinc-500">Work Model</span>
-                    <span className="font-semibold text-blue-500">Hybrid (3 Days Office, 2 Remote)</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setApplyLeaveModal(true)}
-                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition"
-                >
-                  Apply for Time Off
-                </button>
-              </div>
-
-              {/* Pulse Feedback Card */}
-              <div className="lg:col-span-6 p-6 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
-                <div className="flex justify-between items-center pb-3 border-b border-zinc-200 dark:border-zinc-800">
-                  <div>
-                    <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Pulse Feedback & Well-Being</h3>
-                    <p className="text-xs text-zinc-500">Anonymous feedback sent to People Ops to tune engagement.</p>
-                  </div>
-                  <span className="text-[10px] font-mono text-emerald-500 font-bold">100% Confidential</span>
-                </div>
-
-                <div className="space-y-4 text-xs">
-                  <div>
-                    <label className="font-bold block mb-1">Work-Life Balance Rating (1 to 5)</label>
-                    <input type="range" min="1" max="5" defaultValue="3" className="w-full accent-blue-600 cursor-pointer" />
-                  </div>
-
-                  <div>
-                    <label className="font-bold block mb-1">Sprint Burnout & Workload (1 to 5)</label>
-                    <input type="range" min="1" max="5" defaultValue="4" className="w-full accent-amber-600 cursor-pointer" />
-                  </div>
-
-                  <div>
-                    <label className="font-bold block mb-1">What can leadership do to better support your focus?</label>
-                    <textarea
-                      rows="3"
-                      placeholder="e.g. Additional H100 GPU compute access, fewer status update syncs..."
-                      className="w-full p-2.5 rounded-xl text-xs bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 focus:outline-none"
-                    />
-                  </div>
-
-                  <button
-                    onClick={() => showToast('Thank you! Pulse feedback recorded anonymously.')}
-                    className="w-full py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-bold text-xs transition"
-                  >
-                    Submit Confidential Pulse
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================== */}
-          {/* TAB 10: PAYROLL & COMPENSATION EQUITY */}
-          {/* ============================================================== */}
-          {activeTab === 'payroll' && (
-            <div className="space-y-6">
-              <div className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
-                <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-                  <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
-                    Compensation Equity & Statutory Banking Roster
-                  </h3>
-                  <span className="text-xs font-mono text-zinc-500">
-                    {isAuditor ? 'Financials Redacted under DPDP' : 'Live CTC Register'}
-                  </span>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-zinc-50 dark:bg-zinc-900/60 text-zinc-400 font-semibold border-b border-zinc-200 dark:border-zinc-800">
-                      <tr>
-                        <th className="py-3 px-4">Employee</th>
-                        <th className="py-3 px-4">Department</th>
-                        <th className="py-3 px-4">Annual Base CTC</th>
-                        <th className="py-3 px-4">Performance Bonus</th>
-                        <th className="py-3 px-4">Disbursement Bank</th>
-                        <th className="py-3 px-4">Account Masking</th>
-                        <th className="py-3 px-4">Tax Regime</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                      {payrollList.map(p => (
-                        <tr key={p.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition">
-                          <td className="py-3 px-4 font-bold text-zinc-900 dark:text-zinc-100">
-                            {isAuditor ? 'E*** ' + String(p.id).substring(0, 3) : p.name}
-                          </td>
-                          <td className="py-3 px-4 text-zinc-500">{p.dept}</td>
-                          <td className="py-3 px-4 font-mono font-bold text-zinc-900 dark:text-zinc-100">
-                            {isAuditor ? '•••• ••••' : `₹${(p.base / 100000).toFixed(2)} Lakhs`}
-                          </td>
-                          <td className="py-3 px-4 font-mono text-emerald-500 font-bold">
-                            {isAuditor ? '••%' : `+${p.bonus}%`}
-                          </td>
-                          <td className="py-3 px-4 text-zinc-500">
-                            {isAuditor ? 'REDACTED' : p.bank}
-                          </td>
-                          <td className="py-3 px-4 font-mono text-zinc-400">{p.acc}</td>
-                          <td className="py-3 px-4 text-zinc-500">{p.tax}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================== */}
-          {/* TAB 11: SENTIMENT & ENGAGEMENT PULSE */}
-          {/* ============================================================== */}
-          {activeTab === 'sentiment' && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {sentimentPulse.map(s => (
-                  <div key={s.dept} className="p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-xs text-zinc-900 dark:text-zinc-100">{s.dept}</span>
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        s.stress_flag === 'Elevated'
-                          ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
-                          : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
-                      }`}>
-                        {s.stress_flag} Stress
+                  <div className="rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+                    <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+                      <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+                        High-Risk Workforce Queue ({filteredEmployees.length})
+                      </h3>
+                      <span className="text-[11px] text-zinc-500 font-mono">
+                        {isAuditor ? 'Salted Pseudonyms Active' : 'Real Demographics'}
                       </span>
                     </div>
 
-                    <div className="space-y-2 text-xs">
-                      <div className="flex justify-between">
-                        <span className="text-zinc-500">Engagement</span>
-                        <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">{s.engagement} / 5.0</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-zinc-500">Job Satisfaction</span>
-                        <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">{s.satisfaction} / 5.0</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-zinc-500">Work-Life Balance</span>
-                        <span className={`font-mono font-bold ${s.wlb < 3.0 ? 'text-rose-500' : 'text-emerald-500'}`}>
-                          {s.wlb} / 5.0
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-zinc-50 dark:bg-zinc-900/60 text-zinc-400 font-semibold border-b border-zinc-200 dark:border-zinc-800">
+                          <tr>
+                            <th className="py-3 px-4">Employee</th>
+                            <th className="py-3 px-4">Role & Dept</th>
+                            <th className="py-3 px-4">Flight Risk</th>
+                            <th className="py-3 px-4">Compensation</th>
+                            <th className="py-3 px-4">Primary Trigger</th>
+                            <th className="py-3 px-4 text-right">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                          {filteredEmployees.map(emp => {
+                            const displayName = isAuditor ? emp.masked_name : emp.name;
+                            const displaySalary = isAuditor ? emp.salary_band : `₹${emp.monthly_salary.toLocaleString('en-IN')}/mo`;
+
+                            return (
+                              <tr key={emp.global_id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition">
+                                <td className="py-3 px-4">
+                                  <div className="flex items-center gap-3">
+                                    <div className="size-8 rounded-xl bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center font-bold text-xs">
+                                      {emp.avatar}
+                                    </div>
+                                    <div>
+                                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{displayName}</div>
+                                      <div className="text-[10px] text-zinc-400 font-mono">ID #{emp.global_id}</div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="py-3 px-4">
+                                  <div className="font-semibold text-zinc-800 dark:text-zinc-200">{emp.job_role}</div>
+                                  <div className="text-[11px] text-zinc-500">{emp.department}</div>
+                                </td>
+                                <td className="py-3 px-4">
+                                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+                                    emp.risk_tier === 'HIGH'
+                                      ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
+                                      : 'bg-amber-500/10 text-amber-500 border border-amber-500/20'
+                                  }`}>
+                                    {(emp.attrition_probability * 100).toFixed(1)}% RISK
+                                  </span>
+                                </td>
+                                <td className="py-3 px-4 font-mono text-zinc-700 dark:text-zinc-300">
+                                  {displaySalary}
+                                </td>
+                                <td className="py-3 px-4 text-zinc-500 text-[11px]">
+                                  {emp.reason}
+                                </td>
+                                <td className="py-3 px-4 text-right">
+                                  <button
+                                    onClick={() => {
+                                      setSelectedEmp(emp);
+                                      handleNavigate('simulator');
+                                    }}
+                                    className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-600 hover:text-white transition text-[11px]"
+                                  >
+                                    Simulate Package
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: WHAT-IF RETENTION ROI SIMULATOR */}
+              {activeTab === 'simulator' && (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-6 space-y-6">
+                    <div className="p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-5">
+                      <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                        <div>
+                          <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Executive Retention Levers</h3>
+                          <p className="text-xs text-zinc-500">Tune compensation and work-life variables to model flight risk suppression.</p>
+                        </div>
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 font-bold">
+                          Tijori Engine
                         </span>
                       </div>
+
+                      <div>
+                        <label className="text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5 block">Target Employee</label>
+                        <select
+                          value={selectedEmp.global_id}
+                          onChange={(e) => {
+                            const found = employees.find(em => em.global_id === parseInt(e.target.value, 10));
+                            if (found) setSelectedEmp(found);
+                          }}
+                          className="w-full px-3.5 py-2.5 rounded-xl text-xs bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 focus:outline-none"
+                        >
+                          {employees.map(em => (
+                            <option key={em.global_id} value={em.global_id}>
+                              {em.name} ({em.job_role} • {(em.attrition_probability * 100).toFixed(1)}% Risk)
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center text-xs mb-1.5 font-bold">
+                          <span>Salary Hike Increment</span>
+                          <span className="text-blue-500 font-mono">+{salaryHike}% (₹{incAmount.toLocaleString('en-IN')}/mo)</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="40"
+                          step="5"
+                          value={salaryHike}
+                          onChange={(e) => setSalaryHike(parseInt(e.target.value, 10))}
+                          className="w-full accent-blue-600 h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg cursor-pointer"
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center text-xs mb-1.5 font-bold">
+                          <span>Overtime Capping & Relief</span>
+                          <span className="text-emerald-500 font-mono">-{overtimeReduction} hrs/mo relief</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="30"
+                          step="5"
+                          value={overtimeReduction}
+                          onChange={(e) => setOvertimeReduction(parseInt(e.target.value, 10))}
+                          className="w-full accent-emerald-600 h-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg cursor-pointer"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1.5 block">Flexibility Model</label>
+                        <div className="grid grid-cols-3 gap-2">
+                          {['office', 'hybrid', 'remote'].map(policy => (
+                            <button
+                              key={policy}
+                              onClick={() => setWlbPolicy(policy)}
+                              className={`py-2 px-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition border ${
+                                wlbPolicy === policy
+                                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                                  : 'bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800'
+                              }`}
+                            >
+                              {policy === 'office' ? '🏢 On-Site' : policy === 'hybrid' ? '⚡ Hybrid 3+2' : '🌍 Remote'}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => setMemoOpen(true)}
+                        className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2"
+                      >
+                        <FileText className="size-4" />
+                        <span>Generate CFO Retention Authorization Memo</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-6 space-y-6">
+                    <div className="p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-6">
+                      <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                        <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Financial Impact & ROI Projection</h3>
+                        <span className="text-xs font-mono text-emerald-500 font-bold">{roiMultiple}x Multiple</span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-center">
+                          <div className="text-[11px] font-bold text-rose-500 uppercase">Baseline Flight Risk</div>
+                          <div className="text-2xl font-black text-rose-600 dark:text-rose-400 mt-1 tabular-nums">{baseProb.toFixed(1)}%</div>
+                          <div className="text-[10px] text-zinc-500 mt-1">Imminent Departure</div>
+                        </div>
+
+                        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+                          <div className="text-[11px] font-bold text-emerald-500 uppercase">Post-Package Risk</div>
+                          <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">{simulatedProb}%</div>
+                          <div className="text-[10px] text-emerald-600 dark:text-emerald-400 mt-1">-{totalReductionPct.toFixed(1)}% Suppression</div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 text-xs">
+                        <div className="flex justify-between py-2 border-b border-zinc-100 dark:border-zinc-800/80">
+                          <span className="text-zinc-500">Turnover Replacement Loss (1.5x CTC)</span>
+                          <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">₹{replacementCost.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="flex justify-between py-2 border-b border-zinc-100 dark:border-zinc-800/80">
+                          <span className="text-zinc-500">Turnover Cost Avoidance</span>
+                          <span className="font-mono font-bold text-emerald-500 tabular-nums">₹{turnoverCostAvoidance.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="flex justify-between py-2 border-b border-zinc-100 dark:border-zinc-800/80">
+                          <span className="text-zinc-500">Annual Package Cost</span>
+                          <span className="font-mono font-bold text-rose-500 tabular-nums">-₹{annualInterventionCost.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="flex justify-between py-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 px-4 font-bold text-sm">
+                          <span className="text-zinc-900 dark:text-zinc-100">Net Enterprise Financial Gain</span>
+                          <span className="font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">₹{netFinancialGain.toLocaleString('en-IN')}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: LEAVE MANAGEMENT & APPROVALS */}
+              {activeTab === 'leaves' && (
+                <div className="space-y-6">
+                  <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3 text-xs text-amber-600 dark:text-amber-400">
+                    <AlertTriangle className="size-5 shrink-0 mt-0.5" />
+                    <div>
+                      <strong>Burnout Risk Correlation:</strong> Employees with zero approved leaves in 90 days while logging &gt;30 hours of overtime exhibit an <strong>82.4% higher attrition velocity</strong>. Timely leave approvals directly decrease flight risk.
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+                    <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+                      <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+                        Leave Approvals Queue
+                      </h3>
+                      <span className="text-xs text-zinc-500 font-mono">{leaves.length} Total Requests</span>
                     </div>
 
-                    <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 text-[11px] text-zinc-400">
-                      Headcount: {s.headcount} Team Members
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-zinc-50 dark:bg-zinc-900/60 text-zinc-400 font-semibold border-b border-zinc-200 dark:border-zinc-800">
+                          <tr>
+                            <th className="py-3 px-4">Request ID</th>
+                            <th className="py-3 px-4">Employee</th>
+                            <th className="py-3 px-4">Leave Type</th>
+                            <th className="py-3 px-4">Duration</th>
+                            <th className="py-3 px-4">Status</th>
+                            <th className="py-3 px-4 text-right">Manager Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                          {leaves.map(l => (
+                            <tr key={l.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition">
+                              <td className="py-3 px-4 font-mono text-zinc-500">#{l.id}</td>
+                              <td className="py-3 px-4 font-bold text-zinc-900 dark:text-zinc-100">
+                                {l.name}
+                                <span className="text-[10px] text-zinc-400 block font-normal">ID #{l.employee_id}</span>
+                              </td>
+                              <td className="py-3 px-4 font-semibold text-zinc-700 dark:text-zinc-300">{l.leave_type}</td>
+                              <td className="py-3 px-4 font-mono">{l.days} Days</td>
+                              <td className="py-3 px-4">
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                  l.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+                                  l.status === 'Rejected' ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
+                                  'bg-amber-500/10 text-amber-500 border border-amber-500/20'
+                                }`}>
+                                  {l.status}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 text-right">
+                                {l.status === 'Pending' ? (
+                                  <div className="flex items-center justify-end gap-2">
+                                    <button
+                                      onClick={() => handleApproveLeave(l.id)}
+                                      className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] transition"
+                                    >
+                                      Approve
+                                    </button>
+                                    <button
+                                      onClick={() => handleRejectLeave(l.id)}
+                                      className="px-3 py-1 rounded-lg bg-zinc-200 dark:bg-zinc-800 hover:bg-rose-600 hover:text-white text-zinc-700 dark:text-zinc-300 font-bold text-[11px] transition"
+                                    >
+                                      Reject
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <span className="text-zinc-400 font-mono text-[11px]">Completed</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                </div>
+              )}
 
-          {/* ============================================================== */}
-          {/* TAB 12: EXECUTIVE BOARDROOM MEMO & PDF EXPORT */}
-          {/* ============================================================== */}
-          {activeTab === 'reports' && (
-            <div className="max-w-4xl mx-auto space-y-6">
-              <div className="p-8 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-xl space-y-6 print:m-0 print:border-none print:shadow-none">
-                <div className="flex justify-between items-start pb-6 border-b border-zinc-200 dark:border-zinc-800">
-                  <div>
-                    <div className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
-                      Confidential Executive Briefing
+              {/* TAB 4: 9-BOX TALENT REVIEW */}
+              {activeTab === 'nine-box' && (
+                <div className="space-y-6">
+                  <div className="p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+                    <div className="flex justify-between items-center pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                      <div>
+                        <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">9-Box Performance vs Potential Calibration</h3>
+                        <p className="text-xs text-zinc-500">Maps organizational bench strength across Performance and Growth Potential.</p>
+                      </div>
+                      <span className="text-xs font-mono text-zinc-400">{nineBoxReviews.length} Evaluated</span>
                     </div>
-                    <h2 className="text-2xl font-black mt-1 text-zinc-900 dark:text-zinc-50">
-                      Q4 Strategic Workforce & Retention Capital Assessment
-                    </h2>
-                    <p className="text-xs text-zinc-500 mt-1">Prepared by People Operations for the Board of Directors & Chief Financial Officer</p>
+
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-xs">
+                        <div className="font-bold text-blue-500 uppercase text-[10px]">High Pot • Med Perf</div>
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Growth Enigma</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-xs">
+                        <div className="font-bold text-indigo-500 uppercase text-[10px]">High Pot • High Perf</div>
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">High Impact Leader</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-xs shadow-sm">
+                        <div className="font-bold text-emerald-500 uppercase text-[10px]">Top Star (5 / 5)</div>
+                        <div className="font-bold text-emerald-600 dark:text-emerald-400 mt-1">Star Performer</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs">
+                        <div className="font-bold text-zinc-400 uppercase text-[10px]">Med Pot • Low Perf</div>
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Dilemma</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-xs">
+                        <div className="font-bold text-zinc-500 uppercase text-[10px]">Med Pot • Med Perf</div>
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Core Contributor</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-xs">
+                        <div className="font-bold text-teal-500 uppercase text-[10px]">Med Pot • High Perf</div>
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">High Performer</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-xs">
+                        <div className="font-bold text-rose-500 uppercase text-[10px]">Low Pot • Low Perf</div>
+                        <div className="font-bold text-rose-600 dark:text-rose-400 mt-1">Underperformer</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs">
+                        <div className="font-bold text-zinc-400 uppercase text-[10px]">Low Pot • Med Perf</div>
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Effective Contributor</div>
+                      </div>
+                      <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs">
+                        <div className="font-bold text-amber-500 uppercase text-[10px]">Low Pot • High Perf</div>
+                        <div className="font-bold text-zinc-900 dark:text-zinc-100 mt-1">Workhorse / Trusted Pro</div>
+                      </div>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => window.print()}
-                    className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm transition flex items-center gap-1.5"
-                  >
-                    <FileText className="w-3.5 h-3.5" />
-                    <span>Print / Save PDF</span>
-                  </button>
+
+                  <div className="rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+                    <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
+                      <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+                        Calibrated Reviewees
+                      </h3>
+                    </div>
+                    <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                      {nineBoxReviews.map(r => (
+                        <div key={r.id} className="p-4 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-900/40 text-xs">
+                          <div>
+                            <div className="font-bold text-zinc-900 dark:text-zinc-100">{r.name}</div>
+                            <div className="text-zinc-500 text-[11px]">{r.role} • {r.dept}</div>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <span className="font-mono text-zinc-400">Perf: {r.perf}/5 • Pot: {r.pot}/5</span>
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                              {r.category}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
+              )}
 
-                <div className="space-y-4 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed font-sans">
-                  <div>
-                    <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100 mb-1">1. Executive Macro Exposure</h4>
-                    <p>
-                      The machine learning attrition early-warning model evaluated <strong>1,470 employees</strong>. Currently, <strong>42 Tier-3 mission-critical personnel</strong> are in the imminent flight risk zone (&gt;80% probability). The aggregate replacement capital exposure is modeled at <strong>₹8.42 Crores</strong> (benchmarked at 1.5x Annual CTC).
-                    </p>
-                  </div>
+              {/* TAB 5: TALENT ACQUISITION ATS */}
+              {activeTab === 'ats' && (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    {['Sourced', 'Interview', 'Offered', 'Hired'].map(stage => {
+                      const stageCandidates = candidates.filter(c => c.stage === stage);
+                      return (
+                        <div key={stage} className="bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-3xl p-4 shadow-sm flex flex-col justify-between">
+                          <div>
+                            <div className="flex justify-between items-center pb-2 border-b border-zinc-200 dark:border-zinc-800">
+                              <span className="font-bold text-xs uppercase tracking-wider text-zinc-700 dark:text-zinc-300">{stage}</span>
+                              <span className="size-5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[11px] font-mono flex items-center justify-center font-bold">
+                                {stageCandidates.length}
+                              </span>
+                            </div>
 
-                  <div>
-                    <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100 mb-1">2. Targeted Retention ROI ROI Multiple</h4>
-                    <p>
-                      Executing structured retention packages (average +15% salary realignment, 15h monthly overtime mitigation, and flexible hybrid scheduling) yields an estimated <strong>₹6.15 Crores</strong> in turnover avoidance against an intervention investment of <strong>₹1.28 Crores</strong>. This translates to an enterprise ROI multiple of <strong>4.8x</strong>.
-                    </p>
-                  </div>
+                            <div className="mt-3 space-y-3">
+                              {stageCandidates.map(c => (
+                                <div key={c.id} className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-xs space-y-2">
+                                  <div className="font-bold text-zinc-900 dark:text-zinc-100">{c.name}</div>
+                                  <div className="text-[11px] text-zinc-500">{c.role}</div>
+                                  <div className="text-[10px] text-zinc-400 font-mono">Skills: {c.skills}</div>
 
-                  <div>
-                    <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100 mb-1">3. DPDP Act 2023 & Algorithmic Fairness Status</h4>
-                    <p>
-                      Independent auditing under the Four-Fifths rule confirmed a Disparate Impact Ratio of <strong>1.04 DIR</strong> between protected cohorts, fully compliant with Indian Digital Personal Data Protection Act statutory norms. Salted pseudonymization and immutable access logging are continuously enforced across all API endpoints.
-                    </p>
+                                  {stage === 'Offered' && (
+                                    <div className="pt-2 flex gap-2">
+                                      <button
+                                        onClick={() => handleHireCandidate(c.id)}
+                                        className="flex-1 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] transition"
+                                      >
+                                        ✨ Hire
+                                      </button>
+                                      <button
+                                        onClick={() => handleRejectCandidate(c.id)}
+                                        className="px-2 py-1 rounded-lg bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-rose-600 hover:text-white font-bold text-[10px] transition"
+                                      >
+                                        Reject
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
+              )}
 
-                <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs text-zinc-500 font-mono">
-                  <span>Authorized by CHRO & Chief Data Protection Officer</span>
-                  <span>NeMo HR Enterprise Architecture</span>
+              {/* TAB 6: SUCCESSION PLANNING */}
+              {activeTab === 'succession' && (
+                <div className="space-y-6">
+                  <div className="rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+                    <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+                      <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+                        Critical Leadership Roles & Succession Bench
+                      </h3>
+                      <span className="text-xs text-emerald-500 font-bold">100% Target Role Coverage</span>
+                    </div>
+
+                    <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                      {successionPlans.map(plan => (
+                        <div key={plan.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/40 text-xs">
+                          <div>
+                            <div className="text-[10px] font-bold text-blue-500 uppercase">{plan.dept}</div>
+                            <div className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mt-0.5">{plan.target_role}</div>
+                            <div className="text-zinc-500 mt-1">
+                              Primary Successor: <strong>{plan.successor}</strong>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-6">
+                            <div>
+                              <div className="text-[10px] text-zinc-400 font-bold uppercase">Readiness</div>
+                              <div className="font-black text-emerald-600 dark:text-emerald-400 font-mono text-sm">{plan.readiness}</div>
+                            </div>
+
+                            <div>
+                              <div className="text-[10px] text-zinc-400 font-bold uppercase">Estimated Ramp</div>
+                              <div className="font-mono text-zinc-700 dark:text-zinc-300">{plan.ramp_time}</div>
+                            </div>
+
+                            <div className="max-w-xs">
+                              <div className="text-[10px] text-zinc-400 font-bold uppercase">Development Gap</div>
+                              <div className="text-zinc-500 text-[11px] truncate">{plan.gap}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
+
+              {/* TAB 7: HRMS WEBHOOK GATEWAY */}
+              {activeTab === 'webhooks' && (
+                <div className="space-y-6">
+                  <div className="p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Live HRMS Webhook Gateway</h3>
+                        <p className="text-xs text-zinc-500">Ingests real-time events from Darwinbox, Workday, and BambooHR via HMAC-SHA256 signature verification.</p>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                        🟢 Listeners Active
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                      <button
+                        onClick={() => handleSimulateWebhook('darwinbox', 'COMPENSATION_CHANGE')}
+                        className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-left transition"
+                      >
+                        <div className="font-bold text-xs text-blue-500">Darwinbox Integration</div>
+                        <div className="text-[11px] text-zinc-500 mt-0.5">POST /darwinbox • Comp Hike</div>
+                      </button>
+
+                      <button
+                        onClick={() => handleSimulateWebhook('workday', 'OVERTIME_LOGGED')}
+                        className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-left transition"
+                      >
+                        <div className="font-bold text-xs text-emerald-500">Workday Integration</div>
+                        <div className="text-[11px] text-zinc-500 mt-0.5">POST /workday • Overtime Event</div>
+                      </button>
+
+                      <button
+                        onClick={() => handleSimulateWebhook('bamboohr', 'RESIGNATION_NOTICE')}
+                        className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 text-left transition"
+                      >
+                        <div className="font-bold text-xs text-amber-500">BambooHR Integration</div>
+                        <div className="text-[11px] text-zinc-500 mt-0.5">POST /generic • Resignation Alert</div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+                    <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+                      <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+                        Real-Time Ingestion Event Log
+                      </h3>
+                      <span className="text-[11px] font-mono text-zinc-500">Idempotency & Audit Verified</span>
+                    </div>
+
+                    <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                      {webhooks.map(ev => (
+                        <div key={ev.id} className="p-4 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-900/40 text-xs">
+                          <div className="flex items-center gap-3">
+                            <div className="size-8 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-mono font-bold text-blue-500">
+                              ⚡
+                            </div>
+                            <div>
+                              <div className="font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                                <span>{ev.provider.toUpperCase()}</span>
+                                <span className="text-zinc-400 font-normal">• {ev.event}</span>
+                                <span className="text-[10px] text-zinc-400 font-mono">({ev.id})</span>
+                              </div>
+                              <div className="text-zinc-500 text-[11px] mt-0.5">{ev.desc}</div>
+                            </div>
+                          </div>
+
+                          <div className="text-right">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-500">
+                              {ev.latency}
+                            </span>
+                            <div className="text-[10px] text-zinc-400 mt-1">{ev.time}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 8: DPDP ACT 2023 & BIAS AUDIT */}
+              {activeTab === 'compliance' && (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-6 p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                      <div>
+                        <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Four-Fifths Algorithmic Bias Audit</h3>
+                        <p className="text-xs text-zinc-500">EEOC & Indian DPDP Act 2023 Disparate Impact Ratio (DIR) compliance.</p>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                        Statistically Equitable
+                      </span>
+                    </div>
+
+                    <div className="space-y-4 pt-2 text-xs">
+                      <div>
+                        <div className="flex justify-between font-bold mb-1">
+                          <span>Female Cohort (High-Risk Identification Rate)</span>
+                          <span className="font-mono">14.2%</span>
+                        </div>
+                        <div className="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+                          <div className="h-full bg-blue-500 rounded-full" style={{ width: '14.2%' }} />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between font-bold mb-1">
+                          <span>Male Cohort (High-Risk Identification Rate)</span>
+                          <span className="font-mono">13.6%</span>
+                        </div>
+                        <div className="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+                          <div className="h-full bg-emerald-500 rounded-full" style={{ width: '13.6%' }} />
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-500 space-y-1">
+                        <div className="flex justify-between">
+                          <span>Disparate Impact Ratio:</span>
+                          <strong className="text-zinc-900 dark:text-zinc-100">14.2% / 13.6% = 1.04 DIR</strong>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Mandated Range:</span>
+                          <span>0.80 DIR to 1.25 DIR</span>
+                        </div>
+                        <div className="text-emerald-500 font-semibold pt-1">
+                          Status: PASSED • Zero adverse impact detected against protected groups.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-6 p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                      <div>
+                        <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">DPDP DPO Access Audit Trail</h3>
+                        <p className="text-xs text-zinc-500">Immutable ledger of employee data access and dynamic masking level.</p>
+                      </div>
+                      <span className="text-[10px] font-mono text-zinc-400">Section 6 DPDP</span>
+                    </div>
+
+                    <div className="space-y-2.5 text-xs">
+                      {accessLogs.map(log => (
+                        <div key={log.id} className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+                          <div>
+                            <div className="font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
+                              <span>{log.user}</span>
+                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">{log.role}</span>
+                            </div>
+                            <div className="text-[11px] text-zinc-500 mt-0.5">
+                              {log.action} • GlobalID #{log.target} ({log.exposed})
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-mono text-zinc-400">{log.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 9: EMPLOYEE SELF-SERVICE PORTAL */}
+              {activeTab === 'self-service' && (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-6 p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-5">
+                    <div className="flex items-center gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
+                      <div className="size-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-orange-500/20">
+                        VR
+                      </div>
+                      <div>
+                        <h2 className="font-black text-lg text-zinc-900 dark:text-zinc-50">Vikramaditya Rao</h2>
+                        <div className="text-xs text-zinc-500">Principal AI Systems Scientist • AI Research</div>
+                        <div className="text-[11px] font-mono text-zinc-400 mt-0.5">GlobalID #3757101776 • Tenure: 3.1 Years</div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3 text-center text-xs">
+                      <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800">
+                        <div className="text-[10px] uppercase font-bold text-zinc-400">Privilege Leave</div>
+                        <div className="text-lg font-black text-blue-500 mt-1">14 Days</div>
+                        <div className="text-[10px] text-zinc-500">Remaining</div>
+                      </div>
+
+                      <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800">
+                        <div className="text-[10px] uppercase font-bold text-zinc-400">Sick Leave</div>
+                        <div className="text-lg font-black text-emerald-500 mt-1">8 Days</div>
+                        <div className="text-[10px] text-zinc-500">Remaining</div>
+                      </div>
+
+                      <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800">
+                        <div className="text-[10px] uppercase font-bold text-zinc-400">Casual Leave</div>
+                        <div className="text-lg font-black text-purple-500 mt-1">4 Days</div>
+                        <div className="text-[10px] text-zinc-500">Remaining</div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 text-xs">
+                      <div className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-zinc-800/80">
+                        <span className="text-zinc-500">Current Band</span>
+                        <span className="font-semibold text-zinc-900 dark:text-zinc-100">IC-6 Principal Staff</span>
+                      </div>
+                      <div className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-zinc-800/80">
+                        <span className="text-zinc-500">Reporting Manager</span>
+                        <span className="font-semibold text-zinc-900 dark:text-zinc-100">Kavita Desai (Eng Director)</span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => setApplyLeaveModal(true)}
+                      className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition"
+                    >
+                      Apply for Time Off
+                    </button>
+                  </div>
+
+                  <div className="lg:col-span-6 p-6 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+                    <div className="flex justify-between items-center pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                      <div>
+                        <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">Pulse Feedback & Well-Being</h3>
+                        <p className="text-xs text-zinc-500">Anonymous feedback sent to People Ops to tune engagement.</p>
+                      </div>
+                      <span className="text-[10px] font-mono text-emerald-500 font-bold">100% Confidential</span>
+                    </div>
+
+                    <div className="space-y-4 text-xs">
+                      <div>
+                        <label className="font-bold block mb-1">Work-Life Balance Rating (1 to 5)</label>
+                        <input type="range" min="1" max="5" defaultValue="3" className="w-full accent-blue-600 cursor-pointer" />
+                      </div>
+
+                      <div>
+                        <label className="font-bold block mb-1">Sprint Burnout & Workload (1 to 5)</label>
+                        <input type="range" min="1" max="5" defaultValue="4" className="w-full accent-amber-600 cursor-pointer" />
+                      </div>
+
+                      <button
+                        onClick={() => showToast('Thank you! Pulse feedback recorded anonymously.')}
+                        className="w-full py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-bold text-xs transition"
+                      >
+                        Submit Confidential Pulse
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 10: PAYROLL & COMPENSATION */}
+              {activeTab === 'payroll' && (
+                <div className="space-y-6">
+                  <div className="rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
+                    <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+                      <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+                        Compensation Equity & Statutory Banking Register
+                      </h3>
+                      <span className="text-xs font-mono text-zinc-500">
+                        {isAuditor ? 'Financials Redacted under DPDP' : 'Live CTC Register'}
+                      </span>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-zinc-50 dark:bg-zinc-900/60 text-zinc-400 font-semibold border-b border-zinc-200 dark:border-zinc-800">
+                          <tr>
+                            <th className="py-3 px-4">Employee</th>
+                            <th className="py-3 px-4">Department</th>
+                            <th className="py-3 px-4">Annual Base CTC</th>
+                            <th className="py-3 px-4">Performance Bonus</th>
+                            <th className="py-3 px-4">Disbursement Bank</th>
+                            <th className="py-3 px-4">Account Masking</th>
+                            <th className="py-3 px-4">Tax Regime</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                          {payrollList.map(p => (
+                            <tr key={p.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition">
+                              <td className="py-3 px-4 font-bold text-zinc-900 dark:text-zinc-100">
+                                {isAuditor ? 'E*** ' + String(p.id).substring(0, 3) : p.name}
+                              </td>
+                              <td className="py-3 px-4 text-zinc-500">{p.dept}</td>
+                              <td className="py-3 px-4 font-mono font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">
+                                {isAuditor ? '•••• ••••' : `₹${(p.base / 100000).toFixed(2)} Lakhs`}
+                              </td>
+                              <td className="py-3 px-4 font-mono text-emerald-500 font-bold tabular-nums">
+                                {isAuditor ? '••%' : `+${p.bonus}%`}
+                              </td>
+                              <td className="py-3 px-4 text-zinc-500">
+                                {isAuditor ? 'REDACTED' : p.bank}
+                              </td>
+                              <td className="py-3 px-4 font-mono text-zinc-400">{p.acc}</td>
+                              <td className="py-3 px-4 text-zinc-500">{p.tax}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 11: SENTIMENT & ENGAGEMENT */}
+              {activeTab === 'sentiment' && (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {sentimentPulse.map(s => (
+                      <div key={s.dept} className="p-5 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-xs text-zinc-900 dark:text-zinc-100">{s.dept}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                            s.stress_flag === 'Elevated'
+                              ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20'
+                              : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
+                          }`}>
+                            {s.stress_flag} Stress
+                          </span>
+                        </div>
+
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between">
+                            <span className="text-zinc-500">Engagement</span>
+                            <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">{s.engagement} / 5.0</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-zinc-500">Job Satisfaction</span>
+                            <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">{s.satisfaction} / 5.0</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-zinc-500">Work-Life Balance</span>
+                            <span className={`font-mono font-bold tabular-nums ${s.wlb < 3.0 ? 'text-rose-500' : 'text-emerald-500'}`}>
+                              {s.wlb} / 5.0
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 text-[11px] text-zinc-400 tabular-nums">
+                          Headcount: {s.headcount} Team Members
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 12: EXECUTIVE BOARDROOM REPORTS */}
+              {activeTab === 'reports' && (
+                <div className="max-w-4xl mx-auto space-y-6">
+                  <div className="p-8 rounded-3xl bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 shadow-xl space-y-6 print:m-0 print:border-none print:shadow-none">
+                    <div className="flex justify-between items-start pb-6 border-b border-zinc-200 dark:border-zinc-800">
+                      <div>
+                        <div className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+                          Confidential Executive Briefing
+                        </div>
+                        <h2 className="text-2xl font-black mt-1 text-zinc-900 dark:text-zinc-50">
+                          Q4 Strategic Workforce & Retention Capital Assessment
+                        </h2>
+                        <p className="text-xs text-zinc-500 mt-1">Prepared by People Operations for the Board of Directors & Chief Financial Officer</p>
+                      </div>
+                      <button
+                        onClick={() => window.print()}
+                        className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-sm transition flex items-center gap-1.5"
+                      >
+                        <FileText className="size-3.5" />
+                        <span>Print / Save PDF</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-4 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed font-sans">
+                      <div>
+                        <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100 mb-1">1. Executive Macro Exposure</h4>
+                        <p>
+                          The machine learning attrition early-warning model evaluated <strong>1,470 employees</strong>. Currently, <strong>42 Tier-3 mission-critical personnel</strong> are in the imminent flight risk zone (&gt;80% probability). The aggregate replacement capital exposure is modeled at <strong>₹8.42 Crores</strong> (benchmarked at 1.5x Annual CTC).
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100 mb-1">2. Targeted Retention ROI Multiple</h4>
+                        <p>
+                          Executing structured retention packages (average +15% salary realignment, 15h monthly overtime mitigation, and flexible hybrid scheduling) yields an estimated <strong>₹6.15 Crores</strong> in turnover avoidance against an intervention investment of <strong>₹1.28 Crores</strong>. This translates to an enterprise ROI multiple of <strong>4.8x</strong>.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100 mb-1">3. DPDP Act 2023 & Algorithmic Fairness Status</h4>
+                        <p>
+                          Independent auditing under the Four-Fifths rule confirmed a Disparate Impact Ratio of <strong>1.04 DIR</strong> between protected cohorts, fully compliant with Indian Digital Personal Data Protection Act statutory norms.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs text-zinc-500 font-mono">
+                      <span>Authorized by CHRO & Chief Data Protection Officer</span>
+                      <span>NeMo HR Enterprise Architecture</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
         </main>
       </div>
 
-      {/* ============================================================== */}
       {/* MODAL: CFO RETENTION AUTHORIZATION MEMO */}
-      {/* ============================================================== */}
       {memoOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+          <div className="bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
               <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-blue-500" /> CFO Retention Authorization Memo
+                <FileText className="size-4 text-blue-500" /> CFO Retention Authorization Memo
               </h3>
               <button onClick={() => setMemoOpen(false)} className="text-zinc-400 hover:text-zinc-200 text-sm font-bold">✕</button>
             </div>
 
-            <div className="mt-4 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 font-mono text-[11px] leading-relaxed text-zinc-700 dark:text-zinc-300 space-y-1">
+            <div className="mt-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 font-mono text-[11px] leading-relaxed text-zinc-700 dark:text-zinc-300 space-y-1">
               <p><strong>TO:</strong> Office of the Chief Financial Officer (CFO)</p>
               <p><strong>FROM:</strong> People Operations & Workforce Intelligence</p>
               <p><strong>SUBJECT:</strong> Retention Business Case: {selectedEmp.name} ({selectedEmp.job_role})</p>
@@ -2160,15 +2159,13 @@ export default function App() {
         </div>
       )}
 
-      {/* ============================================================== */}
       {/* MODAL: APPLY FOR TIME OFF */}
-      {/* ============================================================== */}
       {applyLeaveModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+          <div className="bg-white dark:bg-[#0c0c0f] border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-md w-full p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
               <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-blue-500" /> Apply for Time Off
+                <Calendar className="size-4 text-blue-500" /> Apply for Time Off
               </h3>
               <button onClick={() => setApplyLeaveModal(false)} className="text-zinc-400 hover:text-zinc-200 text-sm font-bold">✕</button>
             </div>
@@ -2200,15 +2197,6 @@ export default function App() {
                 />
               </div>
 
-              <div>
-                <label className="font-bold block mb-1">Handover Notes / Coverage</label>
-                <textarea
-                  rows="2"
-                  placeholder="e.g. SRE team covering on-call rotation..."
-                  className="w-full p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 focus:outline-none"
-                />
-              </div>
-
               <div className="flex gap-3 pt-2">
                 <button
                   type="submit"
@@ -2231,7 +2219,7 @@ export default function App() {
 
       {/* TOAST NOTIFICATION */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-blue-600 text-white text-xs font-semibold shadow-xl flex items-center gap-2 animate-bounce">
+        <div className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-2xl bg-blue-600 text-white text-xs font-semibold shadow-xl flex items-center gap-2 animate-bounce">
           <span>⚡</span>
           <span>{toast}</span>
         </div>

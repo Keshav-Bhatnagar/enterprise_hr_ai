@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Dict, Any
 from app.db.database import get_db
-from app.db.models import Candidate, PerformanceReview, LeaveRequest, EmployeeIntelligence, Notification
+from app.db.models import Candidate, PerformanceReview, LeaveRequest, EmployeeIntelligence, Notification, User
 from app.api.auth import get_current_user
 
 router = APIRouter(prefix="/hcm", tags=["hcm"], dependencies=[Depends(get_current_user)])
@@ -13,7 +13,9 @@ def get_candidates(db: Session = Depends(get_db)):
     return [{"id": c.id, "name": c.name, "first_name": c.first_name, "last_name": c.last_name, "avatar_url": c.avatar_url, "role_applied": c.role_applied, "department": c.department, "stage": c.stage, "time_to_hire_days": c.time_to_hire_days, "skills": c.skills} for c in candidates]
 
 @router.post("/candidates/{candidate_id}/reject")
-def reject_candidate(candidate_id: int, db: Session = Depends(get_db)):
+def reject_candidate(candidate_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if current_user.role not in ['admin', 'HR_ADMIN']:
+        raise HTTPException(status_code=403, detail="Forbidden: Only HR_ADMIN can reject candidates.")
     candidate = db.query(Candidate).filter(Candidate.id == candidate_id).first()
     if not candidate:
         raise HTTPException(status_code=404, detail="Candidate not found")
@@ -37,7 +39,9 @@ def get_leave_requests(db: Session = Depends(get_db)):
     return [{"id": r.LeaveRequest.id, "employee_id": r.LeaveRequest.employee_id, "name": r.Name or "Unknown", "leave_type": r.LeaveRequest.leave_type, "days": r.LeaveRequest.days, "status": r.LeaveRequest.status} for r in requests]
 
 @router.post("/leave/{request_id}/approve")
-def approve_leave(request_id: int, db: Session = Depends(get_db)):
+def approve_leave(request_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if current_user.role not in ['admin', 'HR_ADMIN', 'manager', 'MANAGER']:
+        raise HTTPException(status_code=403, detail="Forbidden: Only People Managers or HR_ADMIN can approve leaves.")
     leave_req = db.query(LeaveRequest).filter(LeaveRequest.id == request_id).first()
     if not leave_req:
         raise HTTPException(status_code=404, detail="Leave request not found")
@@ -51,7 +55,9 @@ def approve_leave(request_id: int, db: Session = Depends(get_db)):
     return {"status": "success", "message": f"Leave Request #{request_id} approved."}
 
 @router.post("/leave/{request_id}/reject")
-def reject_leave(request_id: int, db: Session = Depends(get_db)):
+def reject_leave(request_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if current_user.role not in ['admin', 'HR_ADMIN', 'manager', 'MANAGER']:
+        raise HTTPException(status_code=403, detail="Forbidden: Only People Managers or HR_ADMIN can reject leaves.")
     leave_req = db.query(LeaveRequest).filter(LeaveRequest.id == request_id).first()
     if not leave_req:
         raise HTTPException(status_code=404, detail="Leave request not found")
@@ -94,7 +100,9 @@ def get_demographics(db: Session = Depends(get_db)):
     return [{"employee_id": e.GlobalID, "name": e.Name, "age": e.Age, "gender": e.Gender, "tenure": e.YearsAtCompany, "department": e.Department, "role": e.JobRole} for e in employees]
 
 @router.get("/payroll")
-def get_payroll(db: Session = Depends(get_db)):
+def get_payroll(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if current_user.role not in ['admin', 'HR_ADMIN']:
+        raise HTTPException(status_code=403, detail="Forbidden: Confidential payroll register restricted to HR_ADMIN.")
     employees = db.query(EmployeeIntelligence).all()
     return [
         {
@@ -214,7 +222,9 @@ def get_sentiment(db: Session = Depends(get_db)):
     } for r in results]
 
 @router.post('/workflow/hire/{candidate_id}')
-def hire_candidate(candidate_id: int, db: Session = Depends(get_db)):
+def hire_candidate(candidate_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if current_user.role not in ['admin', 'HR_ADMIN']:
+        raise HTTPException(status_code=403, detail="Forbidden: Only HR_ADMIN can hire candidates.")
     from app.db.models import Candidate, EmployeeIntelligence, Notification
     import random
     
