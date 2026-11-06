@@ -373,3 +373,4 @@ export default function Talent3DCube({ employees, onSelectEmployee, onOpenSimula
     </div>
   );
 }
+
